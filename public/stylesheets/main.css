@@ -1,0 +1,24 @@
+@font-face {
+    font-family: lane;
+    src: url(/fonts/lane.ttf);
+}
+
+@font-face {
+    font-family: fabrica;
+    src: url(/fonts/fabrica.otf);
+}
+
+.lane { font-family: lane, sans-serif; }
+.fabrica { font-family: lane, sans-serif; }
+
+html, body {
+	height: 100%;
+	width: 100%;
+	padding: 0;
+	margin: 0;
+}
+
+.centered {
+    text-align: center;
+    margin: 0 auto;
+}
