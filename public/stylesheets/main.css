@@ -1,3 +1,4 @@
+/* ----- Font Classes ----- */
 @font-face {
     font-family: lane;
     src: url(/fonts/lane.ttf);
@@ -11,6 +12,13 @@
 .lane { font-family: lane, sans-serif; }
 .fabrica { font-family: lane, sans-serif; }
 
+/* ----- Utility Classes ----- */
+
+.centered-text { text-align: center; }
+.flex-parent {display: flex;}
+
+
+/* ----- Page Specific CSS ----- */
 html, body {
 	height: 100%;
 	width: 100%;
@@ -18,7 +26,12 @@ html, body {
 	margin: 0;
 }
 
-.centered {
-    text-align: center;
-    margin: 0 auto;
+#header {
+    display: flex;
+    justify-content: space-around;
+}
+
+#header-title {
+    letter-spacing: .3rem;
+    font-weight: 400;
 }
