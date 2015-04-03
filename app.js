@@ -25,6 +25,9 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+// Routing
+
+
 app.listen(PORT, function() {
 	console.log('Application running on port: ', PORT);
 });
