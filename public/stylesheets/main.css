@@ -32,12 +32,8 @@ html, body {
     display: flex;
     order: 1;
     justify-content: space-around;
-
-    /*
     border-bottom: 1px solid #222;
-    box-shadow: 0 5px 5px -5px #444;
-    */
-
+    box-shadow: 0 5px 5px -5px #888;
     background-color: white;
 }
 
@@ -73,23 +69,24 @@ html, body {
     height: 1.5rem;
 }
 
-
+#clock-markers {
+    margin: 0 0 1rem 0;
+    padding: 0;
+    width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+}
 
 #clock-markers .hour-marker {
     list-style-type: none;
     display: inline-block;
     margin: 0;
-    border-right: 2px solid #222;
+    border-right: 1px solid #222;
     font-family: fabrica, sans-serif;
     width: 10%;
     padding-right: 1rem;
+    padding-top: .5rem;
     text-align: right;
 }
 
-#clock-markers {
-    margin: 1rem 0 0 0;
-    padding: 0;
-    border-bottom: 2px solid #222;
-    width: 100%;
-    white-space: nowrap;
-}
+
