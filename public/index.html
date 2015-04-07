@@ -18,6 +18,7 @@
                 width: 25px;
                 height: 25px;
                 border: 1px solid #aaa;
+                background-color: #008000;
             }
         </style>
     </head>
@@ -36,8 +37,10 @@
         <!-- NODES -->
         <script type="text/javascript">
             angular.module('scopeExample', []).controller('nodeController', ['$scope', function($scope) {
-                $scope.summary = 'summary';
-                $scope.description = 'description';
+                $scope.summary = 'words';
+                $scope.description = 'words';
+                $scope.sumLine = 'Summary: ';
+                $scope.descLine = 'Description: ';
 
                 $scope.createNode = function() {
                     $scope.sumLine = 'Summary: ' + $scope.summary;
@@ -56,7 +59,8 @@
             <button ng-click="createNode()">Create a Node</button>
             <hr>
             {{sumLine}} <br>
-            {{descLine}}       
+            {{descLine}}
+            <hr>       
         </div>
 
         <div id="node_container"></div>   
