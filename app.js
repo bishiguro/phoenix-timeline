@@ -27,7 +27,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // Routing
 
-
-app.listen(PORT, function() {
-	console.log('Application running on port: ', PORT);
+app.get('/', function (req, res) {
+   res.sendFile(path.join(__dirname, '/views/index.html'));
 });
+
+app.listen(PORT);
