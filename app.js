@@ -32,7 +32,7 @@ passport.deserializeUser(function(obj, done) {
 passport.use(new GoogleStrategy({
     clientID:     process.env.GOOGLE_CLIENT_ID,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    callbackURL: "http://localhost:3000/auth/google/callback", // TODO: replace with herokuapp url
+    callbackURL: "http://localhost:3000/auth/google/callback", // TODO: replace with deployed url
     scope: ['openid', 'email', 'https://www.googleapis.com/auth/calendar']
   },
 
@@ -57,6 +57,10 @@ app.use(passport.session());
 
 // Routing
 
+app.get('/', function (req, res) {
+   res.sendFile(path.join(__dirname, '/views/index.html'));
+});
+
 app.get('/login', index.login);
 app.get('/logout', index.logout);
 
@@ -72,6 +76,4 @@ app.get('/auth/google/callback',
         failureRedirect: '/login'
 }));
 
-app.listen(PORT, function() {
-	console.log('Application running on port: ', PORT);
-});
+app.listen(PORT);

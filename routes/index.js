@@ -1,6 +1,8 @@
 routes = {};
 
-routes.login = function(req, res) { res.send() }
+routes.login = function(req, res) { 
+	res.send('Logged In') 
+}
 
 routes.logout = function(req, res) { 
 	req.logout();
