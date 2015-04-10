@@ -68,7 +68,9 @@ app.get('/login', index.login);
 app.get('/logout', index.logout);
 
 app.get('/auth/google',
-  passport.authenticate('google', { scope: ['profile', 'https://www.googleapis.com/auth/calendar'] }));
+  passport.authenticate('google', { 
+    scope: ['profile', 'https://www.googleapis.com/auth/calendar'] 
+  }));
 
 app.get('/auth/google/callback',
     passport.authenticate( 'google', {
