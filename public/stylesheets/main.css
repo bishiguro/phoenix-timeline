@@ -75,6 +75,14 @@ html, body {
     height: 1.5rem;
 }
 
+
+.node {
+    width: 20px;
+    height: 20px;
+    border: 1px solid #aaa;
+    background-color: #008000;
+}
+
 #clock-markers {
     margin: 0 0 1rem 0;
     padding: 0;
@@ -101,6 +109,13 @@ html, body {
     width: 100%;
 }
 
+#node-container {
+    top: 125px;
+    left: 50px;
+    position: absolute;
+    width: 100%;
+}
+
 input {
     display: inline-block;
 }
@@ -109,3 +124,4 @@ input {
     float: right;
     margin-right: 20px;
 }
+

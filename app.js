@@ -78,4 +78,7 @@ app.get('/auth/google/callback',
         failureRedirect: '/login'
 }));
 
+app.post('/node', index.addNode);
+
+
 app.listen(PORT);
