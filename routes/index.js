@@ -3,11 +3,10 @@ var path = require('path');
 routes = {};
 
 routes.home = function(req, res) {
-	//if (req.user) {
-	res.sendFile(path.join(__dirname, '../views/index.html'));
-	//}
-	//else
-	//	res.redirect('/login')
+	if (req.user)
+		res.sendFile(path.join(__dirname, '../views/index.html'));
+	else
+		res.redirect('/login')
 }
 
 routes.login = function(req, res) {
