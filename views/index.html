@@ -18,7 +18,7 @@
         <script src="/javascripts/controllers/nodeController.js"></script>        
     </head>
 
-    <body id="body" onload="updateScale(5)">
+    <body id="body" onload="updateScale(document.querySelector('#scale-slider').value)">
 
         <!-- HEADER -->
         <header id="header" class="flex-vcenter">
