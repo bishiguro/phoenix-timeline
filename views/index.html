@@ -23,6 +23,7 @@
         <!-- HEADER -->
         <header id="header">
             <h1 id="header-title" class="lane centered-text">Phoenix Timeline</h1>
+        </header>
 
         <!-- Vertical Current Time Bar -->
         <div id="current-time-bar"></div>
@@ -53,7 +54,7 @@
 
                 $scope.createNode = function() {
                     $http.post('/',{sum:$scope.summary,desc:$scope.description}).success(function(data,status,headers,config) {
-                            $("#node_container").prepend("<div id='node'></div>");  
+                            $("#node_container").prepend("<div class='node' id="+data.id+"></div>");
                         }).error(console.error);
                 };
             }]);

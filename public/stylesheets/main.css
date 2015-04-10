@@ -70,7 +70,7 @@ html, body {
 }
 
 
-#node {
+.node {
     width: 20px;
     height: 20px;
     border: 1px solid #aaa;
