@@ -21,9 +21,25 @@
     <body id="body">
 
         <!-- HEADER -->
-        <header id="header">
+        <header id="header" class="flex-vcenter">
+           <div class="side-header-content"></div>
             <h1 id="header-title" class="lane centered-text">Phoenix Timeline</h1>
+            <div class="side-header-content">
+                <label for="scale-slider">Scale</label>
+                <input type="range" id="scale-slider" min="1" max="120" value="24" step="1" oninput="updateScale(value)">
+            </div>
         </header>
+
+        <script>
+            // TODO: Move this into angular, or at least into a js file.
+            // TODO: Logaritmic Scaling
+            // TODO: Styling
+            function updateScale(hours) {
+                this.hour_width = document.querySelector("#clock-markers").offsetWidth / hours;
+                var elems = document.querySelectorAll(".hour-marker");
+                for (var i = 0; i < elems.length; i++) elems[i].style.width = this.hour_width + "px";
+            }
+        </script>
 
         <!-- Vertical Current Time Bar -->
         <div id="current-time-bar"></div>
@@ -32,8 +48,8 @@
         <div id="timeline">
             <div id="clock-bar">
                 <ul id="clock-markers">
-                    <li class="hour-marker">7P</li>
                     <li class="hour-marker">8P</li>
+                    <li class="hour-marker">7P</li>
                     <li class="hour-marker">9P</li>
                     <li class="hour-marker">10P</li>
                     <li class="hour-marker">11P</li>

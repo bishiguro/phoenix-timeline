@@ -16,6 +16,8 @@
 
 .centered-text { text-align: center; }
 .flex-parent { display: flex; }
+.flex-vcenter { align-items: center; }
+.flex-hcenter { justify-content: center; }
 
 
 /* ----- Page Specific CSS ----- */
@@ -31,7 +33,7 @@ html, body {
     position: relative;
     display: flex;
     order: 1;
-    justify-content: space-around;
+    justify-content: space-between;
     border-bottom: 1px solid #222;
     box-shadow: 0 5px 5px -5px #888;
     background-color: white;
@@ -40,6 +42,10 @@ html, body {
 #header-title {
     letter-spacing: .25rem;
     font-weight: 400;
+}
+
+.side-header-content {
+    width: 25%;
 }
 
 #timeline {
@@ -85,13 +91,13 @@ html, body {
     overflow: hidden;
 }
 
-#clock-markers .hour-marker {
+.hour-marker {
     list-style-type: none;
     display: inline-block;
     margin: 0;
     border-right: 1px solid #222;
     font-family: fabrica, sans-serif;
-    width: 10%;
+    width: 100px;
     padding-right: 1rem;
     padding-top: .5rem;
     text-align: right;
@@ -112,16 +118,6 @@ html, body {
 
 input {
     display: inline-block;
-}
-
-.force-left {
-    position: absolute;
-    left: 20px;
-}
-
-.force-right {
-    position: absolute;
-    right: 20px;
 }
 
 .align-right {
