@@ -90,3 +90,28 @@ html, body {
 }
 
 
+
+#node-creation-form {
+    bottom: 20px;
+    position: absolute;
+    width: 100%;
+}
+
+input {
+    display: inline-block;
+}
+
+.force-left {
+    position: absolute;
+    left: 20px;
+}
+
+.force-right {
+    position: absolute;
+    right: 20px;
+}
+
+.align-right {
+    float: right;
+    margin-right: 20px;
+}

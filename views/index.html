@@ -48,6 +48,8 @@
                     <li class="hour-marker">4A</li>
                 </ul>
             </div>
+
+            <div id="node_container"></div>
         </div>
 
 
@@ -66,22 +68,16 @@
             }]);
         </script>
 
-        <div ng-app="scopeExample" ng-controller="nodeController">
-            Summary:<br>
+        <div id="node-creation-form" ng-app="scopeExample" ng-controller="nodeController">
+            Summary:
             <input type="text" ng-model="summary" name="summary">
-            <br>
-            Description:<br>
+            Description:
             <input type="text" ng-model="description" name="description">
-            <br>
             <button ng-click="createNode()">Create a Node</button>
-            <hr>
-            {{sumLine}} <br>
-            {{descLine}}
-            <hr>
+            <div class="align-right">{{sumLine}}</div>
+            <div class="align-right">{{descLine}}</div>
+
         </div>
-
-        <div id="node_container"></div>
-
     </body>
 
 </html>
