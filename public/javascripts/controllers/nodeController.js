@@ -1,12 +1,11 @@
 
-var app = angular.module('projectManager', []).controller('nodeController', ['$scope', function($scope) {
-    $scope.summary = 'words';
-    $scope.description = 'words';
-    $scope.sumLine = 'Summary: ';
-    $scope.descLine = 'Description: ';
+var app = angular.module('projectManager', []).controller('nodeController', ['$scope', '$http', function($scope,$http) {
+    $scope.summary = '';
+    $scope.description = '';
 
     $scope.createNode = function() {
-        $scope.sumLine = 'Summary: ' + $scope.summary;
-        $scope.descLine = 'Description: ' + $scope.description;
+        $http.post('/',{sum:$scope.summary,desc:$scope.description}).success(function(data,status,headers,config) {
+                $("#node_container").prepend("<div class='node' id="+data.id+"></div>");
+            }).error(console.error);
     };
 }]);
