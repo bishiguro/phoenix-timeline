@@ -53,7 +53,11 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use(session({secret: 'secret'}));
+app.use(session({
+  secret: 'secret',
+  resave: false,
+  saveUnitialized: true
+}));
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -64,7 +68,7 @@ app.get('/login', index.login);
 app.get('/logout', index.logout);
 
 app.get('/auth/google',
-  passport.authenticate('google', { scope: ['profile'] }));
+  passport.authenticate('google', { scope: ['profile', 'https://www.googleapis.com/auth/calendar'] }));
 
 app.get('/auth/google/callback',
     passport.authenticate( 'google', {
