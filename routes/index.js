@@ -1,10 +1,10 @@
 routes = {};
 
-routes.login = function(req, res) { 
+routes.login = function(req, res) {
 	res.send('Logged In');
 }
 
-routes.logout = function(req, res) { 
+routes.logout = function(req, res) {
 	req.logout();
   	res.redirect('/');
 }
