@@ -57,18 +57,12 @@ app.use(passport.session());
 
 // Routing
 
-app.get('/', function (req, res) {
-   res.sendFile(path.join(__dirname, '/views/index.html'));
-});
-
+app.get('/', index.home);
 app.get('/login', index.login);
 app.get('/logout', index.logout);
 
 app.get('/auth/google',
-  passport.authenticate('google', { scope:
-    [ 'https://www.googleapis.com/auth/plus.login',
-    , 'https://www.googleapis.com/auth/plus.profile.emails.read' ] }
-));
+  passport.authenticate('google', { scope: ['profile'] }));
 
 app.get('/auth/google/callback',
     passport.authenticate( 'google', {
