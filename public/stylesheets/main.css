@@ -71,3 +71,10 @@ html, body {
     width: 100%;
     height: 1.5rem;
 }
+
+#node {
+    width: 20px;
+    height: 20px;
+    border: 1px solid #aaa;
+    background-color: #008000;
+}
