@@ -104,7 +104,10 @@ html, body {
 }
 
 #node-container {
-    
+    top: 125px;
+    left: 50px;
+    position: absolute;
+    width: 100%;
 }
 
 input {
