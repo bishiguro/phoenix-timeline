@@ -97,7 +97,7 @@ html, body {
     margin: 0;
     border-right: 1px solid #222;
     font-family: fabrica, sans-serif;
-    width: 100px;
+    width: 24px;
     padding-right: 1rem;
     padding-top: .5rem;
     text-align: right;
@@ -114,10 +114,6 @@ html, body {
     left: 50px;
     position: absolute;
     width: 100%;
-}
-
-input {
-    display: inline-block;
 }
 
 .align-right {
