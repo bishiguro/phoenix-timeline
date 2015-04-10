@@ -47,16 +47,14 @@
 
         <!-- NODES -->
         <script>
-            angular.module('projectManager', []).controller('nodeController', ['$scope', function($scope) {
+            angular.module('projectManager', []).controller('nodeController', ['$scope', '$http', function($scope,$http) {
                 $scope.summary = '';
                 $scope.description = '';
-                // $scope.sumLine = 'Summary: ';
-                // $scope.descLine = 'Description: ';
 
                 $scope.createNode = function() {
-                    // $scope.sumLine = 'Summary: ' + $scope.summary;
-                    // $scope.descLine = 'Description: ' + $scope.description;
-                    $("#node_container").prepend("<div id='node'></div>");
+                    $http.post('/',{sum:$scope.summary,desc:$scope.description}).success(function(data,status,headers,config) {
+                            $("#node_container").prepend("<div id='node'></div>");  
+                        }).error(console.error);
                 };
             }]);
         </script>
