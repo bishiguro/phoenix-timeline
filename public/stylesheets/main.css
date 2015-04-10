@@ -32,11 +32,8 @@ html, body {
     display: flex;
     order: 1;
     justify-content: space-around;
-
-    width: 100%;
     border-bottom: 1px solid #222;
-    box-shadow: 0 5px 5px -5px #444;
-
+    box-shadow: 0 5px 5px -5px #888;
     background-color: white;
 }
 
@@ -60,7 +57,7 @@ html, body {
 #current-time-bar {
     height: 100%;
     width: 0;
-    border-left: 1px solid #222;
+    border-left: 1px solid crimson;
 
     position: absolute;
     left: 25%;
@@ -72,9 +69,56 @@ html, body {
     height: 1.5rem;
 }
 
+
 #node {
     width: 20px;
     height: 20px;
     border: 1px solid #aaa;
     background-color: #008000;
 }
+
+#clock-markers {
+    margin: 0 0 1rem 0;
+    padding: 0;
+    width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+#clock-markers .hour-marker {
+    list-style-type: none;
+    display: inline-block;
+    margin: 0;
+    border-right: 1px solid #222;
+    font-family: fabrica, sans-serif;
+    width: 10%;
+    padding-right: 1rem;
+    padding-top: .5rem;
+    text-align: right;
+}
+
+#node-creation-form {
+    bottom: 20px;
+    position: absolute;
+    width: 100%;
+}
+
+input {
+    display: inline-block;
+}
+
+.force-left {
+    position: absolute;
+    left: 20px;
+}
+
+.force-right {
+    position: absolute;
+    right: 20px;
+}
+
+.align-right {
+    float: right;
+    margin-right: 20px;
+}
+
