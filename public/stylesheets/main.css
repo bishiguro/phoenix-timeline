@@ -76,11 +76,18 @@ html, body {
 }
 
 
-.node {
-    width: 20px;
-    height: 20px;
+.node {    
+    width: 25px;
+    height: 25px;
     border: 1px solid #aaa;
-    background-color: #008000;
+    border-radius: 25px;
+    background-color: cornflowerblue;
+}
+.node:hover{
+    background-color: #5077BE;
+}
+.node:active{
+    background-color: #A2BFF4;
 }
 
 #clock-markers {
@@ -113,7 +120,6 @@ html, body {
     top: 125px;
     left: 50px;
     position: absolute;
-    width: 100%;
 }
 
 input {

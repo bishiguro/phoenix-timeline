@@ -23,13 +23,20 @@ routes.logout = function(req, res) {
 routes.addNode = function(req, res) {
 	var sum = req.body.sum;
  	var desc = req.body.desc;
-  	if (sum!=undefined && desc!=undefined) {
-    	var newNode = new Node({summary:sum,description:desc});
-    	newNode.save(function(err) {
-      		if (err) {req.sendStatus(500);}
-      		else {res.send({id:newNode._id});}
-    	});
-  	}
+  var due = req.body.due;
+	var newNode = new Node({summary:sum,description:desc,dueDate:due});
+	newNode.save(function(err) {
+  		if (err) {res.sendStatus(500);}
+  		else {res.send({id:newNode._id});}
+	});
+}
+
+routes.findNode = function(req, res) {
+  var id = req.body.id;
+  Node.findById(id,function(err,node){
+    if (err) {res.sendStatus(500);}
+    else {res.send({node:node})}
+  })
 }
 
 module.exports = routes;
