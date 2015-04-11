@@ -9,6 +9,11 @@
     src: url(/fonts/fabrica.otf);
 }
 
+@font-face {
+    font-family: sourcesanspro;
+    src: url(/fonts/sourcesanspro.otf);
+}
+
 .lane { font-family: lane, sans-serif; }
 .fabrica { font-family: lane, sans-serif; }
 
@@ -116,8 +121,14 @@ html, body {
     width: 100%;
 }
 
-input {
-    display: inline-block;
+.form-input {
+    padding: .5rem 2rem 1rem;
+    font-size: 1rem;
+    border: 0;
+    color: #212121;
+    outline: none;
+    width: auto;
+    font-family: sourcesanspro;
 }
 
 .align-right {
@@ -125,3 +136,42 @@ input {
     margin-right: 20px;
 }
 
+.field {
+    border: 1px solid #BDBDBD;
+    float: left;
+    width: auto;
+}
+
+#login {
+    display: inline-block;
+    letter-spacing: 3px;
+}
+
+#login-form {
+    padding: 10px;
+    min-width: 25%;
+    max-width: 50%;
+    font-family: sourcesanspro;
+    color: #999;
+}
+
+#login-header {
+    padding: 10px;
+    font-size: 24px;
+}
+
+#label {
+    font-size: 1rem;
+    padding: 5px;
+}
+
+#glogin {
+    padding: 10px;
+    /*font-family: fabrica;*/
+}
+
+#glogin-button {
+    text-decoration: none;
+    color: black;
+    font-size: 1.2rem;
+}
