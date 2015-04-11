@@ -18,10 +18,11 @@
         <script src="/javascripts/controllers/nodeController.js"></script>        
     </head>
 
-    <body id="body">
+    <body id="body" onload="startUpdates(30000)">
 
         <!-- HEADER -->
         <header id="header" class="flex-vcenter">
+
             <div class="side-header-content">
 
                 <!-- NODE FORM -->
@@ -33,28 +34,81 @@
                         Due Date:<input type="text" ng-model="dueDate" name="dueDate">
                         <button ng-click="addNode()">Add Node</button>
                         <button ng-click="show()">Cancel</button>
-                    </div>   
+                    </div>
                 </div>
 
             </div>
-            <h1 id="header-title" class="lane centered-text">Phoenix Timeline</h1>
-            <div class="side-header-content">
 
+            <h1 id="header-title" class="lane centered-text">Phoenix Timeline</h1>
+
+            <div class="side-header-content">
                 <!-- SLIDER -->
                 <label for="scale-slider">Scale</label>
-                <input type="range" id="scale-slider" min="1" max="120" value="24" step="1" oninput="updateScale(value)">
-
+                <input type="range" id="scale-slider" min=1 max=13 value=5 step=.1 oninput="updateTicks()">
             </div>
         </header>
 
+        <!-- Tick Generation Script -->
         <script>
-            // TODO: Move this into angular, or at least into a js file.
-            // TODO: Logaritmic Scaling
-            // TODO: Styling
-            function updateScale(hours) {
-                this.hour_width = document.querySelector("#clock-markers").offsetWidth / hours;
-                var elems = document.querySelectorAll(".hour-marker");
-                for (var i = 0; i < elems.length; i++) elems[i].style.width = this.hour_width + "px";
+            function updateTicks () {
+                // Define constants
+                MS_PER_HOUR = 3600000
+
+                //Clear tick list
+                this.hour_tick_list = document.querySelector("#hour-tick-list");
+                this.hour_tick_list.innerHTML = "";
+
+                // Determine the pixel offset of the current-time-bar from the left
+                this.now_offset = .25 * this.hour_tick_list.offsetWidth;
+                document.querySelector('#current-time-bar').style.left = this.now_offset + "px";
+
+                // Determine  the pixel width of an hour
+                var slider_value = document.querySelector('#scale-slider').value;
+                this.num_hours = Math.pow(slider_value, 2);
+                this.hour_width = this.hour_tick_list.offsetWidth / this.num_hours;
+
+                // Calculate the start point of the first hour
+                var hours_to_left = this.now_offset / this.hour_width;
+                var now = new Date();
+                var hour_start = Math.floor(now.getHours() - hours_to_left);
+                var initial_offset = this.now_offset + (((hourToDate(hour_start) - now) / MS_PER_HOUR)-1) * this.hour_width;
+
+                // Create first hour tick and place it on timeline
+                var hour_tick = createHourTick(hour_start);
+                hour_tick.style.left = initial_offset + "px";
+                hour_tick_list.appendChild(hour_tick);
+
+                for (var i = 1; i < this.num_hours+10 ; i++) {
+                    var hour_tick = createHourTick(wrapHours(i + hour_start));
+                    hour_tick.style.left = initial_offset + "px";
+                    hour_tick_list.appendChild(hour_tick);
+                }
+            }
+
+            function createHourTick (value) {
+                var hour_tick = document.createElement("LI");
+                var text = document.createTextNode(value);
+                hour_tick.appendChild(text);
+                hour_tick.className = "hour-tick";
+                hour_tick.style.width = this.hour_width + "px";
+                return hour_tick
+            }
+
+            function hourToDate(hour) {
+                var now = new Date();
+                now.setHours(hour);
+                now.setMinutes(0);
+                now.setSeconds(0);
+                return now;
+            }
+
+            function wrapHours(hour) {
+                return hourToDate(hour).getHours();
+            }
+
+            function startUpdates(ms_interval) {
+                updateTicks();
+                setInterval(function () {updateTicks()}, ms_interval);
             }
         </script>
 
@@ -64,17 +118,8 @@
         <!-- TIMELINE -->
         <div id="timeline">
             <div id="clock-bar">
-                <ul id="clock-markers">
-                    <li class="hour-marker">8P</li>
-                    <li class="hour-marker">7P</li>
-                    <li class="hour-marker">9P</li>
-                    <li class="hour-marker">10P</li>
-                    <li class="hour-marker">11P</li>
-                    <li class="hour-marker">12A</li>
-                    <li class="hour-marker">1A</li>
-                    <li class="hour-marker">2A</li>
-                    <li class="hour-marker">3A</li>
-                    <li class="hour-marker">4A</li>
+                <ul id="hour-tick-list">
+                    <!-- Hour ticks are generated here -->
                 </ul>
             </div>
         </div>
