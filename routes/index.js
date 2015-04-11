@@ -24,13 +24,11 @@ routes.addNode = function(req, res) {
 	var sum = req.body.sum;
  	var desc = req.body.desc;
   var due = req.body.due;
-  	if (sum!=undefined && desc!=undefined) {
-    	var newNode = new Node({summary:sum,description:desc,dueDate:due});
-    	newNode.save(function(err) {
-      		if (err) {req.sendStatus(500);}
-      		else {res.send({id:newNode._id});}
-    	});
-  	}
+	var newNode = new Node({summary:sum,description:desc,dueDate:due});
+	newNode.save(function(err) {
+  		if (err) {req.sendStatus(500);}
+  		else {res.send({id:newNode._id});}
+	});
 }
 
 module.exports = routes;

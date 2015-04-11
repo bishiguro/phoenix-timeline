@@ -6,7 +6,9 @@ var app = angular.module('projectManager', []).controller('nodeController', ['$s
 
     $scope.createNode = function() {
         $http.post('node/',{sum:$scope.summary,desc:$scope.description,due:$scope.dueDate}).success(function(data,status,headers,config) {
-                $("#node-container").prepend("<div class='node' id="+data.id+"></div>");
+                $("#node-container").prepend("<button class='node' id="+data.id+"></button>");
             }).error(console.error);
     };
 }]);
+
+
