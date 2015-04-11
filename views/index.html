@@ -18,10 +18,11 @@
         <script src="/javascripts/controllers/nodeController.js"></script>        
     </head>
 
-    <body id="body" onload="updateTicks()">
+    <body id="body" onload="startUpdates(30000)">
 
         <!-- HEADER -->
         <header id="header" class="flex-vcenter">
+
             <div class="side-header-content">
 
                 <!-- NODE FORM -->
@@ -37,7 +38,9 @@
                 </div>
 
             </div>
+
             <h1 id="header-title" class="lane centered-text">Phoenix Timeline</h1>
+
             <div class="side-header-content">
                 <!-- SLIDER -->
                 <label for="scale-slider">Scale</label>
@@ -101,6 +104,11 @@
 
             function wrapHours(hour) {
                 return hourToDate(hour).getHours();
+            }
+
+            function startUpdates(ms_interval) {
+                updateTicks();
+                setInterval(function () {updateTicks()}, ms_interval);
             }
         </script>
 

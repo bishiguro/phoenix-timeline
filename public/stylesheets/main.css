@@ -52,7 +52,6 @@ html, body {
     order: 2;
     height: 100%;
     position: relative;
-    z-index: -100;
 }
 
 #body {
