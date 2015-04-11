@@ -3,10 +3,12 @@ var app = angular.module('projectManager', []).controller('nodeController', ['$s
     $scope.summary = '';
     $scope.description = '';
     $scope.dueDate = '';
+    $scope.show = false;
 
-    $scope.createNode = function() {
-        $http.post('node/',{sum:$scope.summary,desc:$scope.description,due:$scope.dueDate}).success(function(data,status,headers,config) {
-                $("#node-container").prepend("<button class='node' id="+data.id+"></button>");
+    $scope.addNode = function() {
+        $scope.show = !$scope.show;
+        $http.post('/node/add',{sum:$scope.summary,desc:$scope.description,due:$scope.dueDate}).success(function(data,status,headers,config) {
+                $("#node-container").prepend("<button class='node' id='"+data.id+"'></button>");
             }).error(console.error);
     };
 }]);

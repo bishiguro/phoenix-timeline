@@ -23,6 +23,16 @@
         <!-- HEADER -->
         <header id="header" class="flex-vcenter">
             <div class="side-header-content">
+                <!-- NODE FORM -->
+                <div ng-app="projectManager" ng-controller="nodeController">
+                    <button ng-click="show = !show" ng-hide="show">Node</button>
+                    <div id='node-creation-form' ng-show="show">
+                        Summary:<br><input type="text" ng-model="summary" name="summary"><br>
+                        Description:<br><input type="text" ng-model="description" name="description"><br>
+                        Due Date:<br><input type="text" ng-model="dueDate" name="dueDate"><br>
+                        <button ng-click="addNode()">Create Node</button>
+                    </div>   
+                </div>
             </div>
             <h1 id="header-title" class="lane centered-text">Phoenix Timeline</h1>
             <div class="side-header-content">
@@ -63,19 +73,9 @@
             </div>
         </div>
 
-        <!-- NODE FORM -->
-        <div ng-app="projectManager" ng-controller="nodeController">
-            <div id='node-creation-form'>
-                Summary:<br><input type="text" ng-model="summary" name="summary"><br>
-                Description:<br><input type="text" ng-model="description" name="description"><br>
-                Due Date:<br><input type="text" ng-model="dueDate" name="dueDate"><br>
-                <button ng-click="createNode()">Create Node</button>
-            </div>   
-        </div>
-
         <!-- NODE CONTAINER -->
         <div id="node-container"></div>
-        
+
     </body>
 
 </html>

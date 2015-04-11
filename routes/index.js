@@ -26,9 +26,17 @@ routes.addNode = function(req, res) {
   var due = req.body.due;
 	var newNode = new Node({summary:sum,description:desc,dueDate:due});
 	newNode.save(function(err) {
-  		if (err) {req.sendStatus(500);}
+  		if (err) {res.sendStatus(500);}
   		else {res.send({id:newNode._id});}
 	});
+}
+
+routes.findNode = function(req, res) {
+  var id = req.body.id;
+  Node.findById(id,function(err,node){
+    if (err) {res.sendStatus(500);}
+    else {res.send({node:node})}
+  })
 }
 
 module.exports = routes;
