@@ -81,10 +81,10 @@ html, body {
     height: 25px;
     border: 1px solid #aaa;
     border-radius: 25px;
-    background-color: #008000;
+    background-color: cornflowerblue;
 }
 .node:hover{
-    background-color: yellow;
+    background-color: chartreuse;
 }
 
 #clock-markers {
