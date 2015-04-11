@@ -8,7 +8,7 @@ var app = angular.module('projectManager', []).controller('nodeController', ['$s
     $scope.addNode = function() {
         $scope.visible = !$scope.visible;
         $http.post('/node/add',{sum:$scope.summary,desc:$scope.description,due:$scope.dueDate}).success(function(data,status,headers,config) {
-                $("#node-container").prepend("<button class='node' id='"+data.id+"'></button>");
+                $("#node-container").prepend("<button class='node' id="+data.id.toString()+" ng-click='findNode("+data.id.toString()+")'></button>");
             }).error(console.error);
     };
 
@@ -17,5 +17,3 @@ var app = angular.module('projectManager', []).controller('nodeController', ['$s
     };
 
 }]);
-
-
