@@ -66,7 +66,6 @@ html, body {
     border-left: 1px solid crimson;
 
     position: absolute;
-    left: 25%;
     z-index: -50;
 }
 
@@ -83,7 +82,7 @@ html, body {
     background-color: #008000;
 }
 
-#clock-markers {
+#hour-tick-list {
     margin: 0 0 1rem 0;
     padding: 0;
     width: 100%;
@@ -91,15 +90,16 @@ html, body {
     overflow: hidden;
 }
 
-.hour-marker {
+.hour-tick {
+    position: relative;
     list-style-type: none;
     display: inline-block;
-    margin: 0;
+    box-sizing: border-box;
+
     border-right: 1px solid #222;
     font-family: fabrica, sans-serif;
-    width: 24px;
-    padding-right: 1rem;
     padding-top: .5rem;
+    padding-right: .5rem;
     text-align: right;
 }
 
