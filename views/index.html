@@ -22,7 +22,8 @@
 
         <!-- HEADER -->
         <header id="header" class="flex-vcenter">
-           <div class="side-header-content"></div>
+            <div class="side-header-content">
+            </div>
             <h1 id="header-title" class="lane centered-text">Phoenix Timeline</h1>
             <div class="side-header-content">
                 <label for="scale-slider">Scale</label>
@@ -63,14 +64,13 @@
         </div>
 
         <!-- NODE FORM -->
-        <div ng-app="projectManager" ng-controller="nodeController" id='node-creation-form'>
-            Summary:<br>
-            <input type="text" ng-model="summary" name="summary"><br>
-            Description:<br>
-            <input type="text" ng-model="description" name="description"><br>
-            <button ng-click="createNode()">Create a Node</button>
-            <div class="align-right">{{sumLine}}</div>
-            <div class="align-right">{{descLine}}</div>     
+        <div ng-app="projectManager" ng-controller="nodeController">
+            <div id='node-creation-form'>
+                Summary:<br><input type="text" ng-model="summary" name="summary"><br>
+                Description:<br><input type="text" ng-model="description" name="description"><br>
+                Due Date:<br><input type="text" ng-model="dueDate" name="dueDate"><br>
+                <button ng-click="createNode()">Create Node</button>
+            </div>   
         </div>        
         <div id="node-container"></div>
     </body>
