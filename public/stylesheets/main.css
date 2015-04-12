@@ -9,6 +9,11 @@
     src: url(/fonts/fabrica.otf);
 }
 
+@font-face {
+    font-family: source-sans-pro;
+    src: url(/fonts/sourcesanspro.otf);
+}
+
 .lane { font-family: lane, sans-serif; }
 .fabrica { font-family: lane, sans-serif; }
 
@@ -119,6 +124,17 @@ html, body {
     top: 125px;
     left: 50px;
     position: absolute;
+    width: 100%;
+}
+
+.form-input {
+    padding: .5rem 0.5rem 0.5rem;
+    font-size: 1rem;
+    border: 0;
+    color: #212121;
+    outline: none;
+    width: auto;
+    font-family: source-sans-pro;
 }
 
 .align-right {
@@ -126,3 +142,47 @@ html, body {
     margin-right: 20px;
 }
 
+.field {
+    border: 1px solid #BDBDBD;
+    box-shadow: inset 3px 4px 10px -6px #AAA;
+    padding: 5px;
+}
+
+.last-field {
+    border-top: none;
+    box-shadow: inset 3px -4px 10px -6px #AAA;
+}
+
+#login-form {
+    padding: 10px;
+    font-family: source-sans-pro;
+    color: #999;
+}
+
+#login-header {
+    padding: 10px;
+    font-size: 24px;
+    text-align: center;
+}
+
+#label {
+    font-size: 0.92rem;
+    padding: 5px 5px 0px 5px;
+}
+
+#glogin {
+    padding: 10px;
+    border: 1px solid #BDBDBD;
+    text-align: center;
+    text-decoration: none;
+    color: #222;
+    font-size: 1.2rem;
+    display: block;
+    width: 50%;
+    margin: 5px auto 0 auto;
+    font-family: source-sans-pro;
+}
+
+#glogin:hover{
+    box-shadow: 3px 3px 15px -4px #999;
+}
