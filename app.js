@@ -6,6 +6,7 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
+var session = require('express-session');
 
 var passport = require('passport');
 var GoogleStrategy = require('passport-google-oauth2').Strategy;
@@ -36,7 +37,7 @@ passport.use(new GoogleStrategy({
     scope: ['openid', 'email', 'https://www.googleapis.com/auth/calendar']
   },
 
-  function(accessToken, refreshToken, profile, done){ 
+  function(accessToken, refreshToken, profile, done){
   	google_calendar = new gcal.GoogleCalendar(accessToken);
   	return done(null, profile);
   }
@@ -52,30 +53,34 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use(session({
+  secret: 'secret',
+  resave: false,
+  saveUnitialized: true
+}));
 app.use(passport.initialize());
 app.use(passport.session());
 
 // Routing
 
-app.get('/', function (req, res) {
-   res.sendFile(path.join(__dirname, '/views/index.html'));
-});
-
+app.get('/', index.home);
 app.get('/login', index.login);
 app.get('/logout', index.logout);
 
 app.get('/auth/google',
-  passport.authenticate('google', { scope: 
-    [ 'https://www.googleapis.com/auth/plus.login',
-    , 'https://www.googleapis.com/auth/plus.profile.emails.read' ] }
-));
- 
-app.get('/auth/google/callback', 
-    passport.authenticate( 'google', { 
+  passport.authenticate('google', { 
+    scope: ['profile', 'https://www.googleapis.com/auth/calendar'] 
+  }));
+
+app.get('/auth/google/callback',
+    passport.authenticate( 'google', {
         successRedirect: '/',
         failureRedirect: '/login'
 }));
 
-app.post('/stream',index.makeStream);
+app.post('/stream/add',index.makeStream);
+app.get('/node/find', index.findNode);
+app.post('/node/add', index.addNode);
 
 app.listen(PORT);
+
