@@ -143,20 +143,19 @@ html, body {
 }
 
 .field {
-    border: 1px solid #BDBDBD;
-    box-shadow: inset 3px 4px 10px -6px #AAA;
     padding: 5px;
 }
 
 .last-field {
-    border-top: none;
-    box-shadow: inset 3px -4px 10px -6px #AAA;
+    border-top: 1px solid #BDBDBD;
 }
 
 #login-form {
-    padding: 10px;
+    margin: 10px;
     font-family: source-sans-pro;
     color: #999;
+    box-shadow: inset 3px 4px 10px -6px #AAA;
+    border: 1px solid #BDBDBD;
 }
 
 #login-header {
