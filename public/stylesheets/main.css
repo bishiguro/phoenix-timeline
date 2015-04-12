@@ -20,6 +20,7 @@
 /* ----- Utility Classes ----- */
 
 .centered-text { text-align: center; }
+
 .flex-parent { display: flex; }
 .flex-vcenter { align-items: center; }
 .flex-hcenter { justify-content: center; }
@@ -29,6 +30,7 @@
     color: #999;
     font-size: 0.92rem;
     padding: 5px 5px 0px 5px;
+    text-transform: uppercase;
 }
 
 /* ----- Page Specific CSS ----- */
@@ -67,12 +69,15 @@ input[type="range"] {
     height: 2px;
     background-color: #222;
     border-radius: 2px;
+
+    margin-top: 12px;
 }
 
 input[type="range"]::-webkit-slider-thumb {
     -webkit-appearance: none !important  ;
     width: 16px;
     height: 16px;
+
     background-color: #444;
     border: 1px solid #222;
     border-radius: 8px;
@@ -205,4 +210,20 @@ input[type="range"]::-webkit-slider-thumb {
 
 #glogin:hover{
     box-shadow: 3px 3px 15px -4px #999;
+}
+
+
+
+.ui-control {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+
+
+#scale-label {
+    padding-top: 8px;
+    flex-grow: 1;
+    text-align: center;
 }
