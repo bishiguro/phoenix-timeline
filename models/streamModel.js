@@ -1,7 +1,7 @@
 var mongoose = require("mongoose");
 
 var streamSchema = mongoose.Schema({
-	users: String[],
+	users:[],
 	name: String,
 	project: String,
 	beginning: Date,

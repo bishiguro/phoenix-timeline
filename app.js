@@ -21,26 +21,26 @@ mongoose.connect(mongoURI);
 
 var PORT = process.env.PORT || 3000;
 
-// passport.serializeUser(function(user, done) {
-//   done(null, user);
-// });
+passport.serializeUser(function(user, done) {
+  done(null, user);
+});
 
-// passport.deserializeUser(function(obj, done) {
-//   done(null, obj);
-// });
+passport.deserializeUser(function(obj, done) {
+  done(null, obj);
+});
 
-// passport.use(new GoogleStrategy({
-//     clientID:     process.env.GOOGLE_CLIENT_ID,
-//     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-//     callbackURL: "http://localhost:3000/auth/google/callback", // TODO: replace with deployed url
-//     scope: ['openid', 'email', 'https://www.googleapis.com/auth/calendar']
-//   },
+passport.use(new GoogleStrategy({
+    clientID:     process.env.GOOGLE_CLIENT_ID,
+    clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+    callbackURL: "http://localhost:3000/auth/google/callback", // TODO: replace with deployed url
+    scope: ['openid', 'email', 'https://www.googleapis.com/auth/calendar']
+  },
 
-//   function(accessToken, refreshToken, profile, done){ 
-//   	google_calendar = new gcal.GoogleCalendar(accessToken);
-//   	return done(null, profile);
-//   }
-// ));
+  function(accessToken, refreshToken, profile, done){ 
+  	google_calendar = new gcal.GoogleCalendar(accessToken);
+  	return done(null, profile);
+  }
+));
 
 app.set('views', __dirname + '/');
 
@@ -75,5 +75,7 @@ app.get('/auth/google/callback',
         successRedirect: '/',
         failureRedirect: '/login'
 }));
+
+app.post('/stream',index.makeStream);
 
 app.listen(PORT);

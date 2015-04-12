@@ -1,5 +1,8 @@
 routes = {};
-var Stream = require(path.join(__dirname,"../models/models")).streamModel;
+var mongoose = require('mongoose');
+var path = require("path");
+var Stream = require(path.join(__dirname,"../models/streamModel.js"));
+var User = require(path.join(__dirname,"../models/userModel.js"));
 
 
 routes.login = function(req, res) { 
@@ -12,19 +15,26 @@ routes.logout = function(req, res) {
 }
 
 routes.makeStream = function(req, res){
+
 	var newStream = new Stream({
-		name:req.name,
-		beginning:req.date,
+		name:req.body.name,
+		beginning:req.body.date
 		//project:req.project,
-	})
-	newStream.save(function (err) {
+	});
+
+	newStream.save(function(err) {
     	if (err) {
-    		console.log("Something broke!");
+    		return console.log("Something broke!");
     	}
     	else {
-    		id = newStream._id;
-			Project.findOne({"id":res.projectId}).exec(function(err,currProj){
+    		var id = newStream._id;
+			User.findOne({"id":res.projectId}).exec(function(err,currProj){
 				currProj.streams.push(id);
-			})	
+			return console.log(id)
+			});
+		}	
+	});
+	res.send("made stream");
 }
+
 module.exports = routes;
