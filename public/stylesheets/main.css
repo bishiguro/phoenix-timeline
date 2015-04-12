@@ -40,6 +40,7 @@ html, body {
     padding: 0;
     margin: 0;
     color: #222;
+    background-image: url(/images/crossword.png);
 }
 
 #header {
@@ -175,18 +176,19 @@ input[type="range"]::-webkit-slider-thumb {
 }
 
 .field {
-    border: 1px solid #BDBDBD;
-    box-shadow: inset 3px 4px 10px -6px #AAA;
     padding: 5px;
 }
 
 .last-field {
-    border-top: none;
-    box-shadow: inset 3px -4px 10px -6px #AAA;
+    border-top: 1px solid #BDBDBD;
 }
 
 #login-form {
-    padding: 10px;
+    margin: 10px;
+    box-shadow: inset 3px 4px 10px -6px #AAA;
+    border: 1px solid #BDBDBD;
+    border-radius: 3px;
+    background-color: white;
 }
 
 #login-header {
@@ -206,6 +208,8 @@ input[type="range"]::-webkit-slider-thumb {
     width: 50%;
     margin: 5px auto 0 auto;
     font-family: source-sans-pro;
+    border-radius: 3px;
+    background-color: white;
 }
 
 #glogin:hover{
