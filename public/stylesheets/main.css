@@ -22,10 +22,10 @@
 
 /* ----- Page Specific CSS ----- */
 html, body {
-	height: 100%;
-	width: 100%;
-	padding: 0;
-	margin: 0;
+    height: 100%;
+    width: 100%;
+    padding: 0;
+    margin: 0;
     color: #222;
 }
 
@@ -46,6 +46,26 @@ html, body {
 
 .side-header-content {
     width: 25%;
+}
+
+input[type="range"] {
+    -webkit-appearance: none !important; /*Needed to reset default slider styles */
+    margin: auto;
+    outline: none;
+
+    height: 2px;
+    background-color: #222;
+    border-radius: 2px;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none !important  ;
+    width: 16px;
+    height: 16px;
+    background-color: #444;
+    border: 1px solid #222;
+    border-radius: 8px;
+    box-shadow: 0 5px 10px -5px #444;
 }
 
 #timeline {
