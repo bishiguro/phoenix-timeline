@@ -122,7 +122,7 @@ html, body {
 }
 
 .form-input {
-    padding: .5rem 2rem 1rem;
+    padding: .5rem 0.5rem 0.5rem;
     font-size: 1rem;
     border: 0;
     color: #212121;
@@ -138,19 +138,17 @@ html, body {
 
 .field {
     border: 1px solid #BDBDBD;
-    float: left;
-    width: auto;
+    box-shadow: inset 3px 4px 10px -6px #AAA;
+    padding: 5px;
 }
 
-#login {
-    display: inline-block;
-    letter-spacing: 3px;
+.last-field {
+    border-top: none;
+    box-shadow: inset 3px -4px 10px -6px #AAA;
 }
 
 #login-form {
     padding: 10px;
-    min-width: 25%;
-    max-width: 50%;
     font-family: sourcesanspro;
     color: #999;
 }
@@ -158,20 +156,27 @@ html, body {
 #login-header {
     padding: 10px;
     font-size: 24px;
+    text-align: center;
 }
 
 #label {
-    font-size: 1rem;
-    padding: 5px;
+    font-size: 0.92rem;
+    padding: 5px 5px 0px 5px;
 }
 
 #glogin {
     padding: 10px;
-    /*font-family: fabrica;*/
+    border: 1px solid #BDBDBD;
+    text-align: center;
+    text-decoration: none;
+    color: #222;
+    font-size: 1.2rem;
+    display: block;
+    width: 50%;
+    margin: 5px auto 0 auto;
+    font-family: sourcesanspro;
 }
 
-#glogin-button {
-    text-decoration: none;
-    color: black;
-    font-size: 1.2rem;
+#glogin:hover{
+    box-shadow: 3px 3px 15px -4px #999;
 }
