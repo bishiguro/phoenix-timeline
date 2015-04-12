@@ -24,13 +24,19 @@
 .flex-vcenter { align-items: center; }
 .flex-hcenter { justify-content: center; }
 
+.ui-label {
+    font-family: source-sans-pro;
+    color: #999;
+    font-size: 0.92rem;
+    padding: 5px 5px 0px 5px;
+}
 
 /* ----- Page Specific CSS ----- */
 html, body {
-	height: 100%;
-	width: 100%;
-	padding: 0;
-	margin: 0;
+    height: 100%;
+    width: 100%;
+    padding: 0;
+    margin: 0;
     color: #222;
 }
 
@@ -51,6 +57,26 @@ html, body {
 
 .side-header-content {
     width: 25%;
+}
+
+input[type="range"] {
+    -webkit-appearance: none !important; /*Needed to reset default slider styles */
+    margin: auto;
+    outline: none;
+
+    height: 2px;
+    background-color: #222;
+    border-radius: 2px;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none !important  ;
+    width: 16px;
+    height: 16px;
+    background-color: #444;
+    border: 1px solid #222;
+    border-radius: 8px;
+    box-shadow: 0 5px 10px -5px #444;
 }
 
 #timeline {
@@ -78,7 +104,6 @@ html, body {
     height: 1.5rem;
 }
 
-
 .node {
     width: 25px;
     height: 25px;
@@ -86,9 +111,11 @@ html, body {
     border-radius: 25px;
     background-color: cornflowerblue;
 }
+
 .node:hover{
     background-color: #5077BE;
 }
+
 .node:active{
     background-color: #A2BFF4;
 }
@@ -155,19 +182,12 @@ html, body {
 
 #login-form {
     padding: 10px;
-    font-family: source-sans-pro;
-    color: #999;
 }
 
 #login-header {
     padding: 10px;
     font-size: 24px;
     text-align: center;
-}
-
-#label {
-    font-size: 0.92rem;
-    padding: 5px 5px 0px 5px;
 }
 
 #glogin {
