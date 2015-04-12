@@ -47,8 +47,10 @@
             <div class="side-header-content">
                 <!-- SLIDER -->
                 <!-- TODO: Make sure that slider is operable when node is clicked - check css overlays -->
-                <label for="scale-slider">Scale</label>
-                <input type="range" id="scale-slider" min=1 max=13 value=5 step=.1 oninput="updateTicks()">
+                <div class="ui-control flex-hcenter">
+                    <input type="range" id="scale-slider" min=1 max=13 value=5 step=.1 oninput="updateTicks()">
+                    <label id="scale-label" class="ui-label" for="scale-slider">Scale</label>
+                </div>
             </div>
         </header>
 
