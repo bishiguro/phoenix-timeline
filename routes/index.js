@@ -42,12 +42,15 @@ routes.findNode = function(req, res) {
 }
 
 routes.makeStream = function(req, res){
+	
 
 	var newStream = new Stream({
 		name:req.body.name,
 		beginning:req.body.date
 		//project:req.project,
 	});
+
+	var id = newStream._id;
 
 	newStream.save(function(err) {
     	if (err) {
@@ -57,11 +60,11 @@ routes.makeStream = function(req, res){
     		var id = newStream._id;
 			User.findOne({"id":res.projectId}).exec(function(err,currProj){
 				currProj.streams.push(id);
-			return console.log(id)
+			return console.log(id);
 			});
 		}	
 	});
-	res.send("made stream");
+	res.json({"id":id});
 }
 
 module.exports = routes;
