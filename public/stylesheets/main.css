@@ -9,23 +9,73 @@
     src: url(/fonts/fabrica.otf);
 }
 
+@font-face {
+    font-family: source-sans-pro;
+    src: url(/fonts/sourcesanspro.otf);
+}
+
 .lane { font-family: lane, sans-serif; }
 .fabrica { font-family: lane, sans-serif; }
 
 /* ----- Utility Classes ----- */
 
 .centered-text { text-align: center; }
+
 .flex-parent { display: flex; }
 .flex-vcenter { align-items: center; }
 .flex-hcenter { justify-content: center; }
 
+.ui-label {
+    font-family: source-sans-pro;
+    color: #999;
+    font-size: 0.92rem;
+    padding: 5px 5px 0px 5px;
+    text-transform: uppercase;
+
+    outline: none;
+    text-decoration: none;
+}
+
+.ui-button {
+    font-family: source-sans-pro;
+    font-weight: 700;
+    font-size: 1rem;
+    color: #444;
+
+    border: 1px solid #444;
+    border-radius: 3px;
+
+    padding: 5px 10px;
+
+    background-color: transparent;
+    margin: 10px;
+
+    outline: none;
+    text-decoration: none;
+}
+
+.ui-button:hover {
+    box-shadow: 0 5px 10px -5px #888;
+}
+
+.ui-control {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.ui-control input {
+    width: 100%;
+}
+
 
 /* ----- Page Specific CSS ----- */
 html, body {
-	height: 100%;
-	width: 100%;
-	padding: 0;
-	margin: 0;
+    height: 100%;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    font-size: 1rem;
     color: #222;
 }
 
@@ -37,22 +87,53 @@ html, body {
     border-bottom: 1px solid #222;
     box-shadow: 0 5px 5px -5px #888;
     background-color: white;
+    padding: .75rem;
 }
 
 #header-title {
     letter-spacing: .25rem;
     font-weight: 400;
+    font-size: 2rem;
+    margin: 0;
 }
 
 .side-header-content {
     width: 25%;
+    display: flex;
+    align-items: center;
+}
+
+input[type="range"] {
+    -webkit-appearance: none !important; /*Needed to reset default slider styles */
+    margin: auto;
+    outline: none;
+
+    height: 1px;
+
+    border-radius: 2px;
+
+    border-top: 1px solid #222;
+    border-bottom: 1px solid #999;
+
+    margin-top: 12px;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none !important  ;
+    width: 16px;
+    height: 16px;
+
+    background-color: #444;
+    border-top: 1px solid #999;
+    border-bottom: 1px solid #222;
+    border-radius: 8px;
+    box-shadow: 0 5px 10px -5px #444;
 }
 
 #timeline {
     order: 2;
     height: 100%;
     position: relative;
-    z-index: -100;
 }
 
 #body {
@@ -66,7 +147,6 @@ html, body {
     border-left: 1px solid crimson;
 
     position: absolute;
-    left: 25%;
     z-index: -50;
 }
 
@@ -75,22 +155,23 @@ html, body {
     height: 1.5rem;
 }
 
-
-.node {    
+.node {
     width: 25px;
     height: 25px;
     border: 1px solid #aaa;
     border-radius: 25px;
     background-color: cornflowerblue;
 }
+
 .node:hover{
     background-color: #5077BE;
 }
+
 .node:active{
     background-color: #A2BFF4;
 }
 
-#clock-markers {
+#hour-tick-list {
     margin: 0 0 1rem 0;
     padding: 0;
     width: 100%;
@@ -98,32 +179,34 @@ html, body {
     overflow: hidden;
 }
 
-.hour-marker {
+.hour-tick {
+    position: relative;
     list-style-type: none;
     display: inline-block;
-    margin: 0;
+    box-sizing: border-box;
+
     border-right: 1px solid #222;
     font-family: fabrica, sans-serif;
-    width: 100px;
-    padding-right: 1rem;
     padding-top: .5rem;
-    text-align: right;
-}
-
-#node-creation-form {
-    bottom: 20px;
-    position: absolute;
-    width: 100%;
+    padding-left: .5rem;
+    text-align: left;
 }
 
 #node-container {
     top: 125px;
     left: 50px;
     position: absolute;
+    width: 100%;
 }
 
-input {
-    display: inline-block;
+.form-input {
+    padding: .5rem 0.5rem 0.5rem;
+    font-size: 1rem;
+    border: 0;
+    color: #212121;
+    outline: none;
+    width: auto;
+    font-family: source-sans-pro;
 }
 
 .align-right {
@@ -131,3 +214,53 @@ input {
     margin-right: 20px;
 }
 
+.field {
+    padding: 5px;
+}
+
+.last-field {
+    border-top: 1px solid #BDBDBD;
+}
+
+#login-form {
+    margin: 10px;
+    box-shadow: inset 3px 4px 10px -6px #AAA;
+    border: 1px solid #BDBDBD;
+    border-radius: 3px;
+    background-color: white;
+}
+
+#login-header {
+    padding: 10px;
+    font-size: 24px;
+    text-align: center;
+}
+
+#glogin {
+    padding: 10px;
+    border: 1px solid #BDBDBD;
+    text-align: center;
+    text-decoration: none;
+    color: #222;
+    font-size: 1.2rem;
+    display: block;
+    width: 50%;
+    margin: 5px auto 0 auto;
+    font-family: source-sans-pro;
+    border-radius: 3px;
+    background-color: white;
+}
+
+#glogin:hover{
+    box-shadow: 3px 3px 15px -4px #999;
+}
+
+#scale-label {
+    padding-top: 8px;
+    flex-grow: 1;
+    text-align: center;
+}
+
+.inline {
+    display: inline;
+}
