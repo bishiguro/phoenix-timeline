@@ -40,7 +40,7 @@
                           $('#node-popover').popover({content: popover_html, html: true})
                         })
 
-                        var popover_html = "" +
+                        var popover_html = $compile("" +
                         "<div id='node-creation-form' class=\"ui-control flex-parent flex-hcenter\">" +
                             "<div>" +
                                 "<label class=\"ui-label\">Summary: </label>" +
@@ -58,7 +58,7 @@
                                 "<button class=\"inline ui-button\" ng-click=\"addNode()\">Add Node</button>" +
                                 "<button class=\"inline ui-button\" onclick=\"$('#node-popover').popover('hide')\">Cancel</button>" +
                             "</div>" +
-                        "</div>"
+                        "</div>")($scope);
                     </script>
                 </div>
 

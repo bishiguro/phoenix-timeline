@@ -34,6 +34,8 @@
 
     outline: none;
     text-decoration: none;
+    background-color: transparent;
+    border: none;
 }
 
 .ui-button {
@@ -263,4 +265,15 @@ input[type="range"]::-webkit-slider-thumb {
 
 .inline {
     display: inline;
+}
+
+.important-btn {
+    background-color: #222;
+    color: white;
+    font-weight: 700;
+    letter-spacing: .1rem;
+}
+
+.block {
+    display: block;
 }
