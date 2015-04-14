@@ -42,6 +42,15 @@ var app = angular.module('projectManager').controller('streamController', ['$sco
 
     $scope.summary = '';
     $scope.description = '';
+    
+    $scope.createNodeDialog = function($event) {
+        var time = timeAtXPos($event.pageX);
+        var html = /* HTML GOES HERE */ ;
+        //var relX = $event.pageX - $event.target.offsetLeft;
+        this.nodeDialog = $event.target.appendChild(html);
+        this.nodeDialog.style.position = 'absolute';
+        this.nodeDialog.style.left = $event.pageX + 'px';
+    }
 
     $scope.addNode = function() {
         //$scope.visible = !$scope.visible;

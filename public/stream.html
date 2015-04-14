@@ -1,6 +1,5 @@
 
 <div class="streambox" ng-controller="streamController">
-<link rel="stylesheet" href="/stylesheets/main.css"/>
 <font color="black">{{stream.name}}</font>
 	<div class = "eventbox" style ="height:20px;background-color:blue">
 	</div>
@@ -8,6 +7,6 @@
 	<div class = "stream" style="background-color:red;height:3px">
 	</div>
 
-	<div class = "nodebox" style="height:20px;background-color:blue" ng-click="addNode()">
+	<div class = "nodebox" style="height:20px;background-color:blue" ng-click="createNodeDialog($event)">
 	</div>
 </div>
