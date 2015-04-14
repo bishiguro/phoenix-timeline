@@ -5,14 +5,17 @@
         <title>Phoenix Timeline</title>
 
         <!-- Linked CSS -->
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" />
         <link rel="stylesheet" href="/stylesheets/main.css" />
-        <!--<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" />-->
 
         <!-- Linked JS -->
+        <script src="/javascripts/timeline.js"></script>
+        <script src="/javascripts/dateFormat.js"></script>
+
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-        <!--<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>-->
+        <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js"></script>
-        <script src"https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.3.15/angular-route.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.3.15/angular-route.js"></script>
 
         <!-- Angular Controllers -->
         <script src="/javascripts/controllers/nodeController.js"></script>        
@@ -23,18 +26,40 @@
         <!-- HEADER -->
         <header id="header" class="flex-vcenter">
 
-            <div class="side-header-content">
+            <div class="side-header-content flex-parent flex-hcenter">
 
                 <!-- NODE FORM -->
                 <div ng-app="projectManager" ng-controller="nodeController">
-                    <button ng-click="show()" ng-hide="visible">Create Node</button>
-                    <div id='node-creation-form' ng-show="visible">
-                        Summary:<input type="text" ng-model="summary" name="summary">
-                        Description:<input type="text" ng-model="description" name="description"><br>
-                        Due Date:<input type="text" ng-model="dueDate" name="dueDate">
-                        <button ng-click="addNode()">Add Node</button>
-                        <button ng-click="show()">Cancel</button>
-                    </div>
+                    <button id="node-popover" class="ui-control ui-button" data-placement="bottom" tabindex="0" role="button" data-toggle="popover">
+                        New Node
+                    </button>
+
+                    <script>
+                        // This script contains the elements for the node-popover element above.
+                        $(function () {
+                          $('#node-popover').popover({content: popover_html, html: true})
+                        })
+
+                        var popover_html = "" +
+                        "<div id='node-creation-form' class=\"ui-control flex-parent flex-hcenter\">" +
+                            "<div>" +
+                                "<label class=\"ui-label\">Summary: </label>" +
+                                "<input type=\"text\" ng-model=\"summary\" name=\"summary\">" +
+                            "</div>" +
+                            "<div>" +
+                                "<label class=\"ui-label\">Description: </label>" +
+                                "<input type=\"text\" ng-model=\"description\" name=\"description\">" +
+                            "</div>" +
+                            "<div>" +
+                                "<label class=\"ui-label\">Due Date: </label>" +
+                                "<input type=\"text\" ng-model=\"dueDate\" name=\"dueDate\">" +
+                            "</div>" +
+                            "<div>" +
+                                "<button class=\"inline ui-button\" ng-click=\"addNode()\">Add Node</button>" +
+                                "<button class=\"inline ui-button\" onclick=\"$('#node-popover').popover('hide')\">Cancel</button>" +
+                            "</div>" +
+                        "</div>"
+                    </script>
                 </div>
 
             </div>
@@ -43,74 +68,13 @@
 
             <div class="side-header-content">
                 <!-- SLIDER -->
-                <label for="scale-slider">Scale</label>
-                <input type="range" id="scale-slider" min=1 max=13 value=5 step=.1 oninput="updateTicks()">
+                <!-- TODO: Make sure that slider is operable when node is clicked - check css overlays -->
+                <div class="ui-control flex-hcenter">
+                    <input type="range" id="scale-slider" min=1 max=13 value=5 step=.1 oninput="updateTicks()">
+                    <label id="scale-label" class="ui-label" for="scale-slider">Scale</label>
+                </div>
             </div>
         </header>
-
-        <!-- Tick Generation Script -->
-        <script>
-            function updateTicks () {
-                // Define constants
-                MS_PER_HOUR = 3600000
-
-                //Clear tick list
-                this.hour_tick_list = document.querySelector("#hour-tick-list");
-                this.hour_tick_list.innerHTML = "";
-
-                // Determine the pixel offset of the current-time-bar from the left
-                this.now_offset = .25 * this.hour_tick_list.offsetWidth;
-                document.querySelector('#current-time-bar').style.left = this.now_offset + "px";
-
-                // Determine  the pixel width of an hour
-                var slider_value = document.querySelector('#scale-slider').value;
-                this.num_hours = Math.pow(slider_value, 2);
-                this.hour_width = this.hour_tick_list.offsetWidth / this.num_hours;
-
-                // Calculate the start point of the first hour
-                var hours_to_left = this.now_offset / this.hour_width;
-                var now = new Date();
-                var hour_start = Math.floor(now.getHours() - hours_to_left);
-                var initial_offset = this.now_offset + (((hourToDate(hour_start) - now) / MS_PER_HOUR)-1) * this.hour_width;
-
-                // Create first hour tick and place it on timeline
-                var hour_tick = createHourTick(hour_start);
-                hour_tick.style.left = initial_offset + "px";
-                hour_tick_list.appendChild(hour_tick);
-
-                for (var i = 1; i < this.num_hours+10 ; i++) {
-                    var hour_tick = createHourTick(wrapHours(i + hour_start));
-                    hour_tick.style.left = initial_offset + "px";
-                    hour_tick_list.appendChild(hour_tick);
-                }
-            }
-
-            function createHourTick (value) {
-                var hour_tick = document.createElement("LI");
-                var text = document.createTextNode(value);
-                hour_tick.appendChild(text);
-                hour_tick.className = "hour-tick";
-                hour_tick.style.width = this.hour_width + "px";
-                return hour_tick
-            }
-
-            function hourToDate(hour) {
-                var now = new Date();
-                now.setHours(hour);
-                now.setMinutes(0);
-                now.setSeconds(0);
-                return now;
-            }
-
-            function wrapHours(hour) {
-                return hourToDate(hour).getHours();
-            }
-
-            function startUpdates(ms_interval) {
-                updateTicks();
-                setInterval(function () {updateTicks()}, ms_interval);
-            }
-        </script>
 
         <!-- Vertical Current Time Bar -->
         <div id="current-time-bar"></div>
