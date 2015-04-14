@@ -1,7 +1,7 @@
-function updateTicks () {
-    // Define constants
-    MS_PER_HOUR = 3600000
+// Define constants
+MS_PER_HOUR = 3600000
 
+function updateTicks () {
     //Clear tick list
     this.hour_tick_list = document.querySelector("#hour-tick-list");
     this.hour_tick_list.innerHTML = "";
@@ -18,17 +18,17 @@ function updateTicks () {
     // Calculate the start point of the first hour
     var hours_to_left = this.now_offset / this.hour_width;
     var now = new Date();
-    var hour_start = Math.floor(now.getHours() - hours_to_left);
-    var initial_offset = this.now_offset + ((hourToDate(hour_start) - now) / MS_PER_HOUR) * this.hour_width;
+    this.hour_start = Math.floor(now.getHours() - hours_to_left);
+    this.initial_offset = this.now_offset + ((hourToDate(this.hour_start) - now) / MS_PER_HOUR) * this.hour_width;
 
     // Create first hour tick and place it on timeline
-    var hour_tick = createHourTick(hour_start);
-    hour_tick.style.left = initial_offset + "px";
+    var hour_tick = createHourTick(this.hour_start);
+    hour_tick.style.left = this.initial_offset + "px";
     hour_tick_list.appendChild(hour_tick);
 
     for (var i = 1; i < this.num_hours+10 ; i++) {
         var hour_tick = createHourTick(i + hour_start);
-        hour_tick.style.left = initial_offset + "px";
+        hour_tick.style.left = this.initial_offset + "px";
         hour_tick_list.appendChild(hour_tick);
     }
 }
@@ -65,4 +65,12 @@ function formatHours(hour) {
 function startUpdates(ms_interval) {
     updateTicks();
     setInterval(function () {updateTicks()}, ms_interval);
+}
+
+function timeAtXPos(xpos) {
+    // Calculate the time in hours relative to now
+    var rel_time = (xpos - this.now_offset) / this.hour_width;
+    var d = new Date();
+    d.setMilliseconds(MS_PER_HOUR * rel_time);
+    return d;
 }
