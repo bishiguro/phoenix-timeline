@@ -31,8 +31,9 @@ routes.addNode = function(req, res) {
 	newNode.save(function(err) {
   		if (err) {res.sendStatus(500);}
   		else {res.send({id:newNode._id});}
+   console.log(newNode)
 	});
-}
+ }
 
 routes.findNode = function(req, res) {
   var id = req.body.id;
@@ -50,7 +51,6 @@ routes.addEvent = function(req, res) {
     if (title!=undefined && starttime!=undefined && endtime!=undefined) {
       console.log("eventadded");
       var newEvent = new Event({title:title, starttime:starttime, endtime:endtime});
-      console.log(newEvent)
       newEvent.save(function(err) {
       // if (err){
       //     console.error('error making event');

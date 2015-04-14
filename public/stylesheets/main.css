@@ -264,3 +264,7 @@ input[type="range"]::-webkit-slider-thumb {
 .inline {
     display: inline;
 }
+
+.dropdown-menu {
+    padding: 20px;
+}
