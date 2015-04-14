@@ -50,7 +50,7 @@
                                 </div>
                                 <div>
                                     <label class="ui-label">Due Date: </label>
-                                    <!-- Date Picker -->
+                                    <!-- DATE PICKER -->
                                     <div ng-controller="nodeController">
                                         <p class="input-group">
                                           <input type="text" class="form-control" datepicker-popup="{{format}}" ng-model="dt" is-open="opened" min-date="minDate" max-date="'2020-06-22'" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close"/>
@@ -62,7 +62,7 @@
                                 </div>
                                 <div>
                                     <label class="ui-label">Due Time: </label>
-                                    <!-- Time Picker -->
+                                    <!-- TIME PICKER -->
                                     <div ng-controller="nodeController">
                                         <timepicker ng-model="mytime" ng-change="changed()" hour-step="hstep" minute-step="mstep" show-meridian="ismeridian"></timepicker>
                                     </div>
@@ -103,7 +103,8 @@
         </div>
 
         <!-- NODE CONTAINER -->
-        <div ng-controller="newController">
+        <div ng-controller="nodeController">
+            <!-- TODO: place nodes on timelines based on associated date/time -->
             <div id="node-container"></div>
         </div>
 

@@ -15,12 +15,13 @@ angular.module('projectManager').controller('nodeController', ['$scope', '$http'
 
     $scope.addNode = function() {
         $scope.visible = !$scope.visible;
-        $http.post('/node/add',{sum:$scope.summary,desc:$scope.description,due:$scope.dt}).success(function(data,status,headers,config) {
-            
-                var nodeHtml = "<button class='node' id="+data.id.toString()+" ng-click='findNode()'></button>";
+        //TODO: fix the date that is attributed to the Node object (currently uses today's date, not picked date)
+        //TODO: make use of the time picker in the Node's date object
+        //TODO: get created Node buttons to call the associated 'findNode' function
+        $http.post('/node/add',{sum:$scope.summary,desc:$scope.description,due:$scope.dt}).success(function(data,status,headers,config) {            
+                var nodeHtml = "<button class='node' id="+data.id.toString()+" ng-click='findNode("+data.id.toString()+")'></button>";
                 $("#node-container").prepend(nodeHtml);
                 console.log($scope.dt);
-
             }).error(console.error);
     };
 
@@ -31,7 +32,7 @@ angular.module('projectManager').controller('nodeController', ['$scope', '$http'
         }).error(console.error);
         console.log("event created")
     };
-    
+
 
     $scope.show = function() {
         $scope.visible = !$scope.visible;
