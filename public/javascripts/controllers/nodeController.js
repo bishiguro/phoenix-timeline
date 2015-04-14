@@ -3,6 +3,9 @@ var app = angular.module('projectManager', []).controller('nodeController', ['$s
     $scope.summary = '';
     $scope.description = '';
     $scope.dueDate = '';
+    $scope.title = '';
+    $scope.starttime = '';
+    $scope.endtime = '';
     $scope.visible = false;
 
     $scope.addNode = function() {
@@ -12,10 +15,21 @@ var app = angular.module('projectManager', []).controller('nodeController', ['$s
             }).error(console.error);
     };
 
+    $scope.addEvent = function() {
+    $http.post('event/',{title:$scope.title,starttime:$scope.starttime,endtime:$scope.endtime}).success(function(data,status,headers,config) {
+            $("#event-container").prepend("<div class='event' id="+data.id+"></div>");
+        }).error(console.error);
+        console.log("event created")
+
+    };
+
     $scope.show = function() {
         $scope.visible = !$scope.visible;
     };
 
 }]);
+
+
+
 
 

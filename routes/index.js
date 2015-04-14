@@ -1,7 +1,10 @@
 var mongoose = require('mongoose');
-var Node = require('.././models/nodeModel.js');
+// var Node = require('.././models/nodeModel.js');
 var path = require('path');
 var routes = {};
+var models = require('.././models/nodeModel');
+var Event = models.Event;
+var Node = models.Node;
 
 
 routes.home = function(req, res) {
@@ -41,6 +44,30 @@ routes.findNode = function(req, res) {
     if (err) {res.sendStatus(500);}
     else {res.send({node:node})}
   })
+}
+
+routes.addEvent = function(req, res) {
+  var title = req.body.title;
+  var starttime = req.body.starttime;
+  var endtime = req.body.endtime;
+  console.log("eventcreated");
+    if (title!=undefined && starttime!=undefined && endtime!=undefined) {
+      console.log("eventadded");
+      var newEvent = new Event({title:title, starttime:starttime, endtime:endtime});
+      console.log(newEvent)
+      newEvent.save(function(err) {
+      // if (err){
+      //     console.error('error making event');
+      //     res.status(500).send("Couldn't add event");
+      // }
+      // res.send(newEvent)
+      
+      if (err) {req.sendStatus(500);}
+          else {res.send({id:newEvent._id});}
+
+      console.log(newEvent)
+    });
+}
 }
 
 module.exports = routes;

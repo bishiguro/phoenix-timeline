@@ -7,4 +7,14 @@ var nodeSchema = mongoose.Schema({
 	dueDate: String
 });
 
-module.exports = mongoose.model('Node', nodeSchema);
+var eventsSchema = mongoose.Schema({
+	title: String,
+	starttime: String,
+	endtime: String
+});
+
+var Event = mongoose.model('Event', eventsSchema);
+module.exports.Event = Event; 
+// module.exports = mongoose.model('Node', nodeSchema);
+var Node = mongoose.model('Node', nodeSchema);
+module.exports.Node = Node; 
