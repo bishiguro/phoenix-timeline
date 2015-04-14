@@ -34,8 +34,11 @@
 
     outline: none;
     text-decoration: none;
+<<<<<<< HEAD
     background-color: transparent;
     border: none;
+=======
+>>>>>>> 8e3e50cc51e6687b569077749ddcc8f683c8cd1f
 }
 
 .ui-button {
@@ -69,7 +72,6 @@
 .ui-control input {
     width: 100%;
 }
-
 
 /* ----- Page Specific CSS ----- */
 html, body {
@@ -267,6 +269,7 @@ input[type="range"]::-webkit-slider-thumb {
     display: inline;
 }
 
+
 .important-btn {
     background-color: #222;
     color: white;
@@ -276,4 +279,8 @@ input[type="range"]::-webkit-slider-thumb {
 
 .block {
     display: block;
+}
+
+.dropdown-menu {
+    padding: 20px;
 }
