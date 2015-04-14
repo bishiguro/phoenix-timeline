@@ -63,4 +63,13 @@ var app = angular.module('projectManager').controller('streamController', ['$sco
             }).error(console.error);
     };
 
+    $scope.closeDialog = function(){
+        var div = document.getElementById("node-dialog");
+        div.parentNode.removeChild(div);
+    };
+
+    $scope.openDialog = function(){
+
+    };
+
 }]);
