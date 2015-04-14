@@ -1,11 +1,11 @@
-var mongoose = require('mongoose');
+var mongoose = require("mongoose");
 
 var schema = mongoose.Schema({
-	title: {type: String, required: true},
+	summary: {type: String, required: true},
 	description: String,
-	deadline: {type: Date, required: true},
-	todos: [{type: mongoose.Schema.ObjectId, ref: 'Todo-List'}]
-	users: [{type: mongoose.Schema.ObjectId, ref: 'User'}],
+	dueDate: {type: Date, required: true},
+	users: [{type: mongoose.Schema.ObjectId, ref: 'User'}]
+	// TODO: todos
 });
 
-module.exports = mongoose.model('Node', schema);
+module.exports.Node = mongoose.model('Node', schema);

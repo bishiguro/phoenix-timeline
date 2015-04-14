@@ -1,12 +1,12 @@
-var mongoose = require('mongoose');
+var mongoose = require("mongoose");
 
 var schema = mongoose.Schema({
-	title: {type: String, required: true},
-	start: {type: Date, required: true},
+	name: {type: String, required: true},
+	beginning: {type: Date, default: Date.now},
 	end: Date,
 	events: [{type: mongoose.Schema.ObjectId, ref: 'Event'}],
 	nodes: [{type: mongoose.Schema.ObjectId, ref: 'Node'}],
-	users: [{type: mongoose.Schema.ObjectId, ref: 'User'}]
+	users: [{type: mongoose.Schema.ObjectId, ref: 'User'}],
 });
 
 module.exports = mongoose.model('Stream', schema);

@@ -1,10 +1,12 @@
-var mongoose = require('mongoose');
+var mongoose = require("mongoose");
+var findOrCreate = require('mongoose-findorcreate');
 
 var schema = mongoose.Schema({
-	username: {type: String, required: true},
-	password: {type: String, required: true},
+	name: {type: String, required: true},
+	stream: {type: mongoose.Schema.ObjectId, ref: 'Stream'},
 	projects: [{type: mongoose.Schema.ObjectId, ref: 'Project'}],
-	stream: {type: mongoose.Schema.ObjectId, ref: 'Stream'}
+	googleId: String
 });
-
+schema.plugin(findOrCreate);
 module.exports = mongoose.model('User', schema);
+
