@@ -5,6 +5,7 @@ var models = require('.././models/nodeModel');
 var Event = models.Event;
 var Node = models.Node;
 
+// TODO: Refactor such that the sendFile is less hacky (express public?)
 routes.home = function(req, res) {
 	if (req.user)
 		res.sendFile(path.join(__dirname, '../views/index.html'));
