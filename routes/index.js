@@ -1,12 +1,12 @@
 var mongoose = require('mongoose');
 
 var path = require("path");
-var Stream = require(path.join(__dirname,"../models/streamModel.js"));
-var User = require(path.join(__dirname,"../models/userModel.js"));
+var Stream = require(path.join(__dirname,"../models/stream"));
+var User = require(path.join(__dirname,"../models/user"));
 
 
 var routes = {};
-var models = require('.././models/nodeModel');
+var models = require('.././models/node');
 var Event = models.Event;
 var Node = models.Node;
 
@@ -54,7 +54,6 @@ routes.findNode = function(req, res) {
 routes.makeStream = function(req, res){
 	var newStream = new Stream({
 		name: req.body.name,
-		beginning: Date.now()//req.body.date,
 	});
 
 	var id = newStream._id;

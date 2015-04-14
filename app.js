@@ -13,7 +13,7 @@ var LocalStrategy = require('passport-local').Strategy;
 
 var GoogleStrategy = require('passport-google-oauth2').Strategy;
 var gcal = require('google-calendar');
-var User = require('./models/userModel');
+var User = require('./models/user');
 var index = require('./routes/index');
 
 // Mongoose, Express
