@@ -35,7 +35,6 @@
     text-transform: uppercase;
 
     outline: none;
-    text-decoration: none;
     background-color: transparent;
     border: none;
 }
@@ -55,7 +54,6 @@
     margin: 10px;
 
     outline: none;
-    text-decoration: none;
 }
 
 .ui-button:hover {
@@ -72,7 +70,7 @@
     width: 100%;
 }
 
-/* ----- Page Specific CSS ----- */
+/* ----- Generic Page CSS ----- */
 html, body {
     height: 100%;
     width: 100%;
@@ -82,6 +80,10 @@ html, body {
     color: #222;
 }
 
+a:link, a:hover, a:active, a:visited { text-decoration: none }
+
+
+/* ----- Element/Class Level CSS ----- */
 #header {
     position: relative;
     display: flex;
@@ -237,10 +239,6 @@ input[type="range"]::-webkit-slider-thumb {
     padding: 10px;
     font-size: 24px;
     text-align: center;
-}
-
-#glogin {
-    text-decoration: none;
 }
 
 #glogin:hover{
