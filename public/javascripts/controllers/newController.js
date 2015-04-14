@@ -1,4 +1,4 @@
-angular.module('projectManager', ['ui.bootstrap']);
+//angular.module('projectManager', ['ui.bootstrap']);
 angular.module('projectManager').controller('newController', ['$scope', '$http', function($scope,$http) {
 
 	//TODO: get Node buttons to call this function
