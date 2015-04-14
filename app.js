@@ -13,7 +13,7 @@ var LocalStrategy = require('passport-local').Strategy;
 
 var GoogleStrategy = require('passport-google-oauth2').Strategy;
 var gcal = require('google-calendar');
-
+var User = require('./models/userModel');
 var index = require('./routes/index');
 
 // Mongoose, Express
@@ -32,17 +32,6 @@ passport.deserializeUser(function(obj, done) {
   done(null, obj);
 });
 
-passport.use(new LocalStrategy(
-  function(username, password, done) {
-    User.findOne({ username: username }, function(err, user) {
-      if (err) { return done(err); }
-      if (!user) { return done(null, false, { message: 'Incorrect username.' }); }
-      if (!user.validPassword(password)) { return done(null, false, { message: 'Incorrect password.' }); }
-      return done(null, user);
-    });
-  }
-));
-
 passport.use(new GoogleStrategy({
     clientID:     process.env.GOOGLE_CLIENT_ID,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
@@ -51,8 +40,11 @@ passport.use(new GoogleStrategy({
   },
 
   function(accessToken, refreshToken, profile, done){
-  	google_calendar = new gcal.GoogleCalendar(accessToken);
-  	return done(null, profile);
+  	//google_calendar = new gcal.GoogleCalendar(accessToken);
+    User.findOrCreate({name: profile.displayName, googleId: profile.id}, function(err, user) {
+      console.log(profile);
+      done(err, user);
+    })
   }
 ));
 

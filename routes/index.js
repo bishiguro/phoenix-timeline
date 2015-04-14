@@ -1,11 +1,9 @@
 var mongoose = require('mongoose');
-// var Node = require('.././models/nodeModel.js');
 var path = require('path');
 var routes = {};
 var models = require('.././models/nodeModel');
 var Event = models.Event;
 var Node = models.Node;
-
 
 routes.home = function(req, res) {
 	if (req.user)
