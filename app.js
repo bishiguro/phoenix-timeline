@@ -13,7 +13,7 @@ var LocalStrategy = require('passport-local').Strategy;
 
 var GoogleStrategy = require('passport-google-oauth2').Strategy;
 var gcal = require('google-calendar');
-var User = require('./models/userModel');
+var User = require('./models/user');
 var index = require('./routes/index');
 
 // Mongoose, Express
@@ -87,8 +87,12 @@ app.get('/auth/google/callback',
         failureRedirect: '/login'
 }));
 
+app.post('/stream/add',index.makeStream);
 app.get('/node/find', index.findNode);
 app.post('/node/add', index.addNode);
+
 app.post('/event', index.addEvent);
 
+
 app.listen(PORT);
+

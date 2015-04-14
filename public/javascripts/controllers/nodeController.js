@@ -7,6 +7,7 @@ angular.module('projectManager').controller('nodeController', ['$scope', '$http'
 
     // Event variables
     $scope.title = '';
+    $scope.dueDate = '';
     $scope.starttime = '';
     $scope.endtime = '';
 
@@ -24,6 +25,10 @@ angular.module('projectManager').controller('nodeController', ['$scope', '$http'
                 console.log('Date: '+$scope.dt);
                 console.log('Time: '+$scope.mytime);
             }).error(console.error);
+
+        $scope.summary = '';
+        $scope.description = '';
+        $scope.dueDate = '';
     };
 
 
@@ -31,7 +36,10 @@ angular.module('projectManager').controller('nodeController', ['$scope', '$http'
         $http.post('event/',{title:$scope.title,starttime:$scope.starttime,endtime:$scope.endtime}).success(function(data,status,headers,config) {
             $("#event-container").prepend("<div class='event' id="+data.id+"></div>");
         }).error(console.error);
-        console.log("event created")
+
+        $scope.title = '';
+        $scope.starttime = '';
+        $scope.endtime = '';
     };
 
 
