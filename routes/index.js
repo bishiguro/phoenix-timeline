@@ -50,20 +50,17 @@ routes.addEvent = function(req, res) {
   var starttime = req.body.starttime;
   var endtime = req.body.endtime;
   console.log("eventcreated");
+  
     if (title!=undefined && starttime!=undefined && endtime!=undefined) {
       console.log("eventadded");
       var newEvent = new Event({title:title, starttime:starttime, endtime:endtime});
       newEvent.save(function(err) {
-      // if (err){
-      //     console.error('error making event');
-      //     res.status(500).send("Couldn't add event");
-      // }
-      // res.send(newEvent)
+		if (err) {req.sendStatus(500);}
+          	else {res.send({id:newEvent._id});
+        }
 
-      if (err) {req.sendStatus(500);}
-          else {res.send({id:newEvent._id});}
+      console.log(newEvent);
 
-      console.log(newEvent)
     });
 }
 }
