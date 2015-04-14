@@ -20,6 +20,10 @@ routes.logout = function(req, res) {
   	res.redirect('/login');
 }
 
+routes.register = function(req, res) {
+	res.sendFile(path.join(__dirname, '../views/register.html'));
+}
+
 routes.addNode = function(req, res) {
 	var sum = req.body.sum;
  	var desc = req.body.desc;
