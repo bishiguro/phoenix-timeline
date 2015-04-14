@@ -9,9 +9,11 @@ var mongoose = require('mongoose');
 var session = require('express-session');
 
 var passport = require('passport');
+var LocalStrategy = require('passport-local').Strategy;
+
 var GoogleStrategy = require('passport-google-oauth2').Strategy;
 var gcal = require('google-calendar');
-
+var User = require('./models/userModel');
 var index = require('./routes/index');
 
 // Mongoose, Express
@@ -38,8 +40,9 @@ passport.use(new GoogleStrategy({
   },
 
   function(accessToken, refreshToken, profile, done){
-  	google_calendar = new gcal.GoogleCalendar(accessToken);
-  	return done(null, profile);
+    User.findOrCreate({name: profile.displayName, googleId: profile.id}, function(err, user) {
+      done(err, user);
+    })
   }
 ));
 
@@ -66,12 +69,18 @@ app.use(passport.session());
 app.get('/', index.home);
 app.get('/login', index.login);
 app.get('/logout', index.logout);
+app.get('/register', index.register);
+
+app.post('/login', 
+  passport.authenticate('local', {
+    successRedirect: '/',
+    failureRedirect: '/login' 
+}));
 
 app.get('/auth/google',
   passport.authenticate('google', { 
     scope: ['profile', 'https://www.googleapis.com/auth/calendar'] 
   }));
-
 app.get('/auth/google/callback',
     passport.authenticate( 'google', {
         successRedirect: '/',

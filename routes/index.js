@@ -3,12 +3,14 @@ var mongoose = require('mongoose');
 var path = require("path");
 var Stream = require(path.join(__dirname,"../models/streamModel.js"));
 var User = require(path.join(__dirname,"../models/userModel.js"));
-var Node = require('.././models/nodeModel.js');
+
 
 var routes = {};
 var models = require('.././models/nodeModel');
 var Event = models.Event;
 var Node = models.Node;
+
+// TODO: Refactor such that the sendFile is less hacky (express public?)
 
 routes.home = function(req, res) {
 	if (req.user)
@@ -24,6 +26,10 @@ routes.login = function(req, res) {
 routes.logout = function(req, res) {
 	req.logout();
   	res.redirect('/login');
+}
+
+routes.register = function(req, res) {
+	res.sendFile(path.join(__dirname, '../views/register.html'));
 }
 
 routes.addNode = function(req, res) {
@@ -60,11 +66,9 @@ routes.makeStream = function(req, res){
     	}
     	else {
     		var id = newStream._id;
-			User.findOne({"id":res.projectId}).exec(function(err,currProj){
-				currProj.streams.push(id);
 			return console.log(id);
-			});
-		}	
+			};
+			
 	});
 	res.json({"id":id});
 }

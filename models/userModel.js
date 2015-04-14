@@ -1,10 +1,14 @@
 var mongoose = require("mongoose");
 
+var findOrCreate = require('mongoose-findorcreate');
+
 var userSchema = mongoose.Schema({
-	streams: [],//this is a workaround so I can test multistream display
-	personal_stream:String,
 	name: String,
-	//password:String
+	googleId: String
+	//stream: {type: Schema.Types.ObjectId, ref: 'Stream'},
+	//projects: [{type: Schema.Types.ObjectId, ref: 'Project'}]
 });
+userSchema.plugin(findOrCreate);
 
 module.exports = mongoose.model('User', userSchema);
+
