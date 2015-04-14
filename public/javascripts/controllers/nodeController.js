@@ -21,7 +21,8 @@ angular.module('projectManager').controller('nodeController', ['$scope', '$http'
         $http.post('/node/add',{sum:$scope.summary,desc:$scope.description,due:$scope.dt}).success(function(data,status,headers,config) {            
                 var nodeHtml = "<button class='node' id="+data.id.toString()+" ng-click='findNode("+data.id.toString()+")'></button>";
                 $("#node-container").prepend(nodeHtml);
-                console.log($scope.dt);
+                console.log('Date: '+$scope.dt);
+                console.log('Time: '+$scope.mytime);
             }).error(console.error);
     };
 
@@ -53,6 +54,7 @@ angular.module('projectManager').controller('nodeController', ['$scope', '$http'
     $scope.today = function() {
         $scope.dt = new Date();
     };
+
     $scope.today();
 
     $scope.clear = function () {
