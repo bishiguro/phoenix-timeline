@@ -1,0 +1,43 @@
+var mongoose = require('mongoose')
+
+var project = new mongoose.Schema({
+	streams:[],
+	users:[]
+})
+
+var stream = new mongoose.Schema({
+	beginning:Number,
+	end:Number,
+	events:[],
+	nodes:[],
+	editors:[]
+})
+
+var node = new mongoose.Schema({
+	description:String,
+	date:String,//should this be a Number instead? It's not like the filter cares.
+	users:[],
+	summary:String,
+	todos:[]
+})
+
+var even = new mongoose.Schema({
+	description:String,
+	start:String,
+	end:String,
+	users:[]
+})
+
+var user = new mongoose.Schema({
+	name:String,
+	password:String,
+	stream:String,//this is a reference to the ID
+	projects:[]
+})
+
+var todos = new mongoose.Schema({
+	description:String,
+	users:[],
+	done:boolean
+})
+
