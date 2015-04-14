@@ -1,20 +1,25 @@
 angular.module('projectManager', ['ui.bootstrap']);
 angular.module('projectManager').controller('nodeController', ['$scope', '$http', function($scope,$http) {
 
+    // Node variables
     $scope.summary = '';
     $scope.description = '';
-    $scope.dueDate = '';
+
+    // Event variables
     $scope.title = '';
     $scope.starttime = '';
     $scope.endtime = '';
+
     $scope.visible = false;
+
 
     $scope.addNode = function() {
         $scope.visible = !$scope.visible;
-        $http.post('/node/add',{sum:$scope.summary,desc:$scope.description,due:$scope.dueDate}).success(function(data,status,headers,config) {
+        $http.post('/node/add',{sum:$scope.summary,desc:$scope.description,due:$scope.dt}).success(function(data,status,headers,config) {
             
                 var nodeHtml = "<button class='node' id="+data.id.toString()+" ng-click='findNode()'></button>";
                 $("#node-container").prepend(nodeHtml);
+                console.log($scope.dt);
 
             }).error(console.error);
     };
@@ -26,6 +31,7 @@ angular.module('projectManager').controller('nodeController', ['$scope', '$http'
         }).error(console.error);
         console.log("event created")
     };
+    
 
     $scope.show = function() {
         $scope.visible = !$scope.visible;
@@ -42,7 +48,7 @@ angular.module('projectManager').controller('nodeController', ['$scope', '$http'
     };
 
 
-    // Date Picker //
+    // DATE PICKER //
     $scope.today = function() {
         $scope.dt = new Date();
     };
@@ -78,8 +84,7 @@ angular.module('projectManager').controller('nodeController', ['$scope', '$http'
     $scope.format = $scope.formats[0];
 
 
-    // Time Picker
-
+    // TIME PICKER //
     $scope.mytime = new Date();
 
     $scope.hstep = 1;
@@ -100,10 +105,6 @@ angular.module('projectManager').controller('nodeController', ['$scope', '$http'
         d.setHours( 14 );
         d.setMinutes( 0 );
         $scope.mytime = d;
-    };
-
-    $scope.changed = function () {
-        $log.log('Time changed to: ' + $scope.mytime);
     };
 
 }]);
