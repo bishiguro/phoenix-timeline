@@ -1,12 +1,11 @@
 var mongoose = require('mongoose');
-// var Node = require('.././models/nodeModel.js');
 var path = require('path');
 var routes = {};
 var models = require('.././models/nodeModel');
 var Event = models.Event;
 var Node = models.Node;
 
-
+// TODO: Refactor such that the sendFile is less hacky (express public?)
 routes.home = function(req, res) {
 	if (req.user)
 		res.sendFile(path.join(__dirname, '../views/index.html'));
@@ -21,6 +20,10 @@ routes.login = function(req, res) {
 routes.logout = function(req, res) {
 	req.logout();
   	res.redirect('/login');
+}
+
+routes.register = function(req, res) {
+	res.sendFile(path.join(__dirname, '../views/register.html'));
 }
 
 routes.addNode = function(req, res) {

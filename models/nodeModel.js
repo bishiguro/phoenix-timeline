@@ -4,7 +4,7 @@ var nodeSchema = mongoose.Schema({
 	//users: String[],
 	description: String,
 	summary: String,
-	dueDate: String
+	dueDate: Date
 });
 
 var eventsSchema = mongoose.Schema({

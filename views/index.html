@@ -18,7 +18,9 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.3.15/angular-route.js"></script>
 
         <!-- Angular Controllers -->
-        <script src="/javascripts/controllers/nodeController.js"></script>        
+        <script src="/javascripts/controllers/newController.js"></script>
+        <script src="/javascripts/controllers/nodeController.js"></script>     
+
     </head>
 
     <body id="body" onload="startUpdates(30000)">
@@ -46,7 +48,22 @@
                                 </div>
                                 <div>
                                     <label class="ui-label">Due Date: </label>
-                                    <input type="text" ng-model="dueDate" name="dueDate">
+                                    <!-- DATE PICKER -->
+                                    <div ng-controller="nodeController">
+                                        <p class="input-group">
+                                          <input type="text" class="form-control" datepicker-popup="{{format}}" ng-model="dt" is-open="opened" min-date="minDate" max-date="'2020-06-22'" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close"/>
+                                          <span class="input-group-btn">
+                                            <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+                                          </span>
+                                        </p>
+                                    </div>
+                                </div>
+                                <div>
+                                    <label class="ui-label">Due Time: </label>
+                                    <!-- TIME PICKER -->
+                                    <div ng-controller="nodeController">
+                                        <timepicker ng-model="mytime" ng-change="changed()" hour-step="hstep" minute-step="mstep" show-meridian="ismeridian"></timepicker>
+                                    </div>
                                 </div>
                                 <div class="full-width">
                                     <button class="inline ui-button" ng-click="addNode();toggleDropdown($event)">Add Node</button>
@@ -84,7 +101,10 @@
         </div>
 
         <!-- NODE CONTAINER -->
-        <div id="node-container"></div>
+        <div ng-controller="nodeController">
+            <!-- TODO: place nodes on timelines based on associated date/time -->
+            <div id="node-container"></div>
+        </div>
 
     </body>
 
