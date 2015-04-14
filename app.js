@@ -80,6 +80,6 @@ app.get('/auth/google/callback',
 
 app.get('/node/find', index.findNode);
 app.post('/node/add', index.addNode);
-
+app.post('/event', index.addEvent);
 
 app.listen(PORT);

@@ -1,4 +1,4 @@
-angular.module('projectManager', []).controller('datepickerController', function ($scope) {
+angular.module('datePicker', []).controller('datepickerController', function ($scope) {
   $scope.today = function() {
     $scope.dt = new Date();
   };

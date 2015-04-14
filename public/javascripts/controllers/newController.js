@@ -1,5 +1,5 @@
-
-var app = angular.module('newApp', []).controller('newController', ['$scope', '$http', function($scope,$http) {
+angular.module('projectManager', ['ui.bootstrap']);
+angular.module('projectManager').controller('newController', ['$scope', '$http', function($scope,$http) {
 
     $scope.findNode = function() {
         console.log('test');
