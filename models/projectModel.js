@@ -1,9 +1,9 @@
 var mongoose = require("mongoose");
 
 var projectSchema = mongoose.Schema({
-	//users: [],
 	name: String,
-	streams:[]
+	streams: [{type: Schema.Types.ObjectId, ref: 'Stream'}]
+	//users: [{type: Schema.Types.ObjectId, ref: 'User'}]
 });
 
 module.exports = mongoose.model('Project', projectSchema);
