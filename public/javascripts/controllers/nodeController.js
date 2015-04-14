@@ -36,7 +36,7 @@ angular.module('projectManager').controller('nodeController', ['$scope', '$http'
         $http.post('event/',{title:$scope.title,starttime:$scope.starttime,endtime:$scope.endtime}).success(function(data,status,headers,config) {
             $("#event-container").prepend("<div class='event' id="+data.id+"></div>");
             var eventHtml = "<button class='event' id="+data.id.toString()+")'></button>";
-            $("#event-container").prepend(eventHtml);
+            $("#node-container").prepend(eventHtml);
         }).error(console.error);
 
         $scope.title = '';
