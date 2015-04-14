@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>Phoenix Timeline - Login</title>
+        <title>Phoenix Timeline - Register</title>
 
         <!-- Linked CSS -->
         <link rel="stylesheet" href="/stylesheets/main.css" />
@@ -14,9 +14,10 @@
 
     </head>
 
+    <!-- TODO: Implement Registration -->
     <body style="background-image: url(/images/crossword.png);" class="flex-parent flex-vcenter flex-hcenter fabrica">
         <div id="login">
-            <div id="login-header">Phoenix Timeline</div>
+            <div id="login-header">Create An Account</div>
             <form id="login-form">
                 <div class="field">
                     <label class="ui-label" for="username">USERNAME</label><br/>
@@ -26,12 +27,8 @@
                     <label class="ui-label" for="password">PASSWORD</label><br/>
                     <input type="password" size=40 class="form-input" id="password">
                 </div>
-                <input id="login-button" type="submit" value="LOGIN" class="ui-label field full-width important-btn">
+                <input type="submit" value="Register"/>
             </form>
-            <div class="full-width centered-text med-dark">- or -</div>
-            <div class="full-width centered-text">
-                <a id="glogin" class="dark ui-label" href="/auth/google">Sign In with Google</a>
-            </div>
         </div>
     </body>
 </html>
