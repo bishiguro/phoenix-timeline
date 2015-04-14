@@ -30,6 +30,35 @@
 
             <div class="side-header-content flex-parent flex-hcenter">
 
+                 <div ng-controller="nodeController">
+                    <div class="dropdown" dropdown is-open="status.isopen">
+                        <a href class="dropdown-toggle ui-button" ng-click="toggleDropdown($event)">
+                            New Event
+                        </a>
+                        <div class="dropdown-menu" ng-click="$event.stopPropagation()">
+                            <div id='node-creation-form' class="ui-control flex-parent flex-hcenter">
+                                <div>
+                                    <label class="ui-label">Summary: </label>
+                                    <input type="text" ng-model="title" name="summary">
+                                </div>
+                                <div>
+                                    <label class="ui-label">Start Time </label>
+                                    <input type="text" ng-model="starttime" name="starttime">
+                                </div>
+                                <div>
+                                    <label class="ui-label">End Time: </label>
+                                    <input type="text" ng-model="endtime" name="endtime">
+                                </div>
+                                <div class="full-width">
+                                    <button class="inline ui-button" ng-click="addEvent();toggleDropdown($event)">Add Event</button>
+                                    <button class="inline ui-button"  ng-click="toggleDropdown($event)">Cancel</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
                 <!-- NODE FORM -->
                 <div ng-controller="nodeController">
                     <div class="dropdown" dropdown is-open="status.isopen">
@@ -73,7 +102,6 @@
                         </div>
                     </div>
                 </div>
-
             </div>
 
             <h1 id="header-title" class="lane centered-text">Phoenix Timeline</h1>
