@@ -1,5 +1,5 @@
 
-var app = angular.module('projectManager', []).controller('nodeController', ['$scope', '$http', function($scope,$http) {
+var app = angular.module('projectManager', []).controller('nodeController', ['$scope', '$http','$compile', function($scope,$http,$compile) {
     $scope.summary = '';
     $scope.description = '';
     $scope.dueDate = '';
@@ -8,7 +8,10 @@ var app = angular.module('projectManager', []).controller('nodeController', ['$s
     $scope.addNode = function() {
         $scope.visible = !$scope.visible;
         $http.post('/node/add',{sum:$scope.summary,desc:$scope.description,due:$scope.dueDate}).success(function(data,status,headers,config) {
-                $("#node-container").prepend("<button class='node' id="+data.id.toString()+" ng-click='findNode("+data.id.toString()+")'></button>");
+            
+                var nodeHtml = "<button class='node' id="+data.id.toString()+" ng-click='findNode()'></button>";
+                $("#node-container").prepend(nodeHtml);
+
             }).error(console.error);
     };
 
