@@ -42,8 +42,6 @@ routes.findNode = function(req, res) {
 }
 
 routes.makeStream = function(req, res){
-	
-
 	var newStream = new Stream({
 		name:req.body.name,
 		beginning:req.body.date
