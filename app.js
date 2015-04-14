@@ -30,18 +30,18 @@ passport.deserializeUser(function(obj, done) {
   done(null, obj);
 });
 
-passport.use(new GoogleStrategy({
-    clientID:     process.env.GOOGLE_CLIENT_ID,
-    clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    callbackURL: "http://localhost:3000/auth/google/callback", // TODO: replace with deployed url
-    scope: ['openid', 'email', 'https://www.googleapis.com/auth/calendar']
-  },
+// passport.use(new GoogleStrategy({
+//     clientID:     process.env.GOOGLE_CLIENT_ID,
+//     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+//     callbackURL: "http://localhost:3000/auth/google/callback", // TODO: replace with deployed url
+//     scope: ['openid', 'email', 'https://www.googleapis.com/auth/calendar']
+//   },
 
-  function(accessToken, refreshToken, profile, done){
-  	google_calendar = new gcal.GoogleCalendar(accessToken);
-  	return done(null, profile);
-  }
-));
+//   function(accessToken, refreshToken, profile, done){
+//   	google_calendar = new gcal.GoogleCalendar(accessToken);
+//   	return done(null, profile);
+//   }
+// ));
 
 app.set('views', __dirname + '/');
 
@@ -67,16 +67,16 @@ app.get('/', index.home);
 app.get('/login', index.login);
 app.get('/logout', index.logout);
 
-app.get('/auth/google',
-  passport.authenticate('google', { 
-    scope: ['profile', 'https://www.googleapis.com/auth/calendar'] 
-  }));
+// app.get('/auth/google',
+//   passport.authenticate('google', { 
+//     scope: ['profile', 'https://www.googleapis.com/auth/calendar'] 
+//   }));
 
-app.get('/auth/google/callback',
-    passport.authenticate( 'google', {
-        successRedirect: '/',
-        failureRedirect: '/login'
-}));
+// app.get('/auth/google/callback',
+//     passport.authenticate( 'google', {
+//         successRedirect: '/',
+//         failureRedirect: '/login'
+// }));
 
 app.get('/node/find', index.findNode);
 app.post('/node/add', index.addNode);

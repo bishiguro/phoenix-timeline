@@ -27,8 +27,17 @@ var app = angular.module('projectManager', []).controller('nodeController', ['$s
         $scope.visible = !$scope.visible;
     };
 
+
+
 }]);
 
+
+ var app = angular.module('dateInputExample', [])
+     .controller('DateController', ['$scope', function($scope) {
+       $scope.example = {
+         value: new Date(2013, 9, 22)
+       };
+     }])
 
 
 
