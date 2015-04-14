@@ -7,9 +7,9 @@ var Node = models.Node;
 
 // TODO: Refactor such that the sendFile is less hacky (express public?)
 routes.home = function(req, res) {
-	if (req.user)
+	// if (req.user)
 		res.sendFile(path.join(__dirname, '../views/index.html'));
-	else res.redirect('/login');
+	// else res.redirect('/login');
 }
 
 routes.login = function(req, res) {
