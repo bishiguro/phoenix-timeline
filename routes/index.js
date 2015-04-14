@@ -54,7 +54,7 @@ routes.findNode = function(req, res) {
 routes.makeStream = function(req, res){
 	var newStream = new Stream({
 		name: req.body.name,
-		beginning: Date.now()//req.body.date,
+		beginning: Date.now()
 	});
 
 	var id = newStream._id;
