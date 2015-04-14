@@ -1,18 +1,35 @@
 
 
-var app = angular.module('projectManager').controller('streamButtonController', ['$scope','$http','streamList',function($scope,$http,streamList) {
+var app = angular.module('projectManager').controller('streambuttonController', ['$scope','$http','streamList',function($scope,$http,streamList) {
 
 	$scope.name='';
     $scope.endDate='';
     $scope.date = new Date();
     $scope.streams = streamList.getList();
+    $scope.visible = false;
 
     $scope.createStream = function() {
-        $http.post('/stream/add',{name:$scope.name,endDate:$scope.endDate, date:date.now()}).success(function(data,status,headers,config) {
+    	console.log($scope.name);
+    	//$scope.start = $scope.date.now();
+        $http.post('/stream/add',{name:$scope.name,endDate:$scope.endDate}).success(function(data,status,headers,config) {
                 console.log(data);
-                $scope.streams.push(data.id);
+                $scope.streams.push({id:data.id,name:$scope.name});
             }).error(console.error);
 
+    };
+
+    $scope.show = function() {
+        $scope.visible = !$scope.visible;
+    };
+
+    $scope.status = {
+        isopen: false
+    };
+
+    $scope.toggleDropdown = function($event) {
+        $event.preventDefault();
+        $event.stopPropagation();
+        $scope.status.isopen = !$scope.status.isopen;
     };
 }]);
 
