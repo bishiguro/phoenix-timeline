@@ -40,9 +40,7 @@ passport.use(new GoogleStrategy({
   },
 
   function(accessToken, refreshToken, profile, done){
-  	//google_calendar = new gcal.GoogleCalendar(accessToken);
     User.findOrCreate({name: profile.displayName, googleId: profile.id}, function(err, user) {
-      console.log(profile);
       done(err, user);
     })
   }
