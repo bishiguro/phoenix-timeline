@@ -1,20 +1,11 @@
 var mongoose = require("mongoose");
 
-var nodeSchema = mongoose.Schema({
-	//users: String[],
+var schema = mongoose.Schema({
+	summary: {type: String, required: true},
 	description: String,
-	summary: String,
-	dueDate: Date
+	dueDate: {type: Date, required: true},
+	users: [{type: mongoose.Schema.ObjectId, ref: 'User'}]
+	// TODO: todos
 });
 
-var eventsSchema = mongoose.Schema({
-	title: String,
-	starttime: String,
-	endtime: String
-});
-
-var Event = mongoose.model('Event', eventsSchema);
-module.exports.Event = Event;
-// module.exports = mongoose.model('Node', nodeSchema);
-var Node = mongoose.model('Node', nodeSchema);
-module.exports.Node = Node;
+module.exports.Node = mongoose.model('Node', schema);

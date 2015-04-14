@@ -1,13 +1,12 @@
 var mongoose = require("mongoose");
-var Schema = mongoose.Schema;
 
-var projectSchema = mongoose.Schema({
-	name: String,
-	streams: [{type: Schema.Types.ObjectId, ref: 'Stream'}]
-	//users: [{type: Schema.Types.ObjectId, ref: 'User'}]
+var schema = mongoose.Schema({
+	name: {type: String, required: true},
+	streams: [{type: mongoose.Schema.ObjectId, ref: 'Stream'}],
+	users: [{type: mongoose.Schema.ObjectId, ref: 'User'}]
 });
 
-module.exports = mongoose.model('Project', projectSchema);
+module.exports = mongoose.model('Project', schema);
 
 
 

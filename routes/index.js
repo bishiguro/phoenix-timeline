@@ -53,9 +53,8 @@ routes.findNode = function(req, res) {
 
 routes.makeStream = function(req, res){
 	var newStream = new Stream({
-		name:req.body.name,
-		beginning:req.body.date,
-		//project:req.project,
+		name: req.body.name,
+		beginning: Date.now()//req.body.date,
 	});
 
 	var id = newStream._id;
@@ -66,7 +65,6 @@ routes.makeStream = function(req, res){
     	}
     	else {
     		var id = newStream._id;
-			return console.log(id);
 			};
 			
 	});
