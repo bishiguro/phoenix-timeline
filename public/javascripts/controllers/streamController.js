@@ -9,10 +9,8 @@ var app = angular.module('projectManager').controller('streambuttonController', 
     $scope.visible = false;
 
     $scope.createStream = function() {
-    	console.log($scope.name);
     	//$scope.start = $scope.date.now();
         $http.post('/stream/add',{name:$scope.name,endDate:$scope.endDate}).success(function(data,status,headers,config) {
-                console.log(data);
                 $scope.streams.push({id:data.id,name:$scope.name});
             }).error(console.error);
 
