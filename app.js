@@ -93,7 +93,7 @@ app.get('/auth/google/callback',
 }));
 
 app.post('/stream/add',index.makeStream);
-app.get('/node/find', index.findNode);
+app.get('/node/find/:id', index.findNode);
 app.post('/node/add', index.addNode);
 
 app.post('/event', index.addEvent);

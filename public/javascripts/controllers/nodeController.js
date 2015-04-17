@@ -23,15 +23,12 @@ angular.module('projectManager').controller('nodeController', ['$scope', '$http'
             }).error(console.error);
     };
 
-    //TODO: get Node buttons to call this function
     //TODO: use this function to display Node details
-    $scope.findNode = function(id) {
-        console.log('test');
-        $http.get('/node/find',{id:id}).success(function(data,status,headers,config) {
-                console.log(data.node.summary);
-                console.log(data.node.description);
-                console.log(data.node.dueDate);
-                console.log('test2');
+    $scope.showDetails = function(id) {     
+        $http.get('/node/find/'+id).success(function(data,status,headers,config) {
+                console.log('Summary: '+data.node.summary);
+                console.log('Description: '+data.node.description);
+                console.log('Due Date: '+data.node.dueDate);
             }).error(console.error);
     };
 
