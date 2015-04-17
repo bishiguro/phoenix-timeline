@@ -1,12 +1,17 @@
+<div class="stream-container" ng-controller="streamController">
 
-<div class="streambox" ng-controller="streamController">
-<font color="black">{{stream.name}}</font>
-	<div class = "eventbox" style ="height:20px;background-color:blue">
-	</div>
+    <div id="left-stream-bar" class="stream"></div>
 
-	<div class = "stream" style="background-color:red;height:3px">
-	</div>
+    <div class="stream-label">{{stream.name}}</div>
 
-	<div class = "nodebox" style="height:20px;background-color:blue" ng-click="createNodeDialog($event)">
-	</div>
+    <div class="event-container">
+        <!-- Events will appear here -->
+    </div>
+
+    <div class="stream"></div>
+
+    <div class = "node-container" ng-click="addNode()">
+        <!-- Nodes will appear here -->
+    </div>
+
 </div>
