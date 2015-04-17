@@ -9,6 +9,7 @@ angular.module('projectManager').controller('nodeButtonController', ['$scope', '
                 console.log(data.node.summary);
                 console.log(data.node.description);
                 console.log(data.node.dueDate);
+                console.log('what');
             }).error(console.error);
     };
 
