@@ -217,13 +217,6 @@ input[type="range"]::-webkit-slider-thumb {
     text-align: left;
 }
 
-#node-container {
-    top: 125px;
-    left: 50px;
-    position: absolute;
-    width: 100%;
-}
-
 .form-input {
     padding: .5rem 0.5rem 0.5rem;
     font-size: 1rem;
@@ -346,13 +339,10 @@ input[type="range"]::-webkit-slider-thumb {
     width: 5%;
 }
 
-.stream-item-container {
-
-}
-
 .item {
     position: absolute;
-    left: 500px;
     top: 50%;
-    transform: translate(0, -50%);
 }
+
+.node { transform: translate(-50%, -50%); }
+.event { transform: translate(0, -50%); }
