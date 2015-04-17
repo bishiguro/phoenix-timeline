@@ -34,13 +34,13 @@
 
             <div class="side-header-content flex-parent flex-hcenter">
 
-                 <div ng-controller="nodeController">
+                <div ng-controller="nodeController">
                     <div class="dropdown" dropdown is-open="status.isopen">
                         <a href class="dropdown-toggle ui-button" ng-click="toggleDropdown($event)">
                             New Event
                         </a>
                         <div class="dropdown-menu" ng-click="$event.stopPropagation()">
-                            <div id='node-creation-form' class="ui-control flex-parent flex-hcenter">
+                            <div id='event-creation-form' class="ui-control flex-parent flex-hcenter">
                                 <div>
                                     <label class="ui-label">Summary: </label>
                                     <input type="text" ng-model="title" name="summary">
@@ -64,7 +64,7 @@
 
 
                 <!-- NODE FORM -->
-      
+
                 <div ng-controller="nodeController">
                     <div class="dropdown" dropdown is-open="status.isopen">
                         <a href class="dropdown-toggle ui-button" ng-click="toggleDropdown($event)">
@@ -85,10 +85,10 @@
                                     <!-- DATE PICKER -->
                                     <div ng-controller="nodeController">
                                         <p class="input-group">
-                                          <input type="text" class="form-control" datepicker-popup="{{format}}" ng-model="dt" is-open="opened" min-date="minDate" max-date="'2020-06-22'" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close"/>
-                                          <span class="input-group-btn">
-                                            <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
-                                          </span>
+                                            <input type="text" class="form-control" datepicker-popup="{{format}}" ng-model="dt" is-open="opened" min-date="minDate" max-date="'2020-06-22'" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close"/>
+                                            <span class="input-group-btn">
+                                                <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+                                            </span>
                                         </p>
                                     </div>
                                 </div>
@@ -118,10 +118,6 @@
                                 <div>
                                     <label class="ui-label">Name: </label>
                                     <input type="text" ng-model="name" name="name">
-                                </div>
-                                <div>
-                                    <label class="ui-label">End Date: </label>
-                                    <input type="text" ng-model="endDate" name="endDate">
                                 </div>
                                 <div class="full-width">
                                     <button class="inline ui-button" ng-click="createStream();toggleDropdown($event)">Add Stream</button>
@@ -156,9 +152,9 @@
                     <!-- Hour ticks are generated here -->
                 </ul>
             </div>
-            <div ng-controller="streamController">
+            <div ng-controller="streamlistController">
                 <div ng-repeat = 'stream in streams'>
-                <ng-include src="'stream.html'"></ng-include>
+                    <ng-include src="'stream.html'"></ng-include>
                 </div>
             </div> 
         </div>

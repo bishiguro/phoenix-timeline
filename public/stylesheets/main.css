@@ -160,28 +160,13 @@ input[type="range"]::-webkit-slider-thumb {
     height: 1.5rem;
 }
 
-.node {
-    width: 25px;
-    height: 25px;
-    border: 1px solid #aaa;
-    border-radius: 25px;
-    background-color: cornflowerblue;
-}
-
-.node:hover{
-    background-color: #5077BE;
-}
-
-.node:active{
-    background-color: #A2BFF4;
-}
-
 #hour-tick-list {
     margin: 0 0 1rem 0;
     padding: 0;
     width: 100%;
     white-space: nowrap;
     overflow: hidden;
+    position: relative;
 }
 
 .hour-tick {
@@ -195,13 +180,6 @@ input[type="range"]::-webkit-slider-thumb {
     padding-top: .5rem;
     padding-left: .5rem;
     text-align: left;
-}
-
-#node-container {
-    top: 125px;
-    left: 50px;
-    position: absolute;
-    width: 100%;
 }
 
 .form-input {
@@ -297,3 +275,61 @@ input[type="range"]::-webkit-slider-thumb {
     margin-top: .5rem;
     display: block;
 }
+
+.stream-container {
+    position: relative;
+    margin-top: 2rem;
+    display: flex;
+    align-items: center;
+}
+
+.stream-label {
+    font-size: 1.5rem;
+    font-family: source-sans-pro;
+    text-transform: uppercase;
+    color: #222;
+
+    margin: 1rem;
+    flex: 1 0 auto;
+}
+
+.stream {
+    border-top: 1px solid #222;
+    border-bottom: 1px solid #999;
+    flex: 0 1 95%;
+}
+
+#left-stream-bar {
+    flex: none;
+    width: 5%;
+}
+
+.item {
+    position: absolute;
+    top: 50%;
+}
+
+.node {
+    width: 25px;
+    height: 25px;
+
+    border: 2px solid #222;
+    border-radius: 25px;
+
+    background-color: white;
+    transform: translate(-50%, -50%);
+    z-index: 10;
+}
+
+.node:hover{ background-color: #AAA; }
+.node:active{ background-color: #222; }
+
+.event {
+    transform: translate(0, -50%);
+    height: 100%;
+    background-color: cornflowerblue;
+    z-index: 0;
+}
+
+.event:hover{ background-color: #5077BE; }
+.event:active{ background-color: #A2BFF4; }
