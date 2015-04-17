@@ -20,11 +20,11 @@
 
         <!-- Angular Controllers -->
         <script src="/javascripts/controllers/nodeController.js"></script>    
-        <script src="/javascripts/controllers/streamController.js"></script>  
-        <script src="/javascripts/controllers/newController.js"></script> 
+        <script src="/javascripts/controllers/streamController.js"></script>
 
         <!--Angular services-->
-        <script src="/javascripts/services/streamService.js"></script>     
+        <script src="/javascripts/services/streamService.js"></script>
+        <script src="/javascripts/services/nodeService.js"></script>  
     </head>
 
     <body id="body" onload="startUpdates(30000)">
@@ -66,7 +66,6 @@
 
                 <!-- NEW NODE -->
                 <div ng-controller="nodeController" class="col-md-4">
-
                     <div class="dropdown" dropdown is-open="status.isopen">
                         <a href class="dropdown-toggle ui-button" ng-click="toggleDropdown($event)">
                             New Node
@@ -85,22 +84,18 @@
                                     <label class="ui-label">Due Date: </label>
 
                                     <!-- DATE PICKER -->
-                                    <div ng-controller="nodeController">
-                                        <p class="input-group">
-                                            <input type="text" class="form-control" datepicker-popup="{{format}}" ng-model="dt" is-open="opened" min-date="minDate" max-date="'2020-06-22'" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close"/>
-                                            <span class="input-group-btn">
-                                                <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
-                                            </span>
-                                        </p>
-                                    </div>
+                                    <p class="input-group">
+                                      <input type="text" class="form-control" datepicker-popup="{{format}}" ng-model="dt" is-open="opened" min-date="minDate" max-date="'2020-06-22'" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close"/>
+                                      <span class="input-group-btn">
+                                        <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+                                      </span>
+                                    </p>
                                 </div>
                                 <div>
                                     <label class="ui-label">Due Time: </label>
 
                                     <!-- TIME PICKER -->
-                                    <div ng-controller="nodeController">
-                                        <timepicker ng-model="mytime" ng-change="changed()" hour-step="hstep" minute-step="mstep" show-meridian="ismeridian"></timepicker>
-                                    </div>
+                                    <timepicker ng-model="mytime" ng-change="changed()" hour-step="hstep" minute-step="mstep" show-meridian="ismeridian"></timepicker>
                                 </div>
                                 <div class="full-width">
                                     <button class="inline ui-button" ng-click="addNode();toggleDropdown($event)">Add Node</button>
@@ -164,17 +159,21 @@
                     <!-- Hour ticks are generated here -->
                 </ul>
             </div>
+
+            <!-- STREAM CONTAINER -->
             <div ng-controller="streamlistController">
                 <div ng-repeat = 'stream in streams'>
                     <ng-include src="'stream.html'"></ng-include>
                 </div>
-            </div> 
-        </div>
-
-        <!-- NODE CONTAINER -->
-        <div ng-controller="nodeController">
+            </div>
+            <!-- NODE CONTAINER -->
             <!-- TODO: place nodes on timelines based on associated date/time -->
-            <div id="node-container"></div>
+            <div ng-controller="nodeController">
+                <div ng-repeat = 'node in nodes'>
+                <ng-include src="'node.html'"><ng-include>
+                </div>
+            </div>
+        </div>
         </div>
 
     </body>
