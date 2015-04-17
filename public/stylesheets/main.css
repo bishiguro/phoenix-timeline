@@ -30,12 +30,11 @@
 .ui-label {
     font-family: source-sans-pro;
     color: #999;
-    font-size: 0.92rem;
-    padding: 5px 5px 0px 5px;
+    font-size: 0.7rem;
     text-transform: uppercase;
 
-    outline: none;
     background-color: transparent;
+    outline: none;
     border: none;
 }
 
@@ -274,6 +273,13 @@ input[type="range"]::-webkit-slider-thumb {
 .spacer {
     margin-top: .5rem;
     display: block;
+}
+
+.ui-link {
+    font-family: source-sans-pro;
+    font-weight: 700;
+    font-size: 1rem;
+    color: #444;
 }
 
 .stream-container {
