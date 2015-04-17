@@ -1,14 +1,12 @@
 var mongoose = require('mongoose');
 
+var routes = {};
 var path = require("path");
+
 var Stream = require(path.join(__dirname,"../models/stream"));
 var User = require(path.join(__dirname,"../models/user"));
-
-
-var routes = {};
-var models = require('.././models/node');
-var Event = models.Event;
-var Node = models.Node;
+var Event = require(path.join(__dirname,"../models/event"));
+var Node = require(path.join(__dirname,"../models/node"));
 
 // TODO: Refactor such that the sendFile is less hacky (express public?)
 
