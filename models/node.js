@@ -8,4 +8,4 @@ var schema = mongoose.Schema({
 	// TODO: todos
 });
 
-module.exports.Node = mongoose.model('Node', schema);
+module.exports = mongoose.model('Node', schema);
