@@ -62,7 +62,8 @@ function hourToDate(hour) {
 
 function updateItemTime() {
     var items = document.querySelectorAll('.item');
-    for (var i=0; i < items.length; items++) {
+    console.log(items)
+    for (var i=0; i < items.length; i++) {
         items[i].style.left = xPosForDate(items[i].getAttribute('data-start-date')) + 'px';
     }
 }
