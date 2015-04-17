@@ -1,13 +1,18 @@
 
-<div class="streambox">
-<link rel="stylesheet" href="/stylesheets/main.css"/>
-<font color="black">{{stream.name}}</font>
-	<div class = "eventbox" style ="height:20px">
-	</div>
+<div class="stream-container">
 
-	<div class = "stream" style="background-color:red;height:3px">
-	</div>
+    <div id="left-stream-bar" class="stream"></div>
 
-	<div class = "nodebox" style="height:20px" ng-click="addNode()">
-	</div>
+    <div class="stream-label">{{stream.name}}</div>
+
+    <div class="event-container">
+        <!-- Events will appear here -->
+    </div>
+
+    <div class="stream"></div>
+
+    <div class = "node-container" ng-click="addNode()">
+        <!-- Nodes will appear here -->
+    </div>
+
 </div>
