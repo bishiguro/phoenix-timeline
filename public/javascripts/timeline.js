@@ -62,22 +62,19 @@ function hourToDate(hour) {
 
 function updateItemTime() {
     var items = document.querySelectorAll('.item');
-    console.log(items)
     for (var i=0; i < items.length; i++) {
-        items[i].style.left = xPosForDate(items[i].getAttribute('data-start-date')) + 'px';
+        items[i].style.left = xPos2Date(items[i].getAttribute('data-start-date')) + 'px';
     }
 }
 
-function formatHours(hour) {
-    return hourToDate(hour).format("hT");
-}
+function formatHours(hour) { return hourToDate(hour).format("hT"); }
 
 function startUpdates(ms_interval) {
     updateTicks();
     setInterval(function () {updateTicks()}, ms_interval);
 }
 
-function dateAtXPos(xpos) {
+function date2XPos(xpos) {
     // Calculate the time in hours relative to now
     var rel_time = (xpos - this.now_offset) / this.hour_width;
     var d = new Date();
@@ -85,7 +82,7 @@ function dateAtXPos(xpos) {
     return d;
 }
 
-function xPosForDate(date) {
+function xPos2Date(date) {
     var date = new Date(date);
     return this.now_offset + this.hour_width * ((date - new Date()) / MS_PER_HOUR);
 }
