@@ -163,17 +163,19 @@ input[type="range"]::-webkit-slider-thumb {
 .node {
     width: 25px;
     height: 25px;
-    border: 1px solid #aaa;
+
+    border: 2px solid #222;
     border-radius: 25px;
-    background-color: cornflowerblue;
+
+    background-color: white;
 }
 
 .node:hover{
-    background-color: #5077BE;
+    background-color: #AAA;
 }
 
 .node:active{
-    background-color: #A2BFF4;
+    background-color: #222;
 }
 
 .event {
@@ -342,4 +344,15 @@ input[type="range"]::-webkit-slider-thumb {
 #left-stream-bar {
     flex: none;
     width: 5%;
+}
+
+.stream-item-container {
+
+}
+
+.item {
+    position: absolute;
+    left: 500px;
+    top: 50%;
+    transform: translate(0, -50%);
 }
