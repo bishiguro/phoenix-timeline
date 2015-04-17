@@ -315,3 +315,31 @@ input[type="range"]::-webkit-slider-thumb {
     margin-top: .5rem;
     display: block;
 }
+
+.stream-container {
+    position: relative;
+    margin-top: 1rem;
+    display: flex;
+    align-items: center;
+}
+
+.stream-label {
+    font-size: 1.5rem;
+    font-family: source-sans-pro;
+    text-transform: uppercase;
+    color: #222;
+
+    margin: 1rem;
+    flex: 1 0 auto;
+}
+
+.stream {
+    border-top: 1px solid #222;
+    border-bottom: 1px solid #999;
+    flex: 0 1 95%;
+}
+
+#left-stream-bar {
+    flex: none;
+    width: 5%;
+}
