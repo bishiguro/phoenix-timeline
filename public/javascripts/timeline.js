@@ -31,6 +31,8 @@ function updateTicks () {
         hour_tick.style.left = this.initial_offset + "px";
         hour_tick_list.appendChild(hour_tick);
     }
+
+    updateItemTime();
 }
 
 function createHourTick (value) {
@@ -58,6 +60,13 @@ function hourToDate(hour) {
     return now;
 }
 
+function updateItemTime() {
+    var items = document.querySelectorAll('.item');
+    for (var i=0; i < items.length; items++) {
+        items[i].style.left = xPosForDate(items[i].getAttribute('data-start-date')) + 'px';
+    }
+}
+
 function formatHours(hour) {
     return hourToDate(hour).format("hT");
 }
@@ -67,10 +76,15 @@ function startUpdates(ms_interval) {
     setInterval(function () {updateTicks()}, ms_interval);
 }
 
-function timeAtXPos(xpos) {
+function dateAtXPos(xpos) {
     // Calculate the time in hours relative to now
     var rel_time = (xpos - this.now_offset) / this.hour_width;
     var d = new Date();
     d.setMilliseconds(MS_PER_HOUR * rel_time);
     return d;
+}
+
+function xPosForDate(date) {
+    var date = new Date(date);
+    return this.now_offset + this.hour_width * ((date - new Date()) / MS_PER_HOUR);
 }

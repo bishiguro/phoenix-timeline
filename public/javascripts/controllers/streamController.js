@@ -45,14 +45,14 @@ var app = angular.module('projectManager').controller('streamController', ['$sco
     
     $scope.createNodeDialog = function($event) {
         var time = timeAtXPos($event.pageX);
-        var html = /* HTML GOES HERE */ ;
+        var html = /* HTML GOES HERE */ 'html';
         //var relX = $event.pageX - $event.target.offsetLeft;
         this.nodeDialog = $event.target.appendChild(html);
         this.nodeDialog.style.position = 'absolute';
         this.nodeDialog.style.left = $event.pageX + 'px';
     }
 
-    $scope.addNode = function() {
+    $scope.addStreamItem = function() {
         //$scope.visible = !$scope.visible;
         //TODO: fix the date that is attributed to the Node object (currently uses today's date, not picked date)
         //TODO: make use of the time picker in the Node's date object

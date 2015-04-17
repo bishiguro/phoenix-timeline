@@ -1,17 +1,9 @@
-<div class="stream-container" ng-controller="streamController">
+<div class="stream-container" ng-controller="streamController" onclick="console.log(dateAtXPos(event.pageX))">
 
     <div id="left-stream-bar" class="stream"></div>
-
     <div class="stream-label">{{stream.name}}</div>
+    <div class="stream" ng-click="addStreamItem()"></div>
 
-    <div class="event-container">
-        <!-- Events will appear here -->
-    </div>
-
-    <div class="stream"></div>
-
-    <div class = "node-container" ng-click="addNode()">
-        <!-- Nodes will appear here -->
-    </div>
+    <div class="item node" data-start-date="Fri Apr 17 2015 18:21:28 GMT-0400 (EDT)"></div>
 
 </div>
