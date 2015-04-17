@@ -1,49 +1,48 @@
 angular.module('projectManager', ['ui.bootstrap']);
-angular.module('projectManager').controller('nodeController', ['$scope', '$http', function($scope,$http) {
+angular.module('projectManager').controller('nodeController', ['$scope', '$http', 'nodeList', function($scope,$http,nodeList) {
 
     // Node variables
     $scope.summary = '';
     $scope.description = '';
+    $scope.dueDate = '';
+    $scope.nodes = nodeList.getList();
 
     // Event variables
     $scope.title = '';
-    $scope.dueDate = '';
     $scope.starttime = '';
     $scope.endtime = '';
 
-    $scope.visible = false;
-
 
     $scope.addNode = function() {
-        $scope.visible = !$scope.visible;
-        //TODO: fix the date that is attributed to the Node object (currently uses today's date, not picked date)
         //TODO: make use of the time picker in the Node's date object
-        //TODO: get created Node buttons to call the associated 'findNode' function
-        $http.post('/node/add',{sum:$scope.summary,desc:$scope.description,due:$scope.dt}).success(function(data,status,headers,config) {            
-                var nodeHtml = "<button class='node' id="+data.id.toString()+" ng-click='findNode("+data.id.toString()+")'></button>";
-                $("#node-container").prepend(nodeHtml);
-                console.log($scope.dt);
+        $http.post('/node/add',{sum:$scope.summary,desc:$scope.description,due:$scope.dt}).success(function(data,status,headers,config) {
+                $scope.nodes.push({id:data.id.toString()});
+                $scope.summary = '';
+                $scope.description = '';
+                $scope.dueDate = '';
             }).error(console.error);
-
-        $scope.summary = '';
-        $scope.description = '';
-        $scope.dueDate = '';
     };
 
+    //TODO: use this function to display Node details
+    $scope.showDetails = function(id) {     
+        $http.get('/node/find/'+id).success(function(data,status,headers,config) {
+                console.log('Summary: '+data.node.summary);
+                console.log('Description: '+data.node.description);
+                console.log('Due Date: '+data.node.dueDate);
+            }).error(console.error);
+    };
 
     $scope.addEvent = function() {
+        $scope.visible = !$scope.visible;
         $http.post('event/',{title:$scope.title,starttime:$scope.starttime,endtime:$scope.endtime}).success(function(data,status,headers,config) {
             $("#event-container").prepend("<div class='event' id="+data.id+"></div>");
+            var eventHtml = "<button class='event' id="+data.id.toString()+")'></button>";
+            $("#node-container").prepend(eventHtml);
         }).error(console.error);
 
         $scope.title = '';
         $scope.starttime = '';
         $scope.endtime = '';
-    };
-
-
-    $scope.show = function() {
-        $scope.visible = !$scope.visible;
     };
 
     $scope.status = {
@@ -61,6 +60,7 @@ angular.module('projectManager').controller('nodeController', ['$scope', '$http'
     $scope.today = function() {
         $scope.dt = new Date();
     };
+
     $scope.today();
 
     $scope.clear = function () {

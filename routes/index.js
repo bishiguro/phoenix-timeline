@@ -1,14 +1,12 @@
 var mongoose = require('mongoose');
 
-var path = require("path");
-var Stream = require(path.join(__dirname,"../models/streamModel.js"));
-var User = require(path.join(__dirname,"../models/userModel.js"));
-
-
 var routes = {};
-var models = require('.././models/nodeModel');
-var Event = models.Event;
-var Node = models.Node;
+var path = require("path");
+
+var Stream = require(path.join(__dirname,"../models/stream"));
+var User = require(path.join(__dirname,"../models/user"));
+var Event = require(path.join(__dirname,"../models/event"));
+var Node = require(path.join(__dirname,"../models/node"));
 
 // TODO: Refactor such that the sendFile is less hacky (express public?)
 
@@ -41,10 +39,10 @@ routes.addNode = function(req, res) {
   		else {res.send({id:newNode._id});}
    console.log(newNode)
 	});
- }
+}
 
 routes.findNode = function(req, res) {
-  var id = req.body.id;
+  var id = req.params.id;
   Node.findById(id,function(err,node){
     if (err) {res.sendStatus(500);}
     else {res.send({node:node})}
@@ -53,9 +51,7 @@ routes.findNode = function(req, res) {
 
 routes.makeStream = function(req, res){
 	var newStream = new Stream({
-		name:req.body.name,
-		beginning:req.body.date,
-		//project:req.project,
+		name: req.body.name,
 	});
 
 	var id = newStream._id;
@@ -66,7 +62,6 @@ routes.makeStream = function(req, res){
     	}
     	else {
     		var id = newStream._id;
-			return console.log(id);
 			};
 			
 	});
@@ -79,19 +74,17 @@ routes.addEvent = function(req, res) {
   var endtime = req.body.endtime;
   console.log("eventcreated");
   
-    if (title!=undefined && starttime!=undefined && endtime!=undefined) {
-      console.log("eventadded");
-      var newEvent = new Event({title:title, starttime:starttime, endtime:endtime});
-      newEvent.save(function(err) {
-		if (err) {req.sendStatus(500);}
-          	else {res.send({id:newEvent._id});
-        }
+  if (title!=undefined && starttime!=undefined && endtime!=undefined) {    
+    console.log("eventadded");
+    var newEvent = new Event({title:title, starttime:starttime, endtime:endtime});
 
-      console.log(newEvent);
-
+    newEvent.save(function(err) {
+		  if (err) {req.sendStatus(500);}
+      else {res.send({id:newEvent._id});}
+      console.log(newEvent);      
     });
-}
 
+  }
 }
 
 module.exports = routes;
