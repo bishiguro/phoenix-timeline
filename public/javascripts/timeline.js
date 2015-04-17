@@ -19,7 +19,7 @@ function updateTicks () {
     var hours_to_left = this.now_offset / this.hour_width;
     var now = new Date();
     this.hour_start = Math.floor(now.getHours() - hours_to_left);
-    this.initial_offset = this.now_offset + ((hourToDate(this.hour_start) - now) / MS_PER_HOUR) * this.hour_width;
+    this.initial_offset = this.now_offset + ((hour2Date(this.hour_start) - now) / MS_PER_HOUR) * this.hour_width;
 
     // Create first hour tick and place it on timeline
     var hour_tick = createHourTick(this.hour_start);
@@ -32,7 +32,8 @@ function updateTicks () {
         hour_tick_list.appendChild(hour_tick);
     }
 
-    updateItemTime();
+    updateItemStart();
+    updateEventDuration();
 }
 
 function createHourTick (value) {
@@ -48,11 +49,11 @@ function addDay(hour_node) {
     // If the hour is the beginning of a day
     if (hour_node % 24 === 0) {
         // Add a date node inside of it, beneath the hour tick
-        var date = document.createTextNode(hourToDate(hour_node).format("ddd, mmm dS"));
+        var date = document.createTextNode(hour2Date(hour_node).format("ddd, mmm dS"));
     } else return hour_node;
 }
 
-function hourToDate(hour) {
+function hour2Date(hour) {
     var now = new Date();
     now.setHours(hour);
     now.setMinutes(0);
@@ -60,24 +61,32 @@ function hourToDate(hour) {
     return now;
 }
 
-function updateItemTime() {
+function updateItemStart() {
     var items = document.querySelectorAll('.item');
-    console.log(items)
-    for (var i=0; i < items.length; i++) {
-        items[i].style.left = xPosForDate(items[i].getAttribute('data-start-date')) + 'px';
+    for (var i=0; i < items.length; i++)
+        items[i].style.left = xPos2Date(items[i].getAttribute('data-start-date')) + 'px';
+}
+
+function updateEventDuration() {
+    var events = document.querySelectorAll('.event');
+    var startDate;
+    var endDate;
+
+    for (var i=0; i < events.length; i++) {
+        startDate = new Date(events[i].getAttribute('data-start-date'));
+        endDate = new Date(events[i].getAttribute('data-end-date'));
+        events[i].style.width = this.hour_width * (endDate-startDate) / MS_PER_HOUR + 'px';
     }
 }
 
-function formatHours(hour) {
-    return hourToDate(hour).format("hT");
-}
+function formatHours(hour) { return hour2Date(hour).format("hT"); }
 
 function startUpdates(ms_interval) {
     updateTicks();
     setInterval(function () {updateTicks()}, ms_interval);
 }
 
-function dateAtXPos(xpos) {
+function date2XPos(xpos) {
     // Calculate the time in hours relative to now
     var rel_time = (xpos - this.now_offset) / this.hour_width;
     var d = new Date();
@@ -85,7 +94,7 @@ function dateAtXPos(xpos) {
     return d;
 }
 
-function xPosForDate(date) {
+function xPos2Date(date) {
     var date = new Date(date);
     return this.now_offset + this.hour_width * ((date - new Date()) / MS_PER_HOUR);
 }
