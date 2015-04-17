@@ -7,6 +7,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 var session = require('express-session');
+var request = require('request');
 
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
@@ -41,8 +42,12 @@ passport.use(new GoogleStrategy({
 
   function(accessToken, refreshToken, profile, done){
     User.findOrCreate({name: profile.displayName, googleId: profile.id}, function(err, user) {
-      done(err, user);
-    })
+        request.get("https://www.googleapis.com/calendar/v3/users/me/calendarList", function (err, response, body) {
+            console.log(body);
+        });
+
+        done(err, user);
+    });
   }
 ));
 

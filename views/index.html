@@ -35,7 +35,7 @@
 
             <div class="side-header-content flex-parent flex-hcenter">
 
-                 <div ng-controller="nodeController">
+                <div ng-controller="nodeController">
                     <div class="dropdown" dropdown is-open="status.isopen">
                         <a href class="dropdown-toggle ui-button" ng-click="toggleDropdown($event)">
                             New Event
@@ -65,7 +65,7 @@
 
 
                 <!-- NODE FORM -->
-      
+
                 <div ng-controller="nodeController">
                     <div class="dropdown" dropdown is-open="status.isopen">
                         <a href class="dropdown-toggle ui-button" ng-click="toggleDropdown($event)">
@@ -84,12 +84,23 @@
                                 <div>
                                     <label class="ui-label">Due Date: </label>
                                     <!-- DATE PICKER -->
+<<<<<<< HEAD
                                     <p class="input-group">
                                       <input type="text" class="form-control" datepicker-popup="{{format}}" ng-model="dt" is-open="opened" min-date="minDate" max-date="'2020-06-22'" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close"/>
                                       <span class="input-group-btn">
                                         <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
                                       </span>
                                     </p>
+=======
+                                    <div ng-controller="nodeController">
+                                        <p class="input-group">
+                                            <input type="text" class="form-control" datepicker-popup="{{format}}" ng-model="dt" is-open="opened" min-date="minDate" max-date="'2020-06-22'" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close"/>
+                                            <span class="input-group-btn">
+                                                <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+                                            </span>
+                                        </p>
+                                    </div>
+>>>>>>> 90efea3cbef2348c501da0685413b84620961e04
                                 </div>
                                 <div>
                                     <label class="ui-label">Due Time: </label>
@@ -143,16 +154,17 @@
         <div id="current-time-bar"></div>
 
         <!-- TIMELINE -->
-        <div id="timeline" onclick="console.log(timeAtXPos(event.pageX))">
+        <div id="timeline">
             <div id="clock-bar">
                 <ul id="hour-tick-list">
                     <!-- Hour ticks are generated here -->
                 </ul>
             </div>
+
             <!-- STREAM CONTAINER -->
-            <div ng-controller="streamController">
+            <div ng-controller="streamlistController">
                 <div ng-repeat = 'stream in streams'>
-                <ng-include src="'stream.html'"></ng-include>
+                    <ng-include src="'stream.html'"></ng-include>
                 </div>
             </div>
             <!-- NODE CONTAINER -->

@@ -1,13 +1,9 @@
+<div class="stream-container" ng-controller="streamController" onclick="console.log(dateAtXPos(event.pageX))">
 
-<div class="streambox">
-<link rel="stylesheet" href="/stylesheets/main.css"/>
-<font color="black">{{stream.name}}</font>
-	<div class = "eventbox" style ="height:20px">
-	</div>
+    <div id="left-stream-bar" class="stream"></div>
+    <div class="stream-label">{{stream.name}}</div>
+    <div class="stream" ng-click="addStreamItem()"></div>
 
-	<div class = "stream" style="background-color:red;height:3px">
-	</div>
+    <div class="item node" data-start-date="Fri Apr 17 2015 18:21:28 GMT-0400 (EDT)"></div>
 
-	<div class = "nodebox" style="height:20px" ng-click="addNode()">
-	</div>
 </div>
