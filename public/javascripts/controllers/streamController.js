@@ -42,7 +42,7 @@ var app = angular.module('projectManager').controller('streamController', ['$sco
 
     $scope.summary = '';
     $scope.description = '';
-    
+
     $scope.createNodeDialog = function($event) {
         var time = timeAtXPos($event.pageX);
         var html = /* HTML GOES HERE */ 'html';

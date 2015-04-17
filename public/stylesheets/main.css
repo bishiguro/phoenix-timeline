@@ -30,12 +30,11 @@
 .ui-label {
     font-family: source-sans-pro;
     color: #999;
-    font-size: 0.92rem;
-    padding: 5px 5px 0px 5px;
+    font-size: 0.7rem;
     text-transform: uppercase;
 
-    outline: none;
     background-color: transparent;
+    outline: none;
     border: none;
 }
 
@@ -160,48 +159,13 @@ input[type="range"]::-webkit-slider-thumb {
     height: 1.5rem;
 }
 
-.node {
-    width: 25px;
-    height: 25px;
-
-    border: 2px solid #222;
-    border-radius: 25px;
-
-    background-color: white;
-}
-
-.node:hover{
-    background-color: #AAA;
-}
-
-.node:active{
-    background-color: #222;
-}
-
-.event {
-    width: 55px;
-    height: 25px;
-    border: .2px solid #aaa;
-    border-radius: 25px;
-    background-color: cornflowerblue;
-}
-
-.event:hover{
-    background-color: #5077BE;
-}
-
-.event:active{
-    background-color: #A2BFF4;
-}
-
-
-
 #hour-tick-list {
     margin: 0 0 1rem 0;
     padding: 0;
     width: 100%;
     white-space: nowrap;
     overflow: hidden;
+    position: relative;
 }
 
 .hour-tick {
@@ -311,9 +275,16 @@ input[type="range"]::-webkit-slider-thumb {
     display: block;
 }
 
+.ui-link {
+    font-family: source-sans-pro;
+    font-weight: 700;
+    font-size: 1rem;
+    color: #444;
+}
+
 .stream-container {
     position: relative;
-    margin-top: 1rem;
+    margin-top: 2rem;
     display: flex;
     align-items: center;
 }
@@ -344,5 +315,27 @@ input[type="range"]::-webkit-slider-thumb {
     top: 50%;
 }
 
-.node { transform: translate(-50%, -50%); }
-.event { transform: translate(0, -50%); }
+.node {
+    width: 25px;
+    height: 25px;
+
+    border: 2px solid #222;
+    border-radius: 25px;
+
+    background-color: white;
+    transform: translate(-50%, -50%);
+    z-index: 10;
+}
+
+.node:hover{ background-color: #AAA; }
+.node:active{ background-color: #222; }
+
+.event {
+    transform: translate(0, -50%);
+    height: 100%;
+    background-color: cornflowerblue;
+    z-index: 0;
+}
+
+.event:hover{ background-color: #5077BE; }
+.event:active{ background-color: #A2BFF4; }

@@ -30,11 +30,13 @@
     <body id="body" onload="startUpdates(30000)">
 
         <!-- HEADER -->
-        <header id="header" class="flex-vcenter">
+        <header id="header" class="flex-vcenter row">
 
-            <div class="side-header-content flex-parent flex-hcenter">
+            <!-- LEFT HEADER TOOLBAR -->
+            <div class="col-md-4 row">
 
-                <div ng-controller="nodeController">
+                <!--- NEW EVENT -->
+                 <div ng-controller="nodeController" class="col-md-4">
                     <div class="dropdown" dropdown is-open="status.isopen">
                         <a href class="dropdown-toggle ui-button" ng-click="toggleDropdown($event)">
                             New Event
@@ -62,9 +64,8 @@
                     </div>
                 </div>
 
-
-                <!-- NODE FORM -->
-                <div ng-controller="nodeController">
+                <!-- NEW NODE -->
+                <div ng-controller="nodeController" class="col-md-4">
                     <div class="dropdown" dropdown is-open="status.isopen">
                         <a href class="dropdown-toggle ui-button" ng-click="toggleDropdown($event)">
                             New Node
@@ -81,6 +82,7 @@
                                 </div>
                                 <div>
                                     <label class="ui-label">Due Date: </label>
+
                                     <!-- DATE PICKER -->
                                     <p class="input-group">
                                       <input type="text" class="form-control" datepicker-popup="{{format}}" ng-model="dt" is-open="opened" min-date="minDate" max-date="'2020-06-22'" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close"/>
@@ -91,6 +93,7 @@
                                 </div>
                                 <div>
                                     <label class="ui-label">Due Time: </label>
+
                                     <!-- TIME PICKER -->
                                     <timepicker ng-model="mytime" ng-change="changed()" hour-step="hstep" minute-step="mstep" show-meridian="ismeridian"></timepicker>
                                 </div>
@@ -103,8 +106,8 @@
                     </div>
                 </div>
 
-                <!-- STREAM FORM -->
-                <div ng-controller="streambuttonController">
+                <!-- NEW STREAM -->
+                <div ng-controller="streambuttonController" class="col-md-4">
                     <div class="dropdown" dropdown is-open="status.isopen">
                         <a href class="dropdown-toggle ui-button" ng-click="toggleDropdown($event)">
                             New Stream
@@ -126,14 +129,22 @@
 
             </div>
 
-            <h1 id="header-title" class="lane centered-text">Phoenix Timeline</h1>
+            <h1 id="header-title" class="col-md-4 lane centered-text">Phoenix Timeline</h1>
 
-            <div class="side-header-content">
+            <!-- RIGHT HEADER TOOLBAR -->
+            <div class="col-md-4 row">
+
                 <!-- SLIDER -->
-                <!-- TODO: Make sure that slider is operable when node is clicked - check css overlays -->
-                <div class="ui-control flex-hcenter">
+                <div class="ui-control col-md-4">
                     <input type="range" id="scale-slider" min=1 max=13 value=5 step=.1 oninput="updateTicks()">
                     <label id="scale-label" class="ui-label" for="scale-slider">Scale</label>
+                </div>
+
+                <!-- LOGOUT BUTTON -->
+                <div class="ui-control col-md-4 col-md-offset-4">
+                   <!-- TODO: Replace 'YOUR NAME' with user's name -->
+                    <a id="logout-button" class="ui-link" href='/logout'>YOUR NAME</a>
+                    <label class="ui-label" for="logout-button">Logout</label>
                 </div>
             </div>
         </header>
