@@ -29,6 +29,11 @@ routes.register = function(req, res) {
 	res.sendFile(path.join(__dirname, '../views/register.html'));
 }
 
+routes.addUser = function(req, res) {
+  console.log('Adding User!')
+  console.log(req)
+}
+
 routes.addNode = function(req, res) {
 	var sum = req.body.sum;
  	var desc = req.body.desc;

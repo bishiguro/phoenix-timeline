@@ -75,6 +75,7 @@ app.get('/', index.home);
 app.get('/login', index.login);
 app.get('/logout', index.logout);
 app.get('/register', index.register);
+app.post('/register', index.addUser);
 
 app.post('/login', 
   passport.authenticate('local', {
@@ -98,6 +99,4 @@ app.post('/node/add', index.addNode);
 
 app.post('/event', index.addEvent);
 
-
 app.listen(PORT);
-
