@@ -176,6 +176,24 @@ input[type="range"]::-webkit-slider-thumb {
     background-color: #A2BFF4;
 }
 
+.event {
+    width: 55px;
+    height: 25px;
+    border: .2px solid #aaa;
+    border-radius: 25px;
+    background-color: cornflowerblue;
+}
+
+.event:hover{
+    background-color: #5077BE;
+}
+
+.event:active{
+    background-color: #A2BFF4;
+}
+
+
+
 #hour-tick-list {
     margin: 0 0 1rem 0;
     padding: 0;
