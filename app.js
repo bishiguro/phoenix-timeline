@@ -93,11 +93,9 @@ app.get('/auth/google/callback',
 }));
 
 app.post('/stream/add',index.makeStream);
-app.get('/node/find/:id', index.findNode);
 app.post('/node/add', index.addNode);
-
-app.post('/event', index.addEvent);
-
+app.get('/node/find/:id', index.findNode);
+app.post('/event/add', index.addEvent);
+app.get('/event/find/:id', index.findEvent);
 
 app.listen(PORT);
-
