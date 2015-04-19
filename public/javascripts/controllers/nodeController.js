@@ -23,8 +23,8 @@ angular.module('projectManager').controller('nodeController', ['$scope', '$http'
             }).error(console.error);
     };
 
-    //TODO: use this function to display Node details
-    $scope.showDetails = function(id) {     
+    $scope.showDetails = function(id) {
+        //TODO: use this function to display Node details   
         $http.get('/node/find/'+id).success(function(data,status,headers,config) {
                 console.log('Summary: '+data.node.summary);
                 console.log('Description: '+data.node.description);
