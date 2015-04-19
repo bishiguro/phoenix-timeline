@@ -30,8 +30,11 @@ routes.register = function(req, res) {
 }
 
 routes.addUser = function(req, res) {
-  console.log('Adding User!')
-  console.log(req)
+  User.create({name: req.body.name, password: req.body.password},
+    function(err, user) {
+      if (err) { res.sendStatus(500); }
+      else { res.sendStatus(200); }
+    })
 }
 
 routes.addNode = function(req, res) {
