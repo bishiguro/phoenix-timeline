@@ -1,5 +1,3 @@
-
-
 var app = angular.module('projectManager').controller('streambuttonController', ['$scope','$http','streamList',function($scope,$http,streamList) {
 
 	$scope.name='';
