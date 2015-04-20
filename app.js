@@ -107,12 +107,12 @@ app.get('/logout', index.logout);
 
 // GET API
 app.get('/node/find/:id', index.findNode);
+app.get('/event/find/:id', index.findEvent);
 
 // POST API
 app.post('/stream/add',index.addStream);
 app.post('/node/add', index.addNode);
-app.post('/event', index.addEvent);
-
+app.post('/event/add', index.addEvent);
 
 // -- Listen
 app.listen(PORT);

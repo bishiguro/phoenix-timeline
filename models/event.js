@@ -2,8 +2,8 @@ var mongoose = require('mongoose');
 
 var schema = mongoose.Schema({
 	title: {type: String, required: true},
-	starttime: {type: Date, required: true},
-	endtime: {type: Date, required: true},
+	startTime: {type: String, required: true},
+	endTime: {type: String, required: true},
 	users: [{type: mongoose.Schema.ObjectId, ref: 'User'}]
 });
 
