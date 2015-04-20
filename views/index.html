@@ -172,15 +172,15 @@
             <!-- NODE CONTAINER -->
             <!-- TODO: place nodes on streams based on associated date/time -->
             <div ng-controller="nodeController">
-                <div ng-repeat = 'node in nodes'>
-                <ng-include src="'node.html'"><ng-include>
+                <div ng-repeat = 'node in nodes' ng-controller="nodeButtonController">
+                    <ng-include src="'node.html'"><ng-include>
                 </div>
             </div>
             <!-- EVENT CONTAINER -->
             <!-- TODO: place events on streams based on associated date/time -->
             <div ng-controller="eventController">
                 <div ng-repeat = 'event in events'>
-                <ng-include src="'event.html'"><ng-include>
+                    <ng-include src="'event.html'"><ng-include>
                 </div>
             </div>
         </div>
