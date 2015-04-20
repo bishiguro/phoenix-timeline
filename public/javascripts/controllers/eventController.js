@@ -6,7 +6,7 @@ angular.module('projectManager').controller('eventController', ['$scope', '$http
     $scope.events = eventList.getList();
 
     $scope.addEvent = function() {
-        $http.post('/event/add',{title:$scope.title,startTime:$scope.startTime,endTime:$scope.endTime}).success(function(data,status,headers,config) {
+        $http.post('/event',{title:$scope.title,startTime:$scope.startTime,endTime:$scope.endTime}).success(function(data,status,headers,config) {
             $scope.events.push({id:data.id.toString()});
             $scope.title = '';
             $scope.startTime = '';
@@ -18,7 +18,7 @@ angular.module('projectManager').controller('eventController', ['$scope', '$http
     $scope.editOpen = false;
     $scope.showEventDetails = function(id) {
         //TODO: use this function to display Event details   
-        $http.get('/event/find/'+id).success(function(data,status,headers,config) {
+        $http.get('/event/'+id).success(function(data,status,headers,config) {
                 console.log('Title: '+data.event.title);
                 console.log('Start Time: '+data.event.startTime);
                 console.log('End Time: '+data.event.endTime);

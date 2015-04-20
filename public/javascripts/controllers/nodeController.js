@@ -15,7 +15,7 @@ app.controller('nodeController', ['$scope', '$http', 'nodeList', function($scope
     // Add a New Node //
     $scope.addNode = function() {
         //TODO: make use of the time picker in the Node's date object
-        $http.post('/node/add', {
+        $http.post('/node', {
             summary: $scope.summary,
             description: $scope.description,
             dueDate: $scope.dt
@@ -28,11 +28,10 @@ app.controller('nodeController', ['$scope', '$http', 'nodeList', function($scope
         }).error(console.error);
     };
 
-<<<<<<< HEAD
     // Toggle Edit Menu //
     $scope.showNodeDetails = function(id,$event) {
         //TODO: use this function to display Node details   
-        $http.get('/node/find/'+id).success(function(data, status, headers, config) {
+        $http.get('/node'+id).success(function(data, status, headers, config) {
             $event.preventDefault();
             $event.stopPropagation();
             $scope.sum = data.node.summary;
@@ -42,8 +41,6 @@ app.controller('nodeController', ['$scope', '$http', 'nodeList', function($scope
         }).error(console.error);
     };
 
-=======
->>>>>>> d997792628f7b1c4a74469177efec52d632f35c9
     // Toggle Creation Menu //
     $scope.toggleDropdown = function($event) {
         $event.preventDefault();
@@ -122,12 +119,9 @@ app.controller('nodeButtonController', ['$scope','$http',function($scope,$http) 
         editOpen: false
     };
 
-<<<<<<< HEAD
-}]);
-=======
     // Toggle Edit Menu //
     $scope.showNodeDetails = function(id,$event) {
-        $http.get('/node/find/'+id).success(function(data,status,headers,config) {
+        $http.get('/node/'+id).success(function(data,status,headers,config) {
                 $event.preventDefault();
                 $event.stopPropagation();
                 $scope.sum = data.node.summary;
@@ -137,4 +131,3 @@ app.controller('nodeButtonController', ['$scope','$http',function($scope,$http) 
             }).error(console.error);
     };
 }]);
->>>>>>> d997792628f7b1c4a74469177efec52d632f35c9

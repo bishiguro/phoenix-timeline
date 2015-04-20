@@ -88,15 +88,16 @@ routes.addNode = function(req, res) {
 }
 
 routes.addEvent = function(req, res) {
-  var title = req.body.title;
-  var start = req.body.startTime;
-  var end = req.body.endTime;
-  console.log(start);
-  var newEvent = new Event({title:title, startTime:start, endTime:end});
-  newEvent.save(function(err) {
-    if (err) {res.sendStatus(500);}
-    else {res.send({id:newEvent._id});}
-  });
+    Event.create({
+        title: req.body.title,
+        start: req.body.startTime,
+        end: req.body.endTime
+    },
+
+    function(err, event) {
+        if (err) return databaseError(err, req, res);
+        else res.send({ id: event._id });
+    });
 }
 
 
