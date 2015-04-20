@@ -53,13 +53,13 @@ routes.findEvent = function(req, res) {
 
 routes.addUser = function(req, res) {
     User.create({
-        name: req.body.name,
-        password: req.body.password
+      name: req.body.name,
+      password: req.body.password
     },
 
     function(err, user) {
-        if (err) return databaseError(err, req, res);
-        else res.sendStatus(200);
+      if (err) return databaseError(err, req, res);
+      else res.sendStatus(200);
     });
 }
 
@@ -81,23 +81,22 @@ routes.addNode = function(req, res) {
         dueDate: req.body.dueDate
     },
 
-    function(err, node) {
+    function (err, node) {
         if (err) return databaseError(err, req, res);
-        else res.json( { id: node._id } );
+        else res.json({ id: node._id });
     });
 }
 
 routes.addEvent = function(req, res) {
-    Event.create({
-        title: req.body.title,
-        starttime: req.body.starttime,
-        endtime: req.body.endtime
-    },
-
-    function(err, event) {
-        if (err) return databaseError(err, req, res);
-        else res.send({ id: newEvent._id });
-    });
+  var title = req.body.title;
+  var start = req.body.startTime;
+  var end = req.body.endTime;
+  console.log(start);
+  var newEvent = new Event({title:title, startTime:start, endTime:end});
+  newEvent.save(function(err) {
+    if (err) {res.sendStatus(500);}
+    else {res.send({id:newEvent._id});}
+  });
 }
 
 

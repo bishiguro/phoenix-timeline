@@ -1,20 +1,16 @@
 angular.module('projectManager', ['ui.bootstrap']);
-angular.module('projectManager').controller('nodeController', ['$scope', '$http', 'nodeList', function($scope,$http,nodeList) {
+var app = angular.module('projectManager');
+
+app.controller('nodeController', ['$scope', '$http', 'nodeList', function($scope,$http,nodeList) {
 
     $scope.summary = '';
     $scope.description = '';
     $scope.dueDate = '';
     $scope.nodes = nodeList.getList();
 
-    $scope.sum = '';
-    $scope.desc = '';
-    $scope.due = '';
-
     $scope.status = {
-        isopen: false,
-        editOpen: false
+        isopen: false
     };
-
 
     // Add a New Node //
     $scope.addNode = function() {
@@ -32,6 +28,7 @@ angular.module('projectManager').controller('nodeController', ['$scope', '$http'
         }).error(console.error);
     };
 
+<<<<<<< HEAD
     // Toggle Edit Menu //
     $scope.showNodeDetails = function(id,$event) {
         //TODO: use this function to display Node details   
@@ -45,15 +42,14 @@ angular.module('projectManager').controller('nodeController', ['$scope', '$http'
         }).error(console.error);
     };
 
+=======
+>>>>>>> d997792628f7b1c4a74469177efec52d632f35c9
     // Toggle Creation Menu //
     $scope.toggleDropdown = function($event) {
         $event.preventDefault();
         $event.stopPropagation();
         $scope.status.isopen = !$scope.status.isopen;
     };
-
-
-
 
     // DATE PICKER //
     $scope.today = function() {
@@ -114,5 +110,31 @@ angular.module('projectManager').controller('nodeController', ['$scope', '$http'
         d.setMinutes( 0 );
         $scope.mytime = d;
     };
-
 }]);
+
+
+app.controller('nodeButtonController', ['$scope','$http',function($scope,$http) {
+
+    $scope.sum = '';
+    $scope.desc = '';
+    $scope.due = '';
+    $scope.status = {
+        editOpen: false
+    };
+
+<<<<<<< HEAD
+}]);
+=======
+    // Toggle Edit Menu //
+    $scope.showNodeDetails = function(id,$event) {
+        $http.get('/node/find/'+id).success(function(data,status,headers,config) {
+                $event.preventDefault();
+                $event.stopPropagation();
+                $scope.sum = data.node.summary;
+                $scope.desc = data.node.description;
+                $scope.due = data.node.dueDate;
+                $scope.status.editOpen = !$scope.status.editOpen;
+            }).error(console.error);
+    };
+}]);
+>>>>>>> d997792628f7b1c4a74469177efec52d632f35c9
