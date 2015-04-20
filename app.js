@@ -90,6 +90,8 @@ app.get('/auth/google/callback',
         failureRedirect: '/login.html'
 }));
 
+app.post('/register', index.addUser);
+
 
 // -- Authentication Middleware
 app.use(function (req, res, next) {
@@ -114,4 +116,3 @@ app.post('/event', index.addEvent);
 
 // -- Listen
 app.listen(PORT);
-

@@ -41,42 +41,58 @@ routes.findNode = function(req, res) {
     });
 }
 
-// ----- MODEL CREATION API ----- //
-routes.addStream = function(req, res){
-    var newStream = {
-        name: req.body.name,
-    };
 
-    Stream.create( newStream, function(err, stream) {
+// ----- MODEL CREATION API ----- //
+
+routes.addUser = function(req, res) {
+    User.create({
+        name: req.body.name,
+        password: req.body.password
+    },
+
+    function(err, user) {
+        if (err) return databaseError(err, req, res);
+        else res.sendStatus(200);
+    });
+}
+
+routes.addStream = function(req, res) {
+    Stream.create( {
+        name: req.body.name,
+    },
+
+    function(err, stream) {
         if (err) return databaseError(err, req, res);
         else res.json({ "id": stream._id });
     });
 }
 
 routes.addNode = function(req, res) {
-    var newNode = {
+    Node.create({
         summary: req.body.sum,
         description: req.body.desc,
         dueDate: req.body.due
-    };
+    },
 
-    Node.create(newNode, function(err, node) {
+    function(err, node) {
         if (err) return databaseError(err, req, res);
         else res.json( { id: node._id } );
     });
 }
 
 routes.addEvent = function(req, res) {
-    var newEvent =  {
+    Event.create({
         title: req.body.title,
         starttime: req.body.starttime,
         endtime: req.body.endtime
-    };
+    },
 
-    Event.create(newEvent, function(err, event) {
+    function(err, event) {
         if (err) return databaseError(err, req, res);
         else res.send({ id: newEvent._id });
     });
 }
 
+
+// ----- FUNCTION EXPORTS ----- //
 module.exports = routes;
