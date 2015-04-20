@@ -69,7 +69,6 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
-
 // -- Public Routes
 app.post('/login', 
   passport.authenticate('local', {
@@ -88,6 +87,7 @@ app.get('/auth/google/callback',
         failureRedirect: '/login.html'
 }));
 
+app.post('/register', index.addUser);
 
 // -- Authentication Middleware
 app.use(function (req, res, next) {
@@ -107,6 +107,4 @@ app.post('/node/add', index.addNode);
 
 app.post('/event', index.addEvent);
 
-
 app.listen(PORT);
-

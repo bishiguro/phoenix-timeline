@@ -19,6 +19,14 @@ routes.logout = function(req, res) {
     res.redirect('/login.html');
 }
 
+routes.addUser = function(req, res) {
+  User.create({name: req.body.name, password: req.body.password},
+    function(err, user) {
+      if (err) { res.sendStatus(500); }
+      else { res.sendStatus(200); }
+    })
+}
+
 routes.addNode = function(req, res) {
     var sum = req.body.sum;
     var desc = req.body.desc;

@@ -204,7 +204,7 @@ input[type="range"]::-webkit-slider-thumb {
     border-top: 1px solid #BDBDBD;
 }
 
-#login-form {
+#login-form, #register-form {
     margin: 10px;
     box-shadow: inset 3px 4px 10px -6px #AAA;
     border: 1px solid #BDBDBD;
@@ -212,7 +212,7 @@ input[type="range"]::-webkit-slider-thumb {
     background-color: white;
 }
 
-#login-header {
+#login-header, #register-header {
     padding: 10px;
     font-size: 24px;
     text-align: center;
@@ -232,7 +232,7 @@ input[type="range"]::-webkit-slider-thumb {
     display: inline;
 }
 
-#login-button {
+#login-button, #register-button {
     border-bottom-left-radius: 2px;
     border-bottom-right-radius: 2px;
 }
