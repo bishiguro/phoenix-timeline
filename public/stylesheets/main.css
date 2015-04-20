@@ -232,9 +232,19 @@ input[type="range"]::-webkit-slider-thumb {
     display: inline;
 }
 
-#login-button, #register-button {
+#button-container {
     border-bottom-left-radius: 2px;
     border-bottom-right-radius: 2px;
+
+}
+
+#vertical-indent {
+    border-left: 1px solid #111;
+    border-right: 1px solid #333;
+}
+
+#login-button, #register-button {
+    flex-grow: 1;
 }
 
 .important-btn {
@@ -242,8 +252,8 @@ input[type="range"]::-webkit-slider-thumb {
     color: white;
     font-weight: 700;
     letter-spacing: .1rem;
-    padding: .75rem;
-    box-shadow: 4px 7px 10px -5px #444;
+    padding: .75rem;   
+    box-shadow: inset 4px 7px 6px -4px #555;
 }
 
 .important-btn:hover {
