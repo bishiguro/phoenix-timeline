@@ -35,22 +35,33 @@ routes.logout = function(req, res) {
 }
 
 routes.findNode = function(req, res) {
-  Node.findById(req.params.id, function(err, node){
-      if (err) databaseError(err, req, res);
-      else res.json({ node: node });
-  });
+    Node.findById(req.params.id, function(err, node){
+        if (err) databaseError(err, req, res);
+        else res.json({ node: node });
+    });
 }
 
 routes.findEvent = function(req, res) {
-  var id = req.params.id;
-  Event.findById(id,function(err,event){
-    if (err) {res.sendStatus(500);}
-    else {res.send({event:event})}
-  })
+  Event.findById(req.params.id, function(err,event){
+    if (err) databaseError(err, req, res);
+    else res.send({ event: event });
+  });
 }
 
 
 // ----- MODEL CREATION API ----- //
+
+routes.addUser = function(req, res) {
+    User.create({
+      name: req.body.name,
+      password: req.body.password
+    },
+
+    function(err, user) {
+      if (err) return databaseError(err, req, res);
+      else res.sendStatus(200);
+    });
+}
 
 routes.addStream = function(req, res) {
     Stream.create( {
@@ -63,35 +74,30 @@ routes.addStream = function(req, res) {
     });
 }
 
-routes.addUser = function(req, res) {
-  User.create({name: req.body.name, password: req.body.password},
-    function(err, user) {
-      if (err) { res.sendStatus(500); }
-      else { res.sendStatus(200); }
-    })
-}
-
 routes.addNode = function(req, res) {
-  var sum = req.body.summary;
-  var desc = req.body.description;
-  var due = req.body.dueDate;
-  var newNode = new Node({summary:sum,description:desc,dueDate:due});
-  newNode.save(function(err) {
-    if (err) {res.sendStatus(500);}
-    else {res.send({id:newNode._id});}
-  });
+    Node.create({
+        summary: req.body.summary,
+        description: req.body.description,
+        dueDate: req.body.dueDate
+    },
+
+    function (err, node) {
+        if (err) return databaseError(err, req, res);
+        else res.json({ id: node._id });
+    });
 }
 
 routes.addEvent = function(req, res) {
-  var title = req.body.title;
-  var start = req.body.startTime;
-  var end = req.body.endTime;
-  console.log(start);
-  var newEvent = new Event({title:title, startTime:start, endTime:end});
-  newEvent.save(function(err) {
-    if (err) {res.sendStatus(500);}
-    else {res.send({id:newEvent._id});}  
-  });
+    Event.create({
+        title: req.body.title,
+        start: req.body.startTime,
+        end: req.body.endTime
+    },
+
+    function(err, event) {
+        if (err) return databaseError(err, req, res);
+        else res.send({ id: event._id });
+    });
 }
 
 

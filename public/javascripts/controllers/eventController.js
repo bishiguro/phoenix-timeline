@@ -8,7 +8,7 @@ app.controller('eventController', ['$scope', '$http', 'eventList', function($sco
     $scope.events = eventList.getList();
 
     $scope.addEvent = function() {
-        $http.post('/event/add',{title:$scope.title,startTime:$scope.startTime,endTime:$scope.endTime}).success(function(data,status,headers,config) {
+        $http.post('/event',{title:$scope.title,startTime:$scope.startTime,endTime:$scope.endTime}).success(function(data,status,headers,config) {
             $scope.events.push({id:data.id.toString()});
             $scope.title = '';
             $scope.startTime = '';

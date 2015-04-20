@@ -14,12 +14,18 @@ app.controller('nodeController', ['$scope', '$http', 'nodeList', function($scope
 
     // Add a New Node //
     $scope.addNode = function() {
-        $http.post('/node/add',{summary:$scope.summary,description:$scope.description,dueDate:$scope.dt}).success(function(data,status,headers,config) {
-                $scope.nodes.push({id:data.id.toString()});
-                $scope.summary = '';
-                $scope.description = '';
-                $scope.dueDate = '';
-            }).error(console.error);
+        //TODO: make use of the time picker in the Node's date object
+        $http.post('/node', {
+            summary: $scope.summary,
+            description: $scope.description,
+            dueDate: $scope.dt
+        })
+        .success(function(data,status,headers,config) {
+            $scope.nodes.push({ id: data.id.toString() });
+            $scope.summary = '';
+            $scope.description = '';
+            $scope.dueDate = '';
+        }).error(console.error);
     };
 
     // Toggle Creation Menu //
@@ -87,7 +93,7 @@ app.controller('nodeController', ['$scope', '$http', 'nodeList', function($scope
         d.setHours( 14 );
         d.setMinutes( 0 );
         $scope.mytime = d;
-    };    
+    };
 }]);
 
 
@@ -101,8 +107,8 @@ app.controller('nodeButtonController', ['$scope','$http',function($scope,$http) 
     };
 
     // Toggle Edit Menu //
-    $scope.showNodeDetails = function(id,$event) { 
-        $http.get('/node/find/'+id).success(function(data,status,headers,config) {
+    $scope.showNodeDetails = function(id,$event) {
+        $http.get('/node/'+id).success(function(data,status,headers,config) {
                 $event.preventDefault();
                 $event.stopPropagation();
                 $scope.sum = data.node.summary;
