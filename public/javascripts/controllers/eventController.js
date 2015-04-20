@@ -1,4 +1,6 @@
-angular.module('projectManager').controller('eventController', ['$scope', '$http', 'eventList', function($scope,$http,eventList) {
+var app = angular.module('projectManager')
+
+app.controller('eventController', ['$scope', '$http', 'eventList', function($scope,$http,eventList) {
 
     $scope.title = '';
     $scope.startTime = '';
@@ -14,18 +16,6 @@ angular.module('projectManager').controller('eventController', ['$scope', '$http
         }).error(console.error);
     };
 
-    // Edit Menu //
-    $scope.editOpen = false;
-    $scope.showEventDetails = function(id) {
-        //TODO: use this function to display Event details   
-        $http.get('/event/find/'+id).success(function(data,status,headers,config) {
-                console.log('Title: '+data.event.title);
-                console.log('Start Time: '+data.event.startTime);
-                console.log('End Time: '+data.event.endTime);
-                $scope.editOpen = !$scope.editOpen;
-            }).error(console.error);
-    };
-    
     // Drop Down Menu //
     $scope.status = {
         isopen: false
@@ -37,4 +27,27 @@ angular.module('projectManager').controller('eventController', ['$scope', '$http
         $scope.status.isopen = !$scope.status.isopen;
     };
 
+}]);
+
+
+app.controller('eventButtonController', ['$scope','$http',function($scope,$http) {
+
+    $scope.ttl = '';
+    $scope.start = '';
+    $scope.end = '';
+    $scope.status = {
+        editOpen: false
+    };
+
+    // Toggle Edit Menu //
+    $scope.showEventDetails = function(id,$event) {
+        $http.get('/event/find/'+id).success(function(data,status,headers,config) {
+                $event.preventDefault();
+                $event.stopPropagation();
+                $scope.ttl = data.event.title;
+                $scope.start = data.event.startTime;
+                $scope.end = data.event.endTime;
+                $scope.status.editOpen = !$scope.editOpen;
+            }).error(console.error);
+    };
 }]);

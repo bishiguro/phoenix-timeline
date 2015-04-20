@@ -1,2 +1,18 @@
 <link rel="stylesheet" href="/stylesheets/main.css"/>
-<button class='event' id={{event.id}} ng-click='showEventDetails(event.id)'></button>
+
+<div class="dropdown" dropdown is-open="status.editOpen">
+    <button class="dropdown-toggle event" id={{event.id}} ng-click="showEventDetails(event.id,$event)"></button>
+    <div class="dropdown-menu" ng-click="$event.stopPropagation()">
+        <div id='event-creation-form' class="ui-control flex-parent flex-hcenter">
+            <div>
+                <label class="ui-label" ng-bind="ttl"></label>
+            </div>
+            <div>
+                <label class="ui-label" ng-bind="start"></label>
+            </div>
+            <div>
+                <label class="ui-label" ng-bind="end"></label>
+            </div>
+        </div>
+    </div>
+</div>

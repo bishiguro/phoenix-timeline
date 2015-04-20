@@ -179,7 +179,7 @@
             <!-- EVENT CONTAINER -->
             <!-- TODO: place events on streams based on associated date/time -->
             <div ng-controller="eventController">
-                <div ng-repeat = 'event in events'>
+                <div ng-repeat = 'event in events' ng-controller="eventButtonController">
                     <ng-include src="'event.html'"><ng-include>
                 </div>
             </div>

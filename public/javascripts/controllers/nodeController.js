@@ -14,7 +14,6 @@ app.controller('nodeController', ['$scope', '$http', 'nodeList', function($scope
 
     // Add a New Node //
     $scope.addNode = function() {
-        //TODO: make use of the time picker in the Node's date object
         $http.post('/node/add',{summary:$scope.summary,description:$scope.description,dueDate:$scope.dt}).success(function(data,status,headers,config) {
                 $scope.nodes.push({id:data.id.toString()});
                 $scope.summary = '';
@@ -108,7 +107,7 @@ app.controller('nodeButtonController', ['$scope','$http',function($scope,$http) 
                 $event.stopPropagation();
                 $scope.sum = data.node.summary;
                 $scope.desc = data.node.description;
-                $scope.due = data.node.dueDate;
+                $scope.due = dateFormat(data.node.dueDate,"m/dd/yy");
                 $scope.status.editOpen = !$scope.status.editOpen;
             }).error(console.error);
     };
