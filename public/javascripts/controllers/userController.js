@@ -1,5 +1,5 @@
 angular.module('projectManager', []);
-angular.module('projectManager').controller('userController', ['$scope', '$http', function($scope, $http, userList) {
+angular.module('projectManager').controller('userController', ['$scope', '$http', function($scope, $http) {
 
     // User variables
     $scope.name = '';
