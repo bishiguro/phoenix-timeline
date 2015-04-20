@@ -1,2 +1,16 @@
-<link rel="stylesheet" href="/stylesheets/main.css"/>
-<button class='node' id={{node.id}} ng-click='showDetails(node.id)'></button>
+<div class="dropdown" dropdown is-open="status.editOpen">
+    <button class="dropdown-toggle node" id={{node.id}} ng-click="showNodeDetails(node.id,$event)"></button>
+    <div class="dropdown-menu" ng-click="$event.stopPropagation()">
+        <div id='event-creation-form' class="ui-control flex-parent flex-hcenter">
+            <div>
+                <label class="ui-label" ng-bind="sum"></label>
+            </div>
+            <div>
+                <label class="ui-label" ng-bind="desc"></label>
+            </div>
+            <div>
+                <label class="ui-label" ng-bind="due"></label>
+            </div>
+        </div>
+    </div>
+</div>

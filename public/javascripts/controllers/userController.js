@@ -6,7 +6,7 @@ angular.module('projectManager').controller('userController', ['$scope', '$http'
     $scope.password = '';
 
     $scope.addUser = function() {
-        $http.post('/register', {name: $scope.name, password: $scope.password}).success(function(data, status, headers, config) {
+        $http.post('/user', {name: $scope.name, password: $scope.password}).success(function(data, status, headers, config) {
             console.log($scope.name);
         }).error(console.error);
     };

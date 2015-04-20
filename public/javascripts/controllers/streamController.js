@@ -1,5 +1,3 @@
-
-
 var app = angular.module('projectManager').controller('streambuttonController', ['$scope','$http','streamList',function($scope,$http,streamList) {
 
 	$scope.name='';
@@ -10,7 +8,7 @@ var app = angular.module('projectManager').controller('streambuttonController', 
 
     $scope.createStream = function() {
     	//$scope.start = $scope.date.now();
-        $http.post('/stream/add',{name:$scope.name,endDate:$scope.endDate}).success(function(data,status,headers,config) {
+        $http.post('/stream',{name:$scope.name,endDate:$scope.endDate}).success(function(data,status,headers,config) {
                 $scope.streams.push({id:data.id,name:$scope.name});
             }).error(console.error);
     };
@@ -57,7 +55,7 @@ var app = angular.module('projectManager').controller('streamController', ['$sco
         //TODO: fix the date that is attributed to the Node object (currently uses today's date, not picked date)
         //TODO: make use of the time picker in the Node's date object
         //TODO: get created Node buttons to call the associated 'findNode' function
-        $http.post('/node/add',{sum:$scope.summary,desc:$scope.description,due:$scope.dt}).success(function(data,status,headers,config) {            
+        $http.post('/node',{sum:$scope.summary,desc:$scope.description,due:$scope.dt}).success(function(data,status,headers,config) {
                 var nodeHtml = "<button class='node' id="+data.id.toString()+" ng-click='findNode("+data.id.toString()+")'></button>";
                 $("#nodebox").prepend(nodeHtml);
             }).error(console.error);

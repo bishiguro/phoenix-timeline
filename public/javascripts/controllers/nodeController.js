@@ -1,60 +1,52 @@
 angular.module('projectManager', ['ui.bootstrap']);
-angular.module('projectManager').controller('nodeController', ['$scope', '$http', 'nodeList', function($scope,$http,nodeList) {
+var app = angular.module('projectManager');
 
-    // Node variables
+app.controller('nodeController', ['$scope', '$http', 'nodeList', function($scope,$http,nodeList) {
+
     $scope.summary = '';
     $scope.description = '';
     $scope.dueDate = '';
     $scope.nodes = nodeList.getList();
 
-    // Event variables
-    $scope.title = '';
-    $scope.starttime = '';
-    $scope.endtime = '';
-
-
-    $scope.addNode = function() {
-        //TODO: make use of the time picker in the Node's date object
-        $http.post('/node/add',{sum:$scope.summary,desc:$scope.description,due:$scope.dt}).success(function(data,status,headers,config) {
-                $scope.nodes.push({id:data.id.toString()});
-                $scope.summary = '';
-                $scope.description = '';
-                $scope.dueDate = '';
-            }).error(console.error);
-    };
-
-    //TODO: use this function to display Node details
-    $scope.showDetails = function(id) {     
-        $http.get('/node/find/'+id).success(function(data,status,headers,config) {
-                console.log('Summary: '+data.node.summary);
-                console.log('Description: '+data.node.description);
-                console.log('Due Date: '+data.node.dueDate);
-            }).error(console.error);
-    };
-
-    $scope.addEvent = function() {
-        $scope.visible = !$scope.visible;
-        $http.post('event/',{title:$scope.title,starttime:$scope.starttime,endtime:$scope.endtime}).success(function(data,status,headers,config) {
-            $("#event-container").prepend("<div class='event' id="+data.id+"></div>");
-            var eventHtml = "<button class='event' id="+data.id.toString()+")'></button>";
-            $("#node-container").prepend(eventHtml);
-        }).error(console.error);
-
-        $scope.title = '';
-        $scope.starttime = '';
-        $scope.endtime = '';
-    };
-
     $scope.status = {
         isopen: false
     };
 
+    // Add a New Node //
+    $scope.addNode = function() {
+        //TODO: make use of the time picker in the Node's date object
+        $http.post('/node', {
+            summary: $scope.summary,
+            description: $scope.description,
+            dueDate: $scope.dt
+        })
+        .success(function(data,status,headers,config) {
+            $scope.nodes.push({ id: data.id.toString() });
+            $scope.summary = '';
+            $scope.description = '';
+            $scope.dueDate = '';
+        }).error(console.error);
+    };
+
+    // Toggle Edit Menu //
+    $scope.showNodeDetails = function(id,$event) {
+        //TODO: use this function to display Node details   
+        $http.get('/node'+id).success(function(data, status, headers, config) {
+            $event.preventDefault();
+            $event.stopPropagation();
+            $scope.sum = data.node.summary;
+            $scope.desc = data.node.description;
+            $scope.due = data.node.dueDate;
+            $scope.status.editOpen = !$scope.status.editOpen;
+        }).error(console.error);
+    };
+
+    // Toggle Creation Menu //
     $scope.toggleDropdown = function($event) {
         $event.preventDefault();
         $event.stopPropagation();
         $scope.status.isopen = !$scope.status.isopen;
     };
-
 
     // DATE PICKER //
     $scope.today = function() {
@@ -115,5 +107,27 @@ angular.module('projectManager').controller('nodeController', ['$scope', '$http'
         d.setMinutes( 0 );
         $scope.mytime = d;
     };
+}]);
 
+
+app.controller('nodeButtonController', ['$scope','$http',function($scope,$http) {
+
+    $scope.sum = '';
+    $scope.desc = '';
+    $scope.due = '';
+    $scope.status = {
+        editOpen: false
+    };
+
+    // Toggle Edit Menu //
+    $scope.showNodeDetails = function(id,$event) {
+        $http.get('/node/'+id).success(function(data,status,headers,config) {
+                $event.preventDefault();
+                $event.stopPropagation();
+                $scope.sum = data.node.summary;
+                $scope.desc = data.node.description;
+                $scope.due = data.node.dueDate;
+                $scope.status.editOpen = !$scope.status.editOpen;
+            }).error(console.error);
+    };
 }]);
