@@ -2,7 +2,7 @@ var mongoose = require("mongoose");
 var findOrCreate = require('mongoose-findorcreate');
 
 var schema = mongoose.Schema({
-	name: {type: String, required: true},
+	username: {type: String, required: true},
 	password: {type: String, required: true},
 	stream: {type: mongoose.Schema.ObjectId, ref: 'Stream'},
 	projects: [{type: mongoose.Schema.ObjectId, ref: 'Project'}],
