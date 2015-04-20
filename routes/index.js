@@ -1,6 +1,4 @@
 var mongoose = require('mongoose');
-
-var routes = {};
 var path = require("path");
 
 var Stream = require(path.join(__dirname,"../models/stream"));
@@ -8,7 +6,24 @@ var User = require(path.join(__dirname,"../models/user"));
 var Event = require(path.join(__dirname,"../models/event"));
 var Node = require(path.join(__dirname,"../models/node"));
 
-// TODO: Refactor such that the sendFile is less hacky (express public?)
+var routes = {};
+
+// ----- UTILITY FUNCTIONS ----- //
+
+/**
+    databaseError
+    --
+    A function for handling database errors. Call
+    it as "if (err) return databaseError(err, req, res);"
+    to handle database errors appropriately.
+*/
+function databaseError(err, req, res) {
+    console.error("An error occurred: " + err );
+    res.sendStatus(500);
+}
+
+
+// ----- GET HANDLERS ----- //
 
 routes.home = function(req, res) {
     res.sendFile(path.join(__dirname, '../views/index.html'));
@@ -19,70 +34,65 @@ routes.logout = function(req, res) {
     res.redirect('/login.html');
 }
 
+routes.findNode = function(req, res) {
+    Node.findById(req.params.id, function(err, node){
+        if (err) databaseError(err, req, res);
+        else res.json({ node: node });
+    });
+}
+
+
+// ----- MODEL CREATION API ----- //
+
 routes.addUser = function(req, res) {
-  User.create({name: req.body.name, password: req.body.password},
+    User.create({
+        name: req.body.name,
+        password: req.body.password
+    },
+
     function(err, user) {
-      if (err) { res.sendStatus(500); }
-      else { res.sendStatus(200); }
-    })
+        if (err) return databaseError(err, req, res);
+        else res.sendStatus(200);
+    });
+}
+
+routes.addStream = function(req, res) {
+    Stream.create( {
+        name: req.body.name,
+    },
+
+    function(err, stream) {
+        if (err) return databaseError(err, req, res);
+        else res.json({ "id": stream._id });
+    });
 }
 
 routes.addNode = function(req, res) {
-    var sum = req.body.sum;
-    var desc = req.body.desc;
-    var due = req.body.due;
-    var newNode = new Node({summary:sum,description:desc,dueDate:due});
-    newNode.save(function(err) {
-        if (err) {res.sendStatus(500);}
-        else {res.send({id:newNode._id});}
-        console.log(newNode)
+    Node.create({
+        summary: req.body.sum,
+        description: req.body.desc,
+        dueDate: req.body.due
+    },
+
+    function(err, node) {
+        if (err) return databaseError(err, req, res);
+        else res.json( { id: node._id } );
     });
-}
-
-routes.findNode = function(req, res) {
-    var id = req.params.id;
-    Node.findById(id,function(err,node){
-        if (err) {res.sendStatus(500);}
-        else {res.send({node:node})}
-    })
-}
-
-routes.makeStream = function(req, res){
-    var newStream = new Stream({
-        name: req.body.name,
-    });
-
-    var id = newStream._id;
-
-    newStream.save(function(err) {
-        if (err) {
-            return console.log("Something broke!");
-        }
-        else {
-            var id = newStream._id;
-        };
-
-    });
-    res.json({"id":id});
 }
 
 routes.addEvent = function(req, res) {
-    var title = req.body.title;
-    var starttime = req.body.starttime;
-    var endtime = req.body.endtime;
-    console.log("eventcreated");
+    Event.create({
+        title: req.body.title,
+        starttime: req.body.starttime,
+        endtime: req.body.endtime
+    },
 
-    if (title!=undefined && starttime!=undefined && endtime!=undefined) {
-        console.log("eventadded");
-        var newEvent = new Event({title:title, starttime:starttime, endtime:endtime});
-
-        newEvent.save(function(err) {
-            if (err) {req.sendStatus(500);}
-            else {res.send({id:newEvent._id});}
-            console.log(newEvent);
-        });
-
-    }
+    function(err, event) {
+        if (err) return databaseError(err, req, res);
+        else res.send({ id: newEvent._id });
+    });
 }
 
+
+// ----- FUNCTION EXPORTS ----- //
 module.exports = routes;
