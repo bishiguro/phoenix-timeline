@@ -69,28 +69,37 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
-// Routing
-
-app.get('/', index.home);
-app.get('/login', index.login);
-app.get('/logout', index.logout);
-app.get('/register', index.register);
-
+// -- Public Routes
 app.post('/login', 
   passport.authenticate('local', {
     successRedirect: '/',
-    failureRedirect: '/login' 
+    failureRedirect: '/login.html'
 }));
 
 app.get('/auth/google',
-  passport.authenticate('google', { 
-    scope: ['profile', 'https://www.googleapis.com/auth/calendar'] 
-  }));
+  passport.authenticate('google', {
+    scope: ['profile', 'https://www.googleapis.com/auth/calendar']
+}));
+
 app.get('/auth/google/callback',
     passport.authenticate( 'google', {
         successRedirect: '/',
-        failureRedirect: '/login'
+        failureRedirect: '/login.html'
 }));
+
+app.post('/register', index.addUser);
+
+// -- Authentication Middleware
+app.use(function (req, res, next) {
+    console.log(req.url)
+    if (req.isAuthenticated()) next();
+    else res.redirect('/login.html');
+});
+
+
+// -- Private Routes
+app.get('/', index.home);
+app.get('/logout', index.logout);
 
 app.post('/stream/add',index.makeStream);
 app.post('/node/add', index.addNode);

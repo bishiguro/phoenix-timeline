@@ -11,22 +11,20 @@ var Node = require(path.join(__dirname,"../models/node"));
 // TODO: Refactor such that the sendFile is less hacky (express public?)
 
 routes.home = function(req, res) {
-	if (req.user)
-		res.sendFile(path.join(__dirname, '../views/index.html'));
-	else res.redirect('/login');
-}
-
-routes.login = function(req, res) {
-	res.sendFile(path.join(__dirname, '../views/login.html'));
+    res.sendFile(path.join(__dirname, '../views/index.html'));
 }
 
 routes.logout = function(req, res) {
-	req.logout();
-  	res.redirect('/login');
+    req.logout();
+    res.redirect('/login.html');
 }
 
-routes.register = function(req, res) {
-	res.sendFile(path.join(__dirname, '../views/register.html'));
+routes.addUser = function(req, res) {
+  User.create({name: req.body.name, password: req.body.password},
+    function(err, user) {
+      if (err) { res.sendStatus(500); }
+      else { res.sendStatus(200); }
+    })
 }
 
 routes.addNode = function(req, res) {
@@ -53,11 +51,11 @@ routes.addEvent = function(req, res) {
 }
 
 routes.findNode = function(req, res) {
-  var id = req.params.id;
-  Node.findById(id,function(err,node){
-    if (err) {res.sendStatus(500);}
-    else {res.send({node:node})}
-  })
+    var id = req.params.id;
+    Node.findById(id,function(err,node){
+        if (err) {res.sendStatus(500);}
+        else {res.send({node:node})}
+    })
 }
 
 routes.findEvent = function(req, res) {
