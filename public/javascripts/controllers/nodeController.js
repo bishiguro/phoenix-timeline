@@ -19,25 +19,30 @@ angular.module('projectManager').controller('nodeController', ['$scope', '$http'
     // Add a New Node //
     $scope.addNode = function() {
         //TODO: make use of the time picker in the Node's date object
-        $http.post('/node/add',{summary:$scope.summary,description:$scope.description,dueDate:$scope.dt}).success(function(data,status,headers,config) {
-                $scope.nodes.push({id:data.id.toString()});
-                $scope.summary = '';
-                $scope.description = '';
-                $scope.dueDate = '';
-            }).error(console.error);
+        $http.post('/node/add', {
+            summary: $scope.summary,
+            description: $scope.description,
+            dueDate: $scope.dt
+        })
+        .success(function(data,status,headers,config) {
+            $scope.nodes.push({ id: data.id.toString() });
+            $scope.summary = '';
+            $scope.description = '';
+            $scope.dueDate = '';
+        }).error(console.error);
     };
 
     // Toggle Edit Menu //
     $scope.showNodeDetails = function(id,$event) {
         //TODO: use this function to display Node details   
-        $http.get('/node/find/'+id).success(function(data,status,headers,config) {
-                $event.preventDefault();
-                $event.stopPropagation();
-                $scope.sum = data.node.summary;
-                $scope.desc = data.node.description;
-                $scope.due = data.node.dueDate;
-                $scope.status.editOpen = !$scope.status.editOpen;
-            }).error(console.error);
+        $http.get('/node/find/'+id).success(function(data, status, headers, config) {
+            $event.preventDefault();
+            $event.stopPropagation();
+            $scope.sum = data.node.summary;
+            $scope.desc = data.node.description;
+            $scope.due = data.node.dueDate;
+            $scope.status.editOpen = !$scope.status.editOpen;
+        }).error(console.error);
     };
 
     // Toggle Creation Menu //

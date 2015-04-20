@@ -1,27 +1,16 @@
-<link rel="stylesheet" href="/stylesheets/main.css"/>
-<!-- <button class='node' id={{node.id}} ng-click='showNodeDetails(node.id)'></button>
- -->
-
 <div class="dropdown" dropdown is-open="status.editOpen">
     <button class="dropdown-toggle node" id={{node.id}} ng-click="showNodeDetails(node.id,$event)"></button>
     <div class="dropdown-menu" ng-click="$event.stopPropagation()">
         <div id='event-creation-form' class="ui-control flex-parent flex-hcenter">
             <div>
                 <label class="ui-label" ng-bind="sum"></label>
-<!--                 <input type="text" ng-model="title" name="title"> -->
             </div>
             <div>
                 <label class="ui-label" ng-bind="desc"></label>
-<!--                 <input type="text" ng-model="startTime" name="startTime"> -->
             </div>
             <div>
                 <label class="ui-label" ng-bind="due"></label>
-<!--                 <input type="text" ng-model="endTime" name="endTime"> -->
             </div>
-           <!--  <div class="full-width">
-                <button class="inline ui-button" ng-click="addEvent();toggleDropdown($event)">Add Event</button>
-                <button class="inline ui-button" ng-click="toggleDropdown($event)">Cancel</button>
-            </div> -->
         </div>
     </div>
 </div>
