@@ -42,7 +42,9 @@ passport.use(new GoogleStrategy({
 
   function(accessToken, refreshToken, profile, done){
     User.findOrCreate({name: profile.displayName, googleId: profile.id}, function(err, user) {
-        request.get("https://www.googleapis.com/calendar/v3/users/me/calendarList", function (err, response, body) {
+        var url = "https://www.googleapis.com/calendar/v3/users/me/calendarList";
+
+        request.get(url, function (err, response, body) {
             console.log(body);
         });
 
@@ -51,7 +53,7 @@ passport.use(new GoogleStrategy({
   }
 ));
 
-app.set('views', __dirname + '/');
+app.set('views', __dirname + '/views');
 
 // Middleware
 
@@ -68,6 +70,7 @@ app.use(session({
 }));
 app.use(passport.initialize());
 app.use(passport.session());
+
 
 // -- Public Routes
 app.post('/login', 
@@ -89,22 +92,27 @@ app.get('/auth/google/callback',
 
 app.post('/register', index.addUser);
 
+
 // -- Authentication Middleware
 app.use(function (req, res, next) {
-    console.log(req.url)
     if (req.isAuthenticated()) next();
     else res.redirect('/login.html');
 });
 
 
 // -- Private Routes
+// ROUTING
 app.get('/', index.home);
 app.get('/logout', index.logout);
 
-app.post('/stream/add',index.makeStream);
-app.post('/node/add', index.addNode);
+// GET API
 app.get('/node/find/:id', index.findNode);
-app.post('/event/add', index.addEvent);
 app.get('/event/find/:id', index.findEvent);
 
+// POST API
+app.post('/stream/add',index.addStream);
+app.post('/node/add', index.addNode);
+app.post('/event/add', index.addEvent);
+
+// -- Listen
 app.listen(PORT);
