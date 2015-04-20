@@ -92,7 +92,8 @@ routes.addEvent = function(req, res) {
     if (err) {res.sendStatus(500);}
     else {res.send({id:newEvent._id});}  
   });
-  
+}
+
 
 // ----- FUNCTION EXPORTS ----- //
 module.exports = routes;
