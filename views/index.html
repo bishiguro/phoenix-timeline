@@ -23,7 +23,7 @@
         <script src="/javascripts/controllers/eventController.js"></script>
         <script src="/javascripts/controllers/streamController.js"></script>
 
-        <!--Angular services-->
+        <!--Angular Services-->
         <script src="/javascripts/services/streamService.js"></script>
         <script src="/javascripts/services/nodeService.js"></script>
         <script src="/javascripts/services/eventService.js"></script>
@@ -169,14 +169,14 @@
                 </div>
             </div>
             <!-- NODE CONTAINER -->
-            <!-- TODO: place nodes on timelines based on associated date/time -->
+            <!-- TODO: place nodes on streams based on associated date/time -->
             <div ng-controller="nodeController">
                 <div ng-repeat = 'node in nodes'>
                 <ng-include src="'node.html'"><ng-include>
                 </div>
             </div>
             <!-- EVENT CONTAINER -->
-            <!-- TODO: place events on timelines based on associated date/time -->
+            <!-- TODO: place events on streams based on associated date/time -->
             <div ng-controller="eventController">
                 <div ng-repeat = 'event in events'>
                 <ng-include src="'event.html'"><ng-include>
