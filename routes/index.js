@@ -53,13 +53,13 @@ routes.findEvent = function(req, res) {
 
 routes.addUser = function(req, res) {
     User.create({
-      name: req.body.name,
+      username: req.body.username,
       password: req.body.password
     },
 
     function(err, user) {
       if (err) return databaseError(err, req, res);
-      else res.sendStatus(200);
+      else res.redirect('/');
     });
 }
 

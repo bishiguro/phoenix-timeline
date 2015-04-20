@@ -37,10 +37,11 @@ passport.deserializeUser(function(obj, done) {
 
 passport.use(new LocalStrategy(
   function(username, password, done) {
-    User.findOne({name: username}, function (err, user) {
+    User.findOne({username: username}, function (err, user) {
       if (err) return done(err);
       if (!user) return done(null, false);
-      if (!user.verifyPassword(password)) return done(null, false);
+      if (user.password != password) return done(null, false);
+      return done(null, user);
     });
   }
 ));
@@ -52,7 +53,7 @@ passport.use(new GoogleStrategy({
     scope: ['openid', 'email', 'https://www.googleapis.com/auth/calendar']
   },
   function(accessToken, refreshToken, profile, done){
-    User.findOrCreate({name: profile.displayName, googleId: profile.id}, function(err, user) {
+    User.findOrCreate({username: profile.displayName, googleId: profile.id}, function(err, user) {
         var url = "https://www.googleapis.com/calendar/v3/users/me/calendarList";
         request.get(url, function (err, response, body) {
             console.log(body);
