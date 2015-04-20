@@ -90,7 +90,7 @@ app.get('/auth/google/callback',
         failureRedirect: '/login.html'
 }));
 
-app.post('/register', index.addUser);
+app.post('/user', index.addUser);
 
 
 // -- Authentication Middleware
@@ -106,13 +106,13 @@ app.get('/', index.home);
 app.get('/logout', index.logout);
 
 // GET API
-app.get('/node/find/:id', index.findNode);
+app.get('/node/:id', index.findNode);
+app.get('/event/:id', index.findEvent);
 
 // POST API
-app.post('/stream/add',index.addStream);
-app.post('/node/add', index.addNode);
+app.post('/stream',index.addStream);
+app.post('/node', index.addNode);
 app.post('/event', index.addEvent);
-
 
 // -- Listen
 app.listen(PORT);
