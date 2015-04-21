@@ -35,7 +35,26 @@ passport.deserializeUser(function(obj, done) {
   done(null, obj);
 });
 
-passport.use(new LocalStrategy(
+passport.use('local-signup', new LocalStrategy(
+    function(username, password, done) {
+        process.nextTick(function() {
+        User.findOne({ 'username' :  username }, function(err, user) {
+            if (err) return done(err);
+            if (user) return done(null, false);
+            else {
+                var user = new User();
+                user.username = username;
+                user.password = user.generateHash(password);
+                user.save(function(err) {
+                    if (err) throw err;
+                    return done(null, user);
+                });
+            }
+        });    
+        });
+    }));
+
+passport.use('local-login', new LocalStrategy(
   function(username, password, done) {
       User.findOne({username: username}, function (err, user) {
         if (err) return done(err);
@@ -84,7 +103,7 @@ app.use(passport.session());
 
 // -- Public Routes
 app.post('/login', 
-  passport.authenticate('local', {
+  passport.authenticate('local-login', {
     successRedirect: '/',
     failureRedirect: '/login.html'
 }));
@@ -100,7 +119,11 @@ app.get('/auth/google/callback',
         failureRedirect: '/login.html'
 }));
 
-app.post('/user', index.addUser);
+//app.post('/user', index.addUser);
+app.post('/user', passport.authenticate('local-signup', {
+  successRedirect: '/',
+  failureRedirect: '/login'
+}));
 
 // -- Authentication Middleware
 app.use(function (req, res, next) {

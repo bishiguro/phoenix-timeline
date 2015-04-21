@@ -51,17 +51,6 @@ routes.findEvent = function(req, res) {
 
 // ----- MODEL CREATION API ----- //
 
-routes.addUser = function(req, res) {
-    var user = User();
-    user.username = req.body.username;
-    user.password = user.generateHash(req.body.password);
-
-    user.save(function (err) {
-      if (err) return databaseError(err, req, res);
-      else return done (null, user);
-    });
-}
-
 routes.addStream = function(req, res) {
     Stream.create( {
         name: req.body.name,
