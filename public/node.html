@@ -1,18 +1,26 @@
 <link rel="stylesheet" href="/stylesheets/main.css"/>
 
-<div class="dropdown" dropdown is-open="status.editOpen">
+<div class="dropdown" dropdown is-open="status.editOpen">    
+    <!-- Node Button -->
     <button class="dropdown-toggle node" id={{node.id}} ng-click="showNodeDetails(node.id,$event)"></button>
+    <!-- Node Details Menu -->
     <div class="dropdown-menu" ng-click="$event.stopPropagation()">
-        <div id='event-creation-form' class="ui-control flex-parent flex-hcenter">
-            <div>
-                <label class="ui-label" ng-bind="sum"></label>
-            </div>
-            <div>
-                <label class="ui-label" ng-bind="desc"></label>
-            </div>
-            <div>
-                <label class="ui-label" ng-bind="due"></label>
-            </div>
+        <!-- Display Mode -->
+        <div ng-hide="editing" class="ui-control flex-parent flex-hcenter">
+            <label class="ui-label" ng-bind="sum"></label>
+            <label class="ui-label" ng-bind="desc"></label>
+            <label class="ui-label" ng-bind="due"></label>
+            <button class="btn" ng-click="editing = true">Edit</button>
         </div>
+        <!-- Edit Mode -->
+        <form ng-show="editing" ng-submit="saveEditedNode">
+            <label>Summary:</label>
+            <input type="text" ng-model="sum" placeholder="summary"><br/>
+            <label>Description:</label>
+            <input type="text" ng-model="desc" placeholder="summary"><br/>
+            <label>Due Date:</label>
+            <input type="text" ng-model="due" placeholder="summary"><br/>
+            <button class="btn" type="submit">Save</button>
+        </form>
     </div>
 </div>

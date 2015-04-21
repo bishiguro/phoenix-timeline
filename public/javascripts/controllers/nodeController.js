@@ -102,6 +102,7 @@ app.controller('nodeButtonController', ['$scope','$http',function($scope,$http) 
     $scope.sum = '';
     $scope.desc = '';
     $scope.due = '';
+    $scope.editing = false;
     $scope.status = {
         editOpen: false
     };
