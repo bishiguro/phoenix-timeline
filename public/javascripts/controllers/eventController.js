@@ -2,25 +2,32 @@ var app = angular.module('projectManager')
 
 app.controller('eventController', ['$scope', '$http', 'eventList', function($scope,$http,eventList) {
 
-    $scope.title = '';
-    $scope.startTime = '';
-    $scope.endTime = '';
     $scope.events = eventList.getList();
-
-    $scope.addEvent = function() {
-        $http.post('/event',{title:$scope.title,startTime:$scope.startTime,endTime:$scope.endTime}).success(function(data,status,headers,config) {
-            $scope.events.push({id:data.id.toString()});
-            $scope.title = '';
-            $scope.startTime = '';
-            $scope.endTime = '';
-        }).error(console.error);
-    };
-
-    // Drop Down Menu //
+    $scope.eventValues = {
+        title: '',
+        startTime: '',
+        endTime: ''
+    }
     $scope.status = {
         isopen: false
     };
 
+    // Add a New Event //
+    $scope.addEvent = function() {
+        $http.post('/event', {
+            title:$scope.eventValues.title,
+            startTime:$scope.eventValues.startTime,
+            endTime:$scope.eventValues.endTime
+        })
+        .success(function(data,status,headers,config) {
+            $scope.events.push({ id: data.id.toString() });
+            $scope.eventValues.title = '';
+            $scope.eventValues.startTime = '';
+            $scope.eventValues.endTime = '';
+        }).error(console.error);
+    };
+
+    // Toggle Creation Menu //
     $scope.toggleDropdown = function($event) {
         $event.preventDefault();
         $event.stopPropagation();

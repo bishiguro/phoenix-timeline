@@ -32,15 +32,15 @@
                             <div id='event-creation-form' class="ui-control flex-parent flex-hcenter">
                                 <div>
                                     <label class="ui-label">Title: </label>
-                                    <input type="text" ng-model="title" name="title">
+                                    <input type="text" ng-model="eventValues.title" name="title">
                                 </div>
                                 <div>
                                     <label class="ui-label">Start Time </label>
-                                    <input type="text" ng-model="startTime" name="startTime">
+                                    <input type="text" ng-model="eventValues.startTime" name="startTime">
                                 </div>
                                 <div>
                                     <label class="ui-label">End Time: </label>
-                                    <input type="text" ng-model="endTime" name="endTime">
+                                    <input type="text" ng-model="eventValues.endTime" name="endTime">
                                 </div>
                                 <div class="full-width">
                                     <button class="inline ui-button" ng-click="addEvent();toggleDropdown($event)">Add Event</button>
@@ -60,15 +60,15 @@
                         <div class="dropdown-menu" ng-click="$event.stopPropagation()">
                             <div id='node-creation-form' class="ui-control flex-parent flex-hcenter">
                                 <div>
-                                    <label class="ui-label">Summary: </label>
-                                    <input type="text" ng-model="summary" name="summary">
+                                    <label class="ui-label">Summary:</label>
+                                    <input type="text" ng-model="nodeValues.summary" name="summary">
                                 </div>
                                 <div>
-                                    <label class="ui-label">Description: </label>
-                                    <input type="text" ng-model="description" name="description">
+                                    <label class="ui-label">Description:</label>
+                                    <input type="text" ng-model="nodeValues.description" name="description">
                                 </div>
                                 <div>
-                                    <label class="ui-label">Due Date: </label>
+                                    <label class="ui-label">Due Date:</label>
 
                                     <!-- DATE PICKER -->
                                     <p class="input-group">
@@ -79,7 +79,7 @@
                                     </p>
                                 </div>
                                 <div>
-                                    <label class="ui-label">Due Time: </label>
+                                    <label class="ui-label">Due Time:</label>
 
                                     <!-- TIME PICKER -->
                                     <timepicker ng-model="mytime" ng-change="changed()" hour-step="hstep" minute-step="mstep" show-meridian="ismeridian"></timepicker>
