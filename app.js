@@ -121,7 +121,7 @@ app.get('/auth/google/callback',
 
 app.post('/user', passport.authenticate('local-signup', {
   successRedirect: '/',
-  failureRedirect: '/login'
+  failureRedirect: '/login.html'
 }));
 
 // -- Authentication Middleware
