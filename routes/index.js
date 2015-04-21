@@ -52,14 +52,13 @@ routes.findEvent = function(req, res) {
 // ----- MODEL CREATION API ----- //
 
 routes.addUser = function(req, res) {
-    User.create({
-      username: req.body.username,
-      password: req.body.password
-    },
+    var user = User();
+    user.username = req.body.username;
+    user.password = user.generateHash(req.body.password);
 
-    function(err, user) {
+    user.save(function (err) {
       if (err) return databaseError(err, req, res);
-      else res.redirect('/');
+      else return done (null, user);
     });
 }
 

@@ -37,12 +37,12 @@ passport.deserializeUser(function(obj, done) {
 
 passport.use(new LocalStrategy(
   function(username, password, done) {
-    User.findOne({username: username}, function (err, user) {
-      if (err) return done(err);
-      if (!user) return done(null, false);
-      if (user.password != password) return done(null, false);
-      return done(null, user);
-    });
+      User.findOne({username: username}, function (err, user) {
+        if (err) return done(err);
+        if (!user) return done(null, false);
+        if(!user.validPassword(password)) return(null, false);
+        else return done(null, user);
+      });
   }
 ));
 
@@ -101,7 +101,6 @@ app.get('/auth/google/callback',
 }));
 
 app.post('/user', index.addUser);
-
 
 // -- Authentication Middleware
 app.use(function (req, res, next) {
