@@ -124,6 +124,7 @@ app.post('/stream',index.addStream);
 app.post('/node', index.addNode);
 app.post('/event', index.addEvent);
 app.post('/node/edit', index.editNode);
+app.post('/event/edit', index.editEvent);
 
 // -- Listen
 app.listen(PORT);
