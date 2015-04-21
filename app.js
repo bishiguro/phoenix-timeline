@@ -119,7 +119,6 @@ app.get('/auth/google/callback',
         failureRedirect: '/login.html'
 }));
 
-//app.post('/user', index.addUser);
 app.post('/user', passport.authenticate('local-signup', {
   successRedirect: '/',
   failureRedirect: '/login'
