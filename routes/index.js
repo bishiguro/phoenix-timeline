@@ -100,6 +100,19 @@ routes.addEvent = function(req, res) {
     });
 }
 
+routes.editNode = function(req, res) {
+    Node.findById(req.body.id, function(err, node){
+        if (err) databaseError(err, req, res);
+        else {
+            node.summary = req.body.summary;
+            node.description = req.body.description;
+            node.dueDate = req.body.dueDate;
+            node.save();
+            res.send({ node: node});            
+        };
+    });
+}
+
 
 // ----- FUNCTION EXPORTS ----- //
 module.exports = routes;

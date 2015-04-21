@@ -99,23 +99,42 @@ app.controller('nodeController', ['$scope', '$http', 'nodeList', function($scope
 
 app.controller('nodeButtonController', ['$scope','$http',function($scope,$http) {
 
-    $scope.sum = '';
-    $scope.desc = '';
-    $scope.due = '';
-    $scope.editing = false;
+    $scope.nodeValues = {
+        sum: '',
+        desc: '',
+        due: ''
+    };
     $scope.status = {
-        editOpen: false
+        displaying: false,
+        editing: false
     };
 
     // Toggle Edit Menu //
     $scope.showNodeDetails = function(id,$event) {
-        $http.get('/node/'+id).success(function(data,status,headers,config) {
-                $event.preventDefault();
-                $event.stopPropagation();
-                $scope.sum = data.node.summary;
-                $scope.desc = data.node.description;
-                $scope.due = dateFormat(data.node.dueDate,"m/dd/yy");
-                $scope.status.editOpen = !$scope.status.editOpen;
-            }).error(console.error);
+        $http.get('/node/'+id)
+        .success(function(data,status,headers,config) {
+            $event.preventDefault();
+            $event.stopPropagation();
+            $scope.nodeValues.sum = data.node.summary;
+            $scope.nodeValues.desc = data.node.description;
+            $scope.nodeValues.due = dateFormat(data.node.dueDate,"m/dd/yy");
+            $scope.status.displaying = !$scope.status.displaying;
+        })
+        .error(console.error);
     };
+
+    // Save an Edited Node's Details //
+    $scope.saveEditedNode = function(id) {
+        $http.post('/node/edit', {
+            id: id,
+            summary: $scope.nodeValues.sum,
+            description: $scope.nodeValues.desc,
+            dueDate: $scope.nodeValues.due
+        })
+        .success(function(data,status,headers,config) {
+            // console.log(data.node);
+        })
+        .error(console.error);
+    };
+
 }]);
