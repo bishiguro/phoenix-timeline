@@ -1,2 +1,26 @@
 <link rel="stylesheet" href="/stylesheets/main.css"/>
-<button class='event' id={{event.id}} ng-click='showEventDetails(event.id)'></button>
+
+<div class="dropdown" dropdown is-open="status.displaying">
+    <!-- Event Button -->
+    <button class="dropdown-toggle event" id={{event.id}} ng-click="showEventDetails(event.id,$event)"></button>
+    <!-- Event Details Menu -->
+    <div class="dropdown-menu" ng-click="$event.stopPropagation()">
+        <!-- Display Mode -->
+        <div ng-hide="editing" class="ui-control flex-parent flex-hcenter">
+            <label class="ui-label">{{ eventValues.ttl }}</label>
+            <label class="ui-label">{{ eventValues.start }}</label>
+            <label class="ui-label">{{ eventValues.end }}</label>
+            <button class="btn" ng-click="editing = true">Edit</button>
+        </div>
+        <!-- Edit Mode -->
+        <form ng-show="editing" ng-submit="saveEditedEvent(event.id);editing = false">
+            <label>Title:</label>
+            <input type="text" ng-model="eventValues.ttl" name="ttl"><br/>
+            <label>Start Time:</label>
+            <input type="text" ng-model="eventValues.start" name="start"><br/>
+            <label>End Time:</label>
+            <input type="text" ng-model="eventValues.end" name="end"><br/>
+            <button class="btn" type="submit">Save</button>
+        </form>
+    </div>
+</div>

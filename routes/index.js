@@ -90,13 +90,42 @@ routes.addNode = function(req, res) {
 routes.addEvent = function(req, res) {
     Event.create({
         title: req.body.title,
-        start: req.body.startTime,
-        end: req.body.endTime
+        startTime: req.body.startTime,
+        endTime: req.body.endTime
     },
 
     function(err, event) {
         if (err) return databaseError(err, req, res);
         else res.send({ id: event._id });
+    });
+}
+
+
+// ----- MODEL UPDATING API ----- //
+
+routes.editNode = function(req, res) {
+    Node.findById(req.body.id, function(err, node){
+        if (err) databaseError(err, req, res);
+        else {
+            node.summary = req.body.summary;
+            node.description = req.body.description;
+            node.dueDate = req.body.dueDate;
+            node.save();
+            res.send({ node: node});            
+        };
+    });
+}
+
+routes.editEvent = function(req, res) {
+    Event.findById(req.body.id, function(err, event){
+        if (err) databaseError(err, req, res);
+        else {
+            event.title = req.body.title;
+            event.startTime = req.body.startTime;
+            event.endTime = req.body.endTime;
+            event.save();
+            res.send({ event: event});            
+        };
     });
 }
 
