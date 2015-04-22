@@ -75,7 +75,7 @@ passport.use(new GoogleStrategy({
     User.findOrCreate({username: profile.displayName, googleId: profile.id}, function(err, user) {
         var url = "https://www.googleapis.com/calendar/v3/users/me/calendarList";
         request.get(url, function (err, response, body) {
-            console.log(body);
+
         });
         done(err, user);
     });
@@ -137,13 +137,17 @@ app.get('/', index.home);
 app.get('/logout', index.logout);
 
 // GET API
+app.get('/user', index.findUser);
 app.get('/node/:id', index.findNode);
 app.get('/event/:id', index.findEvent);
 
 // POST API
+app.post('/project', index.addProject);
 app.post('/stream',index.addStream);
 app.post('/node', index.addNode);
 app.post('/event', index.addEvent);
+
+// TODO: Change to 'PUT' Requests
 app.post('/node/edit', index.editNode);
 app.post('/event/edit', index.editEvent);
 

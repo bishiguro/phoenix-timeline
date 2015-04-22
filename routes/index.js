@@ -1,8 +1,9 @@
 var mongoose = require('mongoose');
 var path = require("path");
 
-var Stream = require(path.join(__dirname,"../models/stream"));
 var User = require(path.join(__dirname,"../models/user"));
+var Project = require(path.join(__dirname,"../models/project"));
+var Stream = require(path.join(__dirname,"../models/stream"));
 var Event = require(path.join(__dirname,"../models/event"));
 var Node = require(path.join(__dirname,"../models/node"));
 
@@ -34,6 +35,15 @@ routes.logout = function(req, res) {
     res.redirect('/login.html');
 }
 
+routes.findUser = function(req, res) {
+    User.findById(req.user._id)
+        .populate('projects', 'name')
+        .exec( function(err, user) {
+            if (err) databaseError(err, req, res);
+            res.json(user);
+    });
+}
+
 routes.findNode = function(req, res) {
     Node.findById(req.params.id, function(err, node){
         if (err) databaseError(err, req, res);
@@ -50,6 +60,28 @@ routes.findEvent = function(req, res) {
 
 
 // ----- MODEL CREATION API ----- //
+
+routes.addProject = function(req, res) {
+    Project.create({
+        name: req.body.name
+    },
+
+    function(err, project) {
+        if (err) return databaseError(err, req, res);
+
+        var id = req.user._id;
+        var cmd = {
+            $set: {currentProject: project.name},
+            $push: {projects: project.id}
+        };
+
+        User.findByIdAndUpdate(id, cmd, function (err, user) {
+            if (err) return databaseError(err, req, res);
+            console.log(user)
+            res.sendStatus(200);
+        });
+    });
+}
 
 routes.addStream = function(req, res) {
     Stream.create( {

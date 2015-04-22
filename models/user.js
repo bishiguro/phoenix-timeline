@@ -7,6 +7,7 @@ var schema = mongoose.Schema({
 	password: String,
 	stream: {type: mongoose.Schema.ObjectId, ref: 'Stream'},
 	projects: [{type: mongoose.Schema.ObjectId, ref: 'Project'}],
+    currentProject: {type: String},
 	googleId: String
 });
 
