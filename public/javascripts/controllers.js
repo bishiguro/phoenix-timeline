@@ -6,6 +6,7 @@ function UserCtrl ($scope, $http, $location, $modal) {
     // Update user data from server
     $http.get('/user').success(function(data) {
         $scope.user = data;
+        console.log(data)
     });
 
     // Update view path when the currentProject variable changes

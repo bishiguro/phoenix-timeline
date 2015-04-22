@@ -353,3 +353,10 @@ input[type="range"]::-webkit-slider-thumb {
 .capitalize {
     text-transform: capitalize;
 }
+
+.item-container {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    background-color: aqua;
+}

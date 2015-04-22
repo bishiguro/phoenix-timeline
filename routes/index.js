@@ -37,9 +37,11 @@ routes.logout = function(req, res) {
 
 routes.findUser = function(req, res) {
     User.findById(req.user._id)
-        .populate('projects', 'name')
+        .populate('projects')
         .exec( function(err, user) {
             if (err) databaseError(err, req, res);
+            console.log(user)
+
             res.json(user);
     });
 }

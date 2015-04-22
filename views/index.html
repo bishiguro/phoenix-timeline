@@ -32,7 +32,7 @@
             <div class="col-md-4 row">
 
                 <div class="col-md-6 row">
-                   <!-- PROJECT SELECTION MENU -->
+                    <!-- PROJECT SELECTION MENU -->
                     <div class="col-md-8 ui-control">
                         <select id="project-selection" ng-model="user.currentProject" class="capitalize ui-button full-width">
                             <option ng-repeat="project in user.projects" value={{project.name}}>{{project.name}}</option>
@@ -79,6 +79,19 @@
                     <!-- Hour ticks are generated here -->
                 </ul>
             </div>
+
+            <div class="stream-container">
+
+                <div id="left-stream-bar" class="stream"></div>
+                <div class="stream-label">{{user.stream.name}}</div>
+                <div class="stream" ng-click="addStreamItem()"></div>
+
+                <div class="item-container" ng-repeat="node in user.stream.nodes">
+                    <div class="item node" data-start-date="{{dueDate}}"></div>
+                </div>
+                <div class="item event" data-start-date="Fri Apr 17 2015 18:21:28 GMT-0400 (EDT)" data-end-date="Fri Apr 17 2015 20:21:28 GMT-0400 (EDT)"></div>
+            </div>
+
 
             <div ng-view></div>
         </div>
