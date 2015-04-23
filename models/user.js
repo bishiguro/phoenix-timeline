@@ -2,9 +2,7 @@ var mongoose = require("mongoose");
 var bcrypt = require("bcrypt-nodejs");
 var findOrCreate = require('mongoose-findorcreate');
 
-var path = require("path");
-var Stream = require(path.join(__dirname,"./stream"));
-
+// Master stream object to embed in the User schema
 var masterStream = {
     name: {type: String, default: 'Master', required: true},
     events: [{type: mongoose.Schema.ObjectId, ref: 'Event'}],
