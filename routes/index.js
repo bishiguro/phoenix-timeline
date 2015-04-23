@@ -72,9 +72,7 @@ routes.findEvent = function(req, res) {
 routes.addProject = function(req, res) {
     Project.create({
         name: req.body.name
-    },
-
-                   function(err, project) {
+    }, function(err, project) {
         if (err) return databaseError(err, req, res);
 
         var id = req.user._id;
@@ -93,11 +91,17 @@ routes.addProject = function(req, res) {
 routes.addStream = function(req, res) {
     Stream.create( {
         name: req.body.name,
-    },
-
-                  function(err, stream) {
+    }, function(err, stream) {
         if (err) return databaseError(err, req, res);
-        else res.json(stream);
+
+        // TODO: Do not allow projects with same name to collide between users
+        Project.findOneAndUpdate(
+            {name: req.body.projectName},
+            {$push: {streams: stream}},
+            function (err, project) {
+                if (err) return databaseError(err, req, res);
+                else res.json(stream);
+            });
     });
 }
 
@@ -106,9 +110,7 @@ routes.addNode = function(req, res) {
         summary: req.body.summary,
         description: req.body.description,
         dueDate: req.body.dueDate
-    },
-
-                function (err, node) {
+    }, function (err, node) {
         if (err) return databaseError(err, req, res);
         else res.json({ id: node._id });
     });
@@ -119,9 +121,7 @@ routes.addEvent = function(req, res) {
         title: req.body.title,
         startTime: req.body.startTime,
         endTime: req.body.endTime
-    },
-
-                 function(err, event) {
+    }, function(err, event) {
         if (err) return databaseError(err, req, res);
         else res.send({ id: event._id });
     });

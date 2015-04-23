@@ -50,7 +50,7 @@ function ProjectCtrl ($scope, $http, $routeParams) {
     });
 
     $scope.createStream = function () {
-        $http.post('/stream', {name : 'New Stream'})
+        $http.post('/stream', {name : 'New Stream', projectName: $routeParams.projectName})
             .success( function (data, status) {
             $scope.project.streams.push(data);
         }).error(function(data, status){
