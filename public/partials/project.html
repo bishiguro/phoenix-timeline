@@ -1,22 +1,37 @@
+<div ng-repeat="stream in project.streams">
+    <div class="stream-container">
+
+        <div id="left-stream-bar" class="stream"></div>
+        <div class="stream-label">{{stream.name}}</div>
+        <div class="stream" ng-click="addStreamItem()"></div>
+
+        <div class="item-container" ng-repeat="node in nodes">
+            <div class="item node" data-start-date="{{dueDate}}"></div>
+        </div>
+        <div class="item event" data-start-date="Fri Apr 17 2015 18:21:28 GMT-0400 (EDT)" data-end-date="Fri Apr 17 2015 20:21:28 GMT-0400 (EDT)"></div>
+    </div>
+</div>
+<button class="item node" ng-click="createStream()">+</button>
+
 <!-- STREAM CONTAINER -->
 <!--<div ng-controller="StreamCtrl">
-    <div ng-repeat = 'stream in streams'>
-        <ng-include src="'stream.html'"></ng-include>
-    </div>
+<div ng-repeat = 'stream in streams'>
+<ng-include src="'stream.html'"></ng-include>
+</div>
 </div>-->
 
 <!-- NODE CONTAINER -->
 <!-- TODO: place nodes on streams based on associated date/time -->
 <!--<div ng-controller="nodeController">
-    <div ng-repeat = 'node in nodes' ng-controller="nodeButtonController">
-        <ng-include src="'node.html'"></ng-include>
-    </div>
+<div ng-repeat = 'node in nodes' ng-controller="nodeButtonController">
+<ng-include src="'node.html'"></ng-include>
+</div>
 </div>-->
 
 <!-- EVENT CONTAINER -->
 <!-- TODO: place events on streams based on associated date/time -->
 <!--<div ng-controller="eventController">
-    <div ng-repeat = 'event in events' ng-controller="eventButtonController">
-        <ng-include src="'event.html'"></ng-include>
-    </div>
+<div ng-repeat = 'event in events' ng-controller="eventButtonController">
+<ng-include src="'event.html'"></ng-include>
+</div>
 </div>-->

@@ -138,6 +138,7 @@ app.get('/logout', index.logout);
 
 // GET API
 app.get('/user', index.findUser);
+app.get('/project/:projectName', index.findProject);
 app.get('/node/:id', index.findNode);
 app.get('/event/:id', index.findEvent);
 

@@ -26,12 +26,11 @@ function UserCtrl ($scope, $http, $location, $modal) {
         modalInstance.result.then(function (name) {
             $http.post('/project', {name: name})
                 .success(function(data, status) {
-                    var index = $scope.user.projects.push({name: name});
-                    $scope.user.currentProject = name;
-                    console.log($scope.user.currentProject);
-                }).error(function(data, status){
+                var index = $scope.user.projects.push({name: name});
+                $scope.user.currentProject = name;
+            }).error(function(data, status){
 
-                });
+            });
         });
     }
 }
@@ -42,11 +41,25 @@ app.controller('ProjectCreationCtrl', function ($scope, $modalInstance) {
     $scope.cancel = function () { $modalInstance.dismiss('cancel'); };
 });
 
-function ProjectCtrl ($scope, $http) {
-    // TODO: Implement project/stream loading
+function ProjectCtrl ($scope, $http, $routeParams) {
+    $http.get('/project/' + $routeParams.projectName)
+        .success( function (data, status) {
+        $scope.project = data;
+    }).error(function(data, status){
+
+    });
+
+    $scope.createStream = function () {
+        $http.post('/stream', {name : 'New Stream'})
+            .success( function (data, status) {
+            $scope.project.streams.push(data);
+        }).error(function(data, status){
+
+        });
+    };
 }
 
 // ----- Export Controllers
 app.controller('UserCtrl', ['$scope', '$http', '$location', '$modal', UserCtrl]);
-app.controller('ProjectCtrl', ['$scope', '$http', ProjectCtrl]);
+app.controller('ProjectCtrl', ['$scope', '$http', '$routeParams', ProjectCtrl]);
 
