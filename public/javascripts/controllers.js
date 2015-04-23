@@ -6,7 +6,6 @@ function UserCtrl ($scope, $http, $location, $modal) {
     // Update user data from server
     $http.get('/user').success(function(data) {
         $scope.user = data;
-        console.log(data)
     });
 
     // Update view path when the currentProject variable changes
@@ -27,8 +26,9 @@ function UserCtrl ($scope, $http, $location, $modal) {
         modalInstance.result.then(function (name) {
             $http.post('/project', {name: name})
                 .success(function(data, status) {
-                    $scope.user.projects.push({name: name})
+                    var index = $scope.user.projects.push({name: name});
                     $scope.user.currentProject = name;
+                    console.log($scope.user.currentProject);
                 }).error(function(data, status){
 
                 });

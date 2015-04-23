@@ -40,8 +40,6 @@ routes.findUser = function(req, res) {
         .populate('projects')
         .exec( function(err, user) {
             if (err) databaseError(err, req, res);
-            console.log(user)
-
             res.json(user);
     });
 }
@@ -79,7 +77,6 @@ routes.addProject = function(req, res) {
 
         User.findByIdAndUpdate(id, cmd, function (err, user) {
             if (err) return databaseError(err, req, res);
-            console.log(user)
             res.sendStatus(200);
         });
     });

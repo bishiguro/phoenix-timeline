@@ -15,7 +15,7 @@ var schema = mongoose.Schema({
     username: {type: String, required: true},
     password: String,
     stream: masterStream,
-    projects: [{type: mongoose.Types.ObjectId, ref: 'Project'}],
+    projects: [{type: mongoose.Schema.ObjectId, ref: 'Project'}],
     currentProject: {type: String},
     googleId: String
 });
