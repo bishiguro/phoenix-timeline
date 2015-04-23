@@ -5,10 +5,14 @@
         <div class="stream-label">{{stream.name}}</div>
         <div class="stream" ng-click="addStreamItem()"></div>
 
-        <div class="item-container" ng-repeat="node in nodes">
-            <div class="item node" data-start-date="{{dueDate}}"></div>
+        <div class="item-container" ng-repeat="node in stream.nodes">
+            <div class="item node" data-start-date="{{node.dueDate}}"></div>
         </div>
-        <div class="item event" data-start-date="Fri Apr 17 2015 18:21:28 GMT-0400 (EDT)" data-end-date="Fri Apr 17 2015 20:21:28 GMT-0400 (EDT)"></div>
+
+        <div class="item-container" ng-repeat="event in stream.events">
+            <div class="item event" data-start-date="{{event.startTime}}" data-end-date="{{event.endTime}}"></div>
+        </div>
+
     </div>
 </div>
 <button class="item node" ng-click="createStream()">+</button>
