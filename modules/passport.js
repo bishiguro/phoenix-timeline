@@ -67,31 +67,30 @@ auth.configure = function() {
 }
 
 auth.localLogin = function () {
-	console.log('Logging In...')
-	passport.authenticate('local-login', {
+	return passport.authenticate('local-login', {
 	    successRedirect: '/',
 	    failureRedirect: '/login.html'
-	})
+	});
 }
 
 auth.localSignup = function () {
-	passport.authenticate('local-signup', {
+	return passport.authenticate('local-signup', {
 		successRedirect: '/',
 		failureRedirect: '/login.html'
-	})
+	});
 }
 
 auth.googleAuth = function () {
-	passport.authenticate('google', {
+	return passport.authenticate('google', {
     	scope: ['profile', 'https://www.googleapis.com/auth/calendar']
-	})
+	});
 }
 
 auth.googleCallback = function () {
-    passport.authenticate( 'google', {
+    return passport.authenticate( 'google', {
         successRedirect: '/',
         failureRedirect: '/login.html'
-	})
+	});
 }
 
 module.exports = auth;

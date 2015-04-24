@@ -42,11 +42,11 @@ app.use(passport.session());
 
 
 // -- Public Routes
-app.post('/login', auth.localLogin);
-app.post('/user', auth.localSignup);
+app.post('/login', auth.localLogin());
+app.post('/user', auth.localSignup());
 
-app.get('/auth/google', auth.googleAuth);
-app.get('/auth/google/callback', auth.googleCallback);
+app.get('/auth/google', auth.googleAuth());
+app.get('/auth/google/callback', auth.googleCallback());
 
 // -- Authentication Middleware
 app.use(function (req, res, next) {
