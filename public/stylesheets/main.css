@@ -349,3 +349,23 @@ input[type="range"]::-webkit-slider-thumb {
 
 .event:hover{ background-color: #5077BE; }
 .event:active{ background-color: #A2BFF4; }
+
+.capitalize {
+    text-transform: capitalize;
+}
+
+.item-container {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    background-color: aqua;
+}
+
+#new-stream-button {
+    border-radius: 50px;
+}
+
+#new-stream-cont {
+    position: relative;
+    left: 21%;
+}
