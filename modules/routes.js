@@ -27,6 +27,7 @@ function databaseError(err, req, res) {
 // ----- GET HANDLERS ----- //
 
 routes.home = function(req, res) {
+    console.log('Home Page!')
     res.sendFile(path.join(__dirname, '../views/index.html'));
 }
 
