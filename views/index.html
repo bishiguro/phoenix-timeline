@@ -23,7 +23,7 @@
         <script src="/javascripts/controllers.js"></script>
     </head>
 
-    <body id="body" onload="startUpdates(30000)" ng-controller='UserCtrl'>
+    <body id="body" onload="startUpdates()" ng-controller='UserCtrl'>
 
         <!-- HEADER -->
         <header id="header" class="flex-vcenter row">
@@ -56,7 +56,7 @@
 
                 <!-- SLIDER -->
                 <div class="ui-control col-md-4">
-                    <input type="range" id="scale-slider" min=1 max=13 value=5 step=.1 oninput="updateTicks()">
+                    <input type="range" id="scale-slider" min=1 max=13 value=5 step=.1 oninput="update()">
                     <label id="scale-label" class="ui-label" for="scale-slider">Scale</label>
                 </div>
 
