@@ -34,8 +34,7 @@
                 <div class="col-md-6 row">
                     <!-- PROJECT SELECTION MENU -->
                     <div class="col-md-8 ui-control">
-                        <select id="project-selection" ng-model="user.currentProject" class="capitalize ui-button full-width">
-                            <option ng-repeat="project in user.projects" value={{project.name}}>{{project.name}}</option>
+                        <select id="project-selection" ng-model="user.currentProject" ng-options="project.name as project.name for project in user.projects" class="capitalize ui-button full-width">
                         </select>
                         <label class="ui-label centered-text" for="project-selection">Project Control</label>
                     </div>
