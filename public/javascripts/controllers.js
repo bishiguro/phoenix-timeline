@@ -12,7 +12,10 @@ function UserCtrl ($scope, $http, $location, $modal) {
     $scope.$watch('user.currentProject', function(value) {
         $location.path('/' + value);
 
-        // TODO: Patch update of currentProject here
+        $http.put('/user', {currentProject: value})
+        .success(function(data, status) {
+            console.log(data)
+            $scope.user = data });
     });
 
     // Project Creation Modal Control

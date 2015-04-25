@@ -76,5 +76,8 @@ app.post('/event', routes.addEvent);
 app.post('/node/edit', routes.editNode);
 app.post('/event/edit', routes.editEvent);
 
+// PUT API
+app.put('/user', routes.editUser);
+
 // -- Listen
 app.listen(PORT);
