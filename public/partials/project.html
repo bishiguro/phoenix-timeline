@@ -1,0 +1,26 @@
+<!-- PROJECT STREAMS -->
+<div ng-repeat="stream in project.streams">
+    <div class="stream-container">
+
+        <div id="left-stream-bar" class="stream"></div>
+        <div class="stream-label">{{stream.name}}</div>
+        <!-- TODO: Rig up click to create items -->
+        <div class="stream"></div>
+
+        <div class="item-container" ng-repeat="node in stream.nodes">
+            <div class="item node" data-start-date="{{node.dueDate}}"></div>
+        </div>
+
+        <div class="item-container" ng-repeat="event in stream.events">
+            <div class="item event" data-start-date="{{event.startTime}}" data-end-date="{{event.endTime}}"></div>
+        </div>
+
+    </div>
+</div>
+
+<!-- NEW STREAM BUTTON -->
+<div class="stream-container">
+    <div id="new-stream-cont">
+        <button id="new-stream-button" class="ui-button" ng-click="createStream()">+</button>
+    </div>
+</div>
