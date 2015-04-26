@@ -97,7 +97,7 @@ function startUpdates(ms_interval) {
 */
 function createHourTick (value) {
     var hour_tick = document.createElement("LI");
-    var text = document.createTextNode(hour2Date(value).format("hT")));
+    var text = document.createTextNode(hour2Date(value).format("hT"));
     hour_tick.appendChild(text);
     hour_tick.className = "hour-tick";
     hour_tick.style.width = this.hour_width + "px";

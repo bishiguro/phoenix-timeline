@@ -132,27 +132,37 @@ routes.addEvent = function(req, res) {
 
 routes.editNode = function(req, res) {
     Node.findById(req.body.id, function(err, node){
-        if (err) databaseError(err, req, res);
+        if (err) return databaseError(err, req, res);
         else {
             node.summary = req.body.summary;
             node.description = req.body.description;
             node.dueDate = req.body.dueDate;
             node.save();
-            res.send({ node: node});            
+            res.json({node: node});
         };
     });
 }
 
 routes.editEvent = function(req, res) {
     Event.findById(req.body.id, function(err, event){
-        if (err) databaseError(err, req, res);
+        if (err) return databaseError(err, req, res);
         else {
             event.title = req.body.title;
             event.startTime = req.body.startTime;
             event.endTime = req.body.endTime;
             event.save();
-            res.send({ event: event});            
+            res.json({event: event});
         };
+    });
+}
+
+routes.editUser = function(req, res) {
+    User.findByIdAndUpdate(req.user._id, req.body, function (err, user) {
+        if (err) return databaseError(err, req, res);
+        user.populate('projects', function(err, user) {
+            res.json(user);
+        });
+
     });
 }
 
