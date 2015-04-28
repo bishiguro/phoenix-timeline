@@ -39,6 +39,7 @@ routes.findUser = function(req, res) {
     User.findById(req.user._id)
         .populate('projects')
         .exec( function(err, user) {
+        console.log(user)
         if (err) databaseError(err, req, res);
         res.json(user);
     });

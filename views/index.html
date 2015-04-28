@@ -48,7 +48,7 @@
                 </div>
             </div>
 
-             
+
 
             <h1 id="header-title" class="col-md-4 lane centered-text">Phoenix Timeline</h1>
 
@@ -62,14 +62,14 @@
                 </div>
 
                 <!-- DATE PICKER -->
-                <div ng-controller="datepickerController" id="date-selector" class="col-md-4 ui-control">
+                <div ng-controller="DateCtrl" id="date-selector" class="col-md-4 ui-control">
                     <p class="input-group full-width">
-                      <input type="text" class="form-control" datepicker-popup="{{format}}" ng-model="dt" is-open="opened" min-date="minDate" max-date="'2020-06-22'" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close"/>
-                      <span class="input-group-btn">
-                        <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
-                      </span>
+                        <input type="text" class="form-control" datepicker-popup="shortDate" ng-model="dt" is-open="opened" ng-required="true" close-text="Close"/>
+                        <span class="input-group-btn">
+                            <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+                        </span>
                     </p>
-                    <label class="ui-label" for="date-selector">Current Date Shown</label>
+                    <label class="ui-label" for="date-selector">Date Shown</label>
                 </div>  
 
                 <!-- LOGOUT BUTTON -->
@@ -92,7 +92,7 @@
                 </ul>
             </div>
 
-           <!-- MASTER STREAM -->
+            <!-- MASTER STREAM -->
             <div class="stream-container">
                 <div id="left-stream-bar" class="stream"></div>
                 <div class="stream-label">{{user.stream.name}}</div>
