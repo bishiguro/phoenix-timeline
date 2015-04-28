@@ -84,6 +84,12 @@ function DateCtrl ($scope) {
 
     // Set current date as default
     $scope.today();
+
+    // When the new date is set, update the timeline
+    $scope.$watch('dt', function() {
+        currentDate = $scope.dt;
+        update();
+    })
 }
 
 // ----- Export Controllers
