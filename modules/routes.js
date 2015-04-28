@@ -26,7 +26,7 @@ function databaseError(err, req, res) {
 
 function populateEvents(req, res) {
     // TODO: Replace hard-coded email with User's Google Email
-    email = "bgishiguro@gmail.com"
+    email = "phoenixtimeline@gmail.com"
     google_calendar = new gcal.GoogleCalendar(req.user.googleAccessToken);
     google_calendar.events.list(email, {maxResults:1}, function(err, data) {
         if (err) return res.send(500);
