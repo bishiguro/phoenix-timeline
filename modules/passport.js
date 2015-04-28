@@ -1,6 +1,5 @@
 var passport = require('passport');
 var request = require('request');
-//var path = require("path");
 
 var LocalStrategy = require('passport-local').Strategy;
 var GoogleStrategy = require('passport-google-oauth2').Strategy;
@@ -55,7 +54,7 @@ auth.configure = function() {
 	    scope: ['openid', 'email', 'https://www.googleapis.com/auth/calendar']
 	  },
 	  function(accessToken, refreshToken, profile, done){
-	    User.findOrCreate({username: profile.displayName, googleId: profile.id}, function(err, user) {
+	    User.findOrCreate({username: profile.displayName, googleId: profile.id, googleAccessToken: accessToken, googleRefreshToken: refreshToken}, function(err, user) {
 	        var url = "https://www.googleapis.com/calendar/v3/users/me/calendarList";
 	        request.get(url, function (err, response, body) {
 

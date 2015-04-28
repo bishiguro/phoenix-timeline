@@ -15,7 +15,9 @@ var schema = mongoose.Schema({
     stream: masterStream,
     projects: [{type: mongoose.Schema.ObjectId, ref: 'Project'}],
     currentProject: {type: String},
-    googleId: String
+    googleId: String,
+    googleAccessToken: String,
+    googleRefreshToken: String
 });
 
 schema.plugin(findOrCreate);

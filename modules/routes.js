@@ -1,5 +1,6 @@
 var mongoose = require('mongoose');
 var path = require("path");
+var gcal = require("google-calendar");
 
 var User = require(path.join(__dirname,"../models/user"));
 var Project = require(path.join(__dirname,"../models/project"));
@@ -23,10 +24,34 @@ function databaseError(err, req, res) {
     res.sendStatus(500);
 }
 
+function populateEvents(req, res) {
+    // TODO: Replace hard-coded email with User's Google Email
+    email = "bgishiguro@gmail.com"
+    google_calendar = new gcal.GoogleCalendar(req.user.googleAccessToken);
+    google_calendar.events.list(email, {maxResults:1}, function(err, data) {
+        if (err) return res.send(500);
+        else {
+            for (i=0; i<data.items.length; i++) {
+                // FIXME: Eliminating Project Persistence
+                // TODO: Add Events to Personal Stream - user.stream
+                Event.create({
+                    title: data.items[i].summary,
+                    startTime: data.items[i].start.dateTime,
+                    endTime: data.items[i].end.dateTime
+                }, 
+                function(err, event) {
+                    if (err) return databaseError(err, req, res);
+                    //else res.send({ id: event._id });
+                });
+            }
+        }
+    })
+}
 
 // ----- GET HANDLERS ----- //
 
 routes.home = function(req, res) {
+    populateEvents(req, res);
     res.sendFile(path.join(__dirname, '../views/index.html'));
 }
 
