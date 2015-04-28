@@ -38,14 +38,14 @@ function update () {
     hour_tick_list = document.querySelector("#hour-tick-list");
     hour_tick_list.innerHTML = "";
 
-    // Determine the pixel offset of the current-time-bar from the left
-    this.now_offset = .25 * hour_tick_list.offsetWidth;
-    document.querySelector('#current-time-bar').style.left = this.now_offset + "px";
-
     // Determine the pixel width of an hour
     var slider_value = document.querySelector('#scale-slider').value;
     num_hours = Math.pow(slider_value, 2);
     this.hour_width = hour_tick_list.offsetWidth / num_hours;
+
+    // Determine the pixel offset of the current-time-bar from the left
+    this.now_offset = .25 * hour_tick_list.offsetWidth;
+    document.querySelector('#current-time-bar').style.left = this.now_offset + "px";
 
     // Calculate the start point of the first hour
     var hours_to_left = this.now_offset / this.hour_width;
