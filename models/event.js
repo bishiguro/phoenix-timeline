@@ -1,5 +1,4 @@
 var mongoose = require('mongoose');
-var findOrCreate = require('mongoose-findorcreate');
 
 var schema = mongoose.Schema({
 	title: {type: String, required: true},
@@ -7,7 +6,5 @@ var schema = mongoose.Schema({
 	endTime: {type: String, required: true},
 	users: [{type: mongoose.Schema.ObjectId, ref: 'User'}]
 });
-
-schema.plugin(findOrCreate);
 
 module.exports = mongoose.model('Event', schema);
