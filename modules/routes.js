@@ -24,6 +24,17 @@ function databaseError(err, req, res) {
     res.sendStatus(500);
 }
 
+// Converts Google Calendar Date strings to Javascript Date objects
+function stringToDate(date) {
+    var year = date.substring(0,4);
+    var month = (parseInt(date.substring(5,7))-1).toString();
+    var day = date.substring(8,10);
+    var hour = date.substring(11,13);
+    var minute = date.substring(14,16);
+    var second = date.substring(17,19);
+    return new Date(year, month, day, hour, minute, second);
+}
+
 function populateGoogleEvents(req, res) {
     // TODO: Replace hard-coded email with User's Google Email
     email = "phoenixtimeline@gmail.com"
@@ -32,11 +43,9 @@ function populateGoogleEvents(req, res) {
         if (err) return res.sendStatus(500);
         else {
             for (i=0; i<data.items.length; i++) {
-                
                 var title = data.items[i].summary;
-                var startTime = data.items[i].start.dateTime;
-                var endTime = data.items[i].end.dateTime;
-                
+                var startTime = stringToDate(data.items[i].start.dateTime);
+                var endTime = stringToDate(data.items[i].end.dateTime);
                 Event.findOne({title: title}, // TODO: verify with username
                     function (err, event) {
                     if (err) return databaseError(err, req, res);
