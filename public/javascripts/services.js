@@ -1,5 +1,5 @@
 // ----- Service Module Creation
-var app = angular.module('services',[]);
+var app = angular.module('services', []);
 
 // ----- Service Definitions
 //TODO: These can probably be combined

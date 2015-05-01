@@ -54,22 +54,27 @@ app.controller('ProjectCreationCtrl', function ($scope, $modalInstance) {
 function ProjectCtrl ($scope, $http, $routeParams) {
     $http.get('/projects/' + $routeParams.projectName)
         .success( function (data, status) {
-        $scope.project = data;
-    }).error(function(data, status){
-
+            $scope.project = data;
+        }).error(function(data, status){    
     });
 
     $scope.createStream = function () {
         $http.post('/streams', {name : 'New Stream', projectName: $routeParams.projectName})
             .success( function (data, status) {
-            $scope.project.streams.push(data);
-        }).error(function(data, status){
-
+                $scope.project.streams.push(data);
+            }).error(function(data, status){
         });
     };
+
+    $scope.deleteStream = function (id) {
+        $http.delete('/stream/'+id)
+            .success( function(data, status) {
+                console.log('deleted stream' + id);
+            }).error(function(data, status){
+        });
+    }
 }
 
 // ----- Export Controllers
 app.controller('UserCtrl', ['$scope', '$http', '$location', '$modal', UserCtrl]);
 app.controller('ProjectCtrl', ['$scope', '$http', '$routeParams', ProjectCtrl]);
-
