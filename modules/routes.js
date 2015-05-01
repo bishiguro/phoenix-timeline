@@ -106,10 +106,12 @@ routes.addStream = function(req, res) {
 }
 
 routes.addNode = function(req, res) {
+    console.log(req.body.summary);
+    console.log(req.body.due);
     Node.create({
         summary: req.body.summary,
         description: req.body.description,
-        dueDate: req.body.dueDate
+        dueDate: req.body.due
     }, function (err, node) {
         if (err) return databaseError(err, req, res);
         else res.json({ id: node._id });

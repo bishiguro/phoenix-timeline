@@ -6,9 +6,11 @@ function UserCtrl ($scope, $http, $location, $modal) {
     // Update user data from server
     $http.get('/user').success(function(data) {
         $scope.user = data;
+        console.log(data);
     });
 
     $scope.$on('$routeChangeSuccess', function(next, current) {
+        console.log($scope.user);
         var newCurrentProject = $location.path().slice(1);
         angular.forEach ($scope.user.projects, function(project) {
             if (project.name == newCurrentProject)
@@ -69,7 +71,39 @@ function ProjectCtrl ($scope, $http, $routeParams) {
     };
 }
 
+app.controller('nodeModalController', function ($scope, $modalInstance) {
+    $scope.ok = function () { $modalInstance.close($scope.description, $scope.summary); };
+    $scope.cancel = function () { $modalInstance.dismiss('cancel'); };
+});
+
+function streamController($scope,$http,$modal){
+
+    $scope.summary = '';
+    $scope.description = '';
+    $scope.adding = false;
+    $scope.mytime = Date;
+
+    $scope.createNodeDialog = function(event) {
+        //$scope.mytime = xPos2Date(event.pageX); ask Nick about this function.
+        $scope.mytime = new Date(100);
+        var modalInstance = $modal.open({
+            templateUrl: '/partials/node-creation.html',
+            controller: 'nodeModalController',
+            size:'sm',
+        });
+        modalInstance.result.then(function (summary, description) {
+            $http.post('/node',{summary:summary,description:description,due:$scope.mytime, stream:$scope.stream._id}).success(function(data,status,headers,config) {
+                // var nodeHtml = "<button class='node' id="+data.id.toString()+" ng-click='findNode("+data.id.toString()+")'></button>";
+                // $("#nodebox").prepend(nodeHtml);//ask Nick about frontend node handling
+            }).error(console.error);
+        });
+    });
+}};
+
 // ----- Export Controllers
 app.controller('UserCtrl', ['$scope', '$http', '$location', '$modal', UserCtrl]);
 app.controller('ProjectCtrl', ['$scope', '$http', '$routeParams', ProjectCtrl]);
+app.controller('streamController',['$scope','$http','$modal',streamController]);
+
+
 
