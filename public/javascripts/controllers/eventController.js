@@ -14,7 +14,7 @@ app.controller('eventController', ['$scope', '$http', 'eventList', function($sco
 
     // Add a New Event //
     $scope.addEvent = function() {
-        $http.post('/event', {
+        $http.post('/events', {
             title:$scope.eventValues.title,
             startTime:$scope.eventValues.startTime,
             endTime:$scope.eventValues.endTime
@@ -51,7 +51,7 @@ app.controller('eventButtonController', ['$scope','$http',function($scope,$http)
 
     // Toggle Edit Menu //
     $scope.showEventDetails = function(id,$event) {
-        $http.get('/event/'+id).success(function(data,status,headers,config) {
+        $http.get('/events/'+id).success(function(data,status,headers,config) {
             $event.preventDefault();
             $event.stopPropagation();
             $scope.eventValues.ttl = data.event.title;
@@ -63,7 +63,7 @@ app.controller('eventButtonController', ['$scope','$http',function($scope,$http)
 
     // Save an Edited Event's Details //
     $scope.saveEditedEvent = function(id) {
-        $http.post('/event/edit', {
+        $http.post('/events/edit', {
             id: id,
             title: $scope.eventValues.ttl,
             startTime: $scope.eventValues.start,

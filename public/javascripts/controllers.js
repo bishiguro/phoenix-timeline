@@ -34,7 +34,7 @@ function UserCtrl ($scope, $http, $location, $modal) {
         });
 
         modalInstance.result.then(function (name) {
-            $http.post('/project', {name: name})
+            $http.post('/projects', {name: name})
                 .success(function(data, status) {
                 var index = $scope.user.projects.push({name: name});
                 $scope.user.currentProject = name;
@@ -52,7 +52,7 @@ app.controller('ProjectCreationCtrl', function ($scope, $modalInstance) {
 });
 
 function ProjectCtrl ($scope, $http, $routeParams) {
-    $http.get('/project/' + $routeParams.projectName)
+    $http.get('/projects/' + $routeParams.projectName)
         .success( function (data, status) {
         $scope.project = data;
     }).error(function(data, status){
@@ -60,7 +60,7 @@ function ProjectCtrl ($scope, $http, $routeParams) {
     });
 
     $scope.createStream = function () {
-        $http.post('/stream', {name : 'New Stream', projectName: $routeParams.projectName})
+        $http.post('/streams', {name : 'New Stream', projectName: $routeParams.projectName})
             .success( function (data, status) {
             $scope.project.streams.push(data);
         }).error(function(data, status){

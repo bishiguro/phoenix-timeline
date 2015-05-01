@@ -14,7 +14,7 @@ app.controller('nodeController', ['$scope', '$http', 'nodeList', function($scope
 
     // Add a New Node //
     $scope.addNode = function() {
-        $http.post('/node', {
+        $http.post('/nodes', {
             summary: $scope.nodeValues.summary,
             description: $scope.nodeValues.description,
             dueDate: $scope.dt
@@ -98,7 +98,7 @@ app.controller('nodeButtonController', ['$scope','$http',function($scope,$http) 
 
     // Toggle Edit Menu //
     $scope.showNodeDetails = function(id,$event) {
-        $http.get('/node/'+id)
+        $http.get('/nodes/'+id)
         .success(function(data,status,headers,config) {
             $event.preventDefault();
             $event.stopPropagation();
@@ -112,7 +112,7 @@ app.controller('nodeButtonController', ['$scope','$http',function($scope,$http) 
 
     // Save an Edited Node's Details //
     $scope.saveEditedNode = function(id) {
-        $http.post('/node/edit', {
+        $http.post('/nodes/edit', {
             id: id,
             summary: $scope.nodeValues.sum,
             description: $scope.nodeValues.desc,

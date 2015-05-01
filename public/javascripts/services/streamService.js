@@ -1,4 +1,3 @@
-
 var app = angular.module('projectManager').factory("streamList", function () {
         var list = [];
 

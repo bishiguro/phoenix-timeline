@@ -8,7 +8,7 @@ var app = angular.module('projectManager').controller('streambuttonController', 
 
     $scope.createStream = function() {
     	//$scope.start = $scope.date.now();
-        $http.post('/stream',{name:$scope.name,endDate:$scope.endDate}).success(function(data,status,headers,config) {
+        $http.post('/streams',{name:$scope.name,endDate:$scope.endDate}).success(function(data,status,headers,config) {
                 $scope.streams.push({id:data.id,name:$scope.name});
             }).error(console.error);
     };
