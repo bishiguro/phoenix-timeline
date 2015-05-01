@@ -27,6 +27,7 @@ function databaseError(err, req, res) {
 // Converts Google Calendar Date strings to Javascript Date objects
 function stringToDate(date) {
     var year = date.substring(0,4);
+    // Javascript Date objects define a month as a number between 0-11
     var month = (parseInt(date.substring(5,7))-1).toString();
     var day = date.substring(8,10);
     var hour = date.substring(11,13);
@@ -38,17 +39,23 @@ function stringToDate(date) {
 function populateGoogleEvents(req, res) {
     // TODO: Replace hard-coded email with User's Google Email
     email = "phoenixtimeline@gmail.com"
+
+    // Accesses User's GCal via their stored Access Token
     google_calendar = new gcal.GoogleCalendar(req.user.googleAccessToken);
+    // Retrieves User's GCal Events from their primary calendar
     google_calendar.events.list(email, {maxResults:1}, function(err, data) {
         if (err) return res.sendStatus(500);
         else {
             for (i=0; i<data.items.length; i++) {
+                
+                // For each new Google Event in their calendar, create a Phoenix Timeline Event
                 var title = data.items[i].summary;
                 var startTime = stringToDate(data.items[i].start.dateTime);
                 var endTime = stringToDate(data.items[i].end.dateTime);
                 Event.findOne({title: title}, // TODO: verify with username
                     function (err, event) {
                     if (err) return databaseError(err, req, res);
+                    // Only create the Event if it has not yet been stored
                     else if (!event) {
                         Event.create({
                             title: title,
@@ -56,6 +63,7 @@ function populateGoogleEvents(req, res) {
                             endTime: endTime
                         }, function(err, event) {
                             if (err) return databaseError(err, req, res);
+                            // Push each new Event into the User's Personal Stream
                             else {
                                 User.findOneAndUpdate( 
                                     {name: req.user.name},
