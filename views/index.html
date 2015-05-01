@@ -23,7 +23,7 @@
         <script src="/javascripts/controllers.js"></script>
     </head>
 
-    <body id="body" onload="startUpdates(30000)" ng-controller='UserCtrl'>
+    <body id="body" onload="startUpdates()" ng-controller='UserCtrl'>
 
         <!-- HEADER -->
         <header id="header" class="flex-vcenter row">
@@ -34,8 +34,7 @@
                 <div class="col-md-6 row">
                     <!-- PROJECT SELECTION MENU -->
                     <div class="col-md-8 ui-control">
-                        <select id="project-selection" ng-model="user.currentProject" class="capitalize ui-button full-width">
-                            <option ng-repeat="project in user.projects" value={{project.name}}>{{project.name}}</option>
+                        <select id="project-selection" ng-model="user.currentProject" ng-options="project.name as project.name for project in user.projects" class="capitalize ui-button full-width">
                         </select>
                         <label class="ui-label centered-text" for="project-selection">Project Control</label>
                     </div>
@@ -56,7 +55,7 @@
 
                 <!-- SLIDER -->
                 <div class="ui-control col-md-4">
-                    <input type="range" id="scale-slider" min=1 max=13 value=5 step=.1 oninput="updateTicks()">
+                    <input type="range" id="scale-slider" min=1 max=13 value=5 step=.1 oninput="update()">
                     <label id="scale-label" class="ui-label" for="scale-slider">Scale</label>
                 </div>
 
