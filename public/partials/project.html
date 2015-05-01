@@ -1,6 +1,6 @@
 <!-- PROJECT STREAMS -->
 <div ng-repeat="stream in project.streams" ng-controller="StreamDetailsCtrl">
-    <div class="stream-container">
+    <div class="stream-container" ng-hide="hiding">
 
         <div id="left-stream-bar" class="stream"></div>
 
@@ -17,6 +17,7 @@
                     <label class="ui-label">End: {{ streamValues.end }}</label>
                     <label class="ui-label">Users: {{ streamValues.users }}</label>
                     <button class="btn" ng-click="editing = true">Edit</button>
+                    <button class="btn" ng-click="deleteStream(stream._id); hiding = true">Delete</button>
                 </div>
                 <!-- Edit Mode -->
                 <form ng-show="editing" ng-submit="saveEditedStream(stream);editing = false">

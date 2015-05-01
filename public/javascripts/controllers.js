@@ -45,12 +45,6 @@ function UserCtrl ($scope, $http, $location, $modal) {
     }
 }
 
-// Project Controller Modal Instance Control
-app.controller('ProjectCreationCtrl', function ($scope, $modalInstance) {
-    $scope.ok = function () { $modalInstance.close($scope.name); };
-    $scope.cancel = function () { $modalInstance.dismiss('cancel'); };
-});
-
 function ProjectCtrl ($scope, $http, $routeParams, $modal) {
     $http.get('/projects/' + $routeParams.projectName)
         .success( function (data, status) {
@@ -76,12 +70,6 @@ function ProjectCtrl ($scope, $http, $routeParams, $modal) {
     }
 }
 
-// Stream Controller Modal Instance Control
-app.controller('StreamCreationCtrl', function ($scope, $modalInstance) {
-    $scope.ok = function () { $modalInstance.close($scope.name); };
-    $scope.cancel = function () { $modalInstance.dismiss('cancel'); };
-});
-
 //Controller for Stream Details Menu
 function StreamDetailsCtrl($scope, $http) {
     $scope.streamValues = {
@@ -92,12 +80,10 @@ function StreamDetailsCtrl($scope, $http) {
     };
     $scope.status = {
         displaying: false,
-        editing: false
     };
 
     // Toggle Edit Menu //
     $scope.showStreamDetails = function(id,$event) {
-        // Get the stream's details from the backend & display them on the frontend
         $http.get('/streams/'+id).success(function(data,status,headers,config) {
             $event.preventDefault();
             $event.stopPropagation();
@@ -123,15 +109,30 @@ function StreamDetailsCtrl($scope, $http) {
         }).error(console.error);
     };
 
-    
+    // Delete a Stream //
     $scope.deleteStream = function (id) {
+        // Delete it on the backend
         $http.delete('/streams/'+id)
             .success( function(data, status) {
-                console.log('deleted stream' + id);
+                //Remove it on the frontend
+                
             }).error(function(data, status){
         });
     }
 };
+
+
+// Project Controller Modal Instance Control
+app.controller('ProjectCreationCtrl', function ($scope, $modalInstance) {
+    $scope.ok = function () { $modalInstance.close($scope.name); };
+    $scope.cancel = function () { $modalInstance.dismiss('cancel'); };
+});
+
+// Stream Controller Modal Instance Control
+app.controller('StreamCreationCtrl', function ($scope, $modalInstance) {
+    $scope.ok = function () { $modalInstance.close($scope.name); };
+    $scope.cancel = function () { $modalInstance.dismiss('cancel'); };
+});
 
 
 // ----- Export Controllers
