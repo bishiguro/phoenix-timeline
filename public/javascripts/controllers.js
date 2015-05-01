@@ -51,29 +51,36 @@ app.controller('ProjectCreationCtrl', function ($scope, $modalInstance) {
     $scope.cancel = function () { $modalInstance.dismiss('cancel'); };
 });
 
-function ProjectCtrl ($scope, $http, $routeParams) {
+function ProjectCtrl ($scope, $http, $routeParams, $modal) {
     $http.get('/projects/' + $routeParams.projectName)
         .success( function (data, status) {
             $scope.project = data;
         }).error(function(data, status){    
     });
 
-    $scope.createStream = function () {
-        $http.post('/streams', {name : 'New Stream', projectName: $routeParams.projectName})
-            .success( function (data, status) {
-                $scope.project.streams.push(data);
-            }).error(function(data, status){
+    // Stream Creation Modal Control
+    $scope.open = function () {
+        var modalInstance = $modal.open({
+            templateUrl: '/partials/stream-creation.html',
+            controller: 'StreamCreationCtrl',
+            size: 'sm'
         });
-    };
 
-    $scope.deleteStream = function (id) {
-        $http.delete('/stream/'+id)
-            .success( function(data, status) {
-                console.log('deleted stream' + id);
-            }).error(function(data, status){
+        modalInstance.result.then(function (name) {
+            $http.post('/streams', {name: name, projectName: $routeParams.projectName})
+                .success(function(data, status) {
+                    $scope.project.streams.push(data);
+                }).error(function(data, status){
+            });
         });
     }
 }
+
+// Stream Controller Modal Instance Control
+app.controller('StreamCreationCtrl', function ($scope, $modalInstance) {
+    $scope.ok = function () { $modalInstance.close($scope.name); };
+    $scope.cancel = function () { $modalInstance.dismiss('cancel'); };
+});
 
 //Controller for Stream Details Menu
 function StreamDetailsCtrl($scope, $http) {
@@ -115,10 +122,19 @@ function StreamDetailsCtrl($scope, $http) {
             stream.name = $scope.streamValues.name;
         }).error(console.error);
     };
+
+    
+    $scope.deleteStream = function (id) {
+        $http.delete('/streams/'+id)
+            .success( function(data, status) {
+                console.log('deleted stream' + id);
+            }).error(function(data, status){
+        });
+    }
 };
 
 
 // ----- Export Controllers
 app.controller('UserCtrl', ['$scope', '$http', '$location', '$modal', UserCtrl]);
-app.controller('ProjectCtrl', ['$scope', '$http', '$routeParams', ProjectCtrl]);
+app.controller('ProjectCtrl', ['$scope', '$http', '$routeParams', '$modal', ProjectCtrl]);
 app.controller('StreamDetailsCtrl', ['$scope','$http', StreamDetailsCtrl]);
