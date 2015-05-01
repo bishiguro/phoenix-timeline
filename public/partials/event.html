@@ -1,19 +1,20 @@
 <link rel="stylesheet" href="/stylesheets/main.css"/>
 
-<div class="dropdown" dropdown is-open="status.displaying">
+<div class="dropdown" dropdown is-open="status.displaying" ng-hide="hiding">
     <!-- Event Button -->
-    <button class="dropdown-toggle event" id={{event.id}} ng-click="showEventDetails(event.id,$event)"></button>
+    <button class="dropdown-toggle event" id={{event.id}} ng-click="showEventDetails(event._id,$event)"></button>
     <!-- Event Details Menu -->
     <div class="dropdown-menu" ng-click="$event.stopPropagation()">
         <!-- Display Mode -->
         <div ng-hide="editing" class="ui-control flex-parent flex-hcenter">
-            <label class="ui-label">{{ eventValues.ttl }}</label>
-            <label class="ui-label">{{ eventValues.start }}</label>
-            <label class="ui-label">{{ eventValues.end }}</label>
+            <label class="ui-label">Title: {{ eventValues.ttl }}</label>
+            <label class="ui-label">Start: {{ eventValues.start }}</label>
+            <label class="ui-label">End: {{ eventValues.end }}</label>
             <button class="btn" ng-click="editing = true">Edit</button>
+            <button class="btn" ng-click="deleteEvent(event._id); hiding = true">Delete</button>
         </div>
         <!-- Edit Mode -->
-        <form ng-show="editing" ng-submit="saveEditedEvent(event.id);editing = false">
+        <form ng-show="editing" ng-submit="saveEditedEvent(event);editing = false">
             <label>Title:</label>
             <input type="text" ng-model="eventValues.ttl" name="ttl"><br/>
             <label>Start Time:</label>

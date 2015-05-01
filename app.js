@@ -60,24 +60,37 @@ app.use(function (req, res, next) {
 app.get('/', routes.home);
 app.get('/logout', routes.logout);
 
-// GET API
+// POST API (Create)
+app.post('/projects', routes.createProject);
+app.post('/streams',routes.createStream);
+app.post('/nodes', routes.createNode);
+app.post('/events', routes.createEvent);
+
+// GET API (Read)
+// All entries
+app.get('/projects', routes.getProjects);
+app.get('/streams', routes.getStreams);
+app.get('/nodes', routes.getNodes);
+app.get('/events', routes.getEvents);
+// Single entries
 app.get('/user', routes.findUser);
-app.get('/project/:projectName', routes.findProject);
-app.get('/node/:id', routes.findNode);
-app.get('/event/:id', routes.findEvent);
+app.get('/projects/:projectName', routes.findProject);
+app.get('/streams/:id', routes.findStream);
+app.get('/nodes/:id', routes.findNode);
+app.get('/events/:id', routes.findEvent);
 
-// POST API
-app.post('/project', routes.addProject);
-app.post('/stream',routes.addStream);
-app.post('/node', routes.addNode);
-app.post('/event', routes.addEvent);
+// PUT API (Update)
+app.put('/user', routes.updateUser);
+app.put('/projects/:id', routes.updateProject);
+app.put('/streams/:id', routes.updateStream);
+app.put('/nodes/:id', routes.updateNode);
+app.put('/events/:id', routes.updateEvent);
 
-// TODO: Change to 'PUT' Requests
-app.post('/node/edit', routes.editNode);
-app.post('/event/edit', routes.editEvent);
-
-// PUT API
-app.put('/user', routes.editUser);
+// DELETE API (Delete)
+app.delete('/projects/:id', routes.deleteProject);
+app.delete('/streams/:id', routes.deleteStream);
+app.delete('/nodes/:id', routes.deleteNode);
+app.delete('/events/:id', routes.deleteEvent);
 
 // -- Listen
 app.listen(PORT);
