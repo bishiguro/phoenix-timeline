@@ -32,24 +32,33 @@ function populateGoogleEvents(req, res) {
         if (err) return res.sendStatus(500);
         else {
             for (i=0; i<data.items.length; i++) {
-                // FIXME: Creating Copies of Events
-                Event.findOrCreate({
-                    title: data.items[i].summary,
-                    startTime: data.items[i].start.dateTime,
-                    endTime: data.items[i].end.dateTime
-                }, 
-                function(err, event) {
+                
+                var title = data.items[i].summary;
+                var startTime = data.items[i].start.dateTime;
+                var endTime = data.items[i].end.dateTime;
+                
+                Event.findOne({title: title}, // TODO: verify with username
+                    function (err, event) {
                     if (err) return databaseError(err, req, res);
-                    else {
-                        User.findOneAndUpdate(
-                            {name: req.user.name},
-                            {$push: {'stream.events': event}},
-                            function (err, user) {
-                                if (err) return databaseError(err, req, res);
-                                //else console.log(user.stream.events);
-                            })
+                    else if (!event) {
+                        Event.create({
+                            title: title,
+                            startTime: startTime,
+                            endTime: endTime
+                        }, function(err, event) {
+                            if (err) return databaseError(err, req, res);
+                            else {
+                                User.findOneAndUpdate( 
+                                    {name: req.user.name},
+                                    {$push: {'stream.events': event}},
+                                    function (err, user) { 
+                                        if (err) return databaseError(err, req, res);
+                                    }
+                                )
+                            }
+                        })
                     }
-                });
+                })
             }
         }
     })

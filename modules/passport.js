@@ -55,10 +55,7 @@ auth.configure = function() {
 	  },
 	  function(accessToken, refreshToken, profile, done){
 	    User.findOrCreate({username: profile.displayName, googleId: profile.id}, {googleAccessToken: accessToken, googleRefreshToken: refreshToken}, function(err, user) {
-	        var url = "https://www.googleapis.com/calendar/v3/users/me/calendarList";
-	        request.get(url, function (err, response, body) {
-
-	        });
+	        // TODO: Store Email Address
 	        done(err, user);
 	    });
 	  }
