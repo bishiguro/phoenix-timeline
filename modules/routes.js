@@ -106,26 +106,25 @@ routes.addStream = function(req, res) {
 }
 
 routes.addNode = function(req, res) {
-    console.log(req.body.summary);
-    console.log(req.body.due);
     Node.create({
         summary: req.body.summary,
         description: req.body.description,
         dueDate: req.body.due
     }, function (err, node) {
         if (err) return databaseError(err, req, res);
-        else res.json({ id: node._id });
+        else res.json({summary:node.summary, description:node.description, date:node.dueDate});
     });
 }
 
 routes.addEvent = function(req, res) {
+    console.log(req.body);
     Event.create({
         title: req.body.title,
         startTime: req.body.startTime,
         endTime: req.body.endTime
     }, function(err, event) {
         if (err) return databaseError(err, req, res);
-        else res.send({ id: event._id });
+        else res.send({title:event.title, startTime:event.startTime, endTime:event.endTime});
     });
 }
 

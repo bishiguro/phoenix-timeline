@@ -42,12 +42,9 @@ var app = angular.module('projectManager').controller('streamController', ['$sco
     $scope.description = '';
 
     $scope.createNodeDialog = function($event) {
-        var time = timeAtXPos($event.pageX);
-        var html = /* HTML GOES HERE */ 'html';
-        //var relX = $event.pageX - $event.target.offsetLeft;
-        this.nodeDialog = $event.target.appendChild(html);
-        this.nodeDialog.style.position = 'absolute';
-        this.nodeDialog.style.left = $event.pageX + 'px';
+        console.log($scope.stream);
+        angular.element(document.querySelector("#node-dialog")).css( {position:"absolute", top:event.pageY, left: event.pageX, display:"initial"});
+        $scope.dt = xPos2Date($event.pageX);
     }
 
     $scope.addStreamItem = function() {
