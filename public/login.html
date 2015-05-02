@@ -1,0 +1,40 @@
+<<<<<<< Updated upstream
+<!DOCTYPE html>
+<html>
+=======
+<!--DOCTYPE html-->
+<html ng-app="projectManager">
+>>>>>>> Stashed changes
+    <head>
+        <meta charset="utf-8">
+        <title>Phoenix Timeline</title>
+
+        <!-- Linked CSS -->
+        <link rel="stylesheet" href="/stylesheets/main.css" />
+    </head>
+
+    <body style="background-image: url(/images/crossword.png);" class="flex-parent flex-vcenter flex-hcenter fabrica">
+        <div id="login">
+            <div id="login-header">Phoenix Timeline</div>
+            <form id="login-form" method="POST" action="/login">
+                <div class="field">
+                    <label class="ui-label" for="username">Username</label><br/>
+                    <input type="text" size=40 class="form-input" id="username" name="username" ng-model="username">
+                </div>
+                <div class="field last-field">
+                    <label class="ui-label" for="password">Password</label><br/>
+                    <input type="password" size=40 class="form-input" id="password" name="password" ng-model="password">
+                </div>
+                <div id="button-container" class="full-width flex-parent">
+                    <button type="submit" id="login-button" class="ui-label field important-btn">LOGIN</button>
+                    <div id="vertical-indent"></div>
+                    <button type="submit" id="register-button" class="ui-label field important-btn" formaction="/user">SIGN UP</button>
+                </div>
+            </form>
+            <div class="spacer full-width centered-text med-dark">- or -</div>
+            <div class="spacer full-width centered-text">
+                <a id="glogin" class="dark ui-label" href="/auth/google">Sign In with Google</a>
+            </div>
+        </div>
+    </body>
+</html>
