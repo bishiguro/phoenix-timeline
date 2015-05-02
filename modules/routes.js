@@ -23,7 +23,6 @@ function databaseError(err, req, res) {
     res.sendStatus(500);
 }
 
-
 // ----- GET HANDLERS ----- //
 
 routes.home = function(req, res) {

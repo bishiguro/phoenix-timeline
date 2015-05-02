@@ -76,29 +76,71 @@ app.controller('nodeModalController', function ($scope, $modalInstance) {
     $scope.cancel = function () { $modalInstance.dismiss('cancel'); };
 });
 
+app.controller('eventModalController', function ($scope, $modalInstance) {
+    $scope.ok = function () { $modalInstance.close($scope.title); };
+    $scope.cancel = function () { $modalInstance.dismiss('cancel'); };
+});
+
 function streamController($scope,$http,$modal){
 
     $scope.summary = '';
     $scope.description = '';
-    $scope.adding = false;
     $scope.mytime = Date;
 
-    $scope.createNodeDialog = function(event) {
-        //$scope.mytime = xPos2Date(event.pageX); ask Nick about this function.
-        $scope.mytime = new Date(100);
+    $scope.title = '';
+    $scope.xpos = 0;
+    $scope.ypos = 0;
+    $scope.endx = 0;
+
+
+    $scope.mousedownDetect = function(event){
+        $scope.xpos = event.pageX;
+        $scope.ypos = event.pageY;
+    }
+
+    $scope.mouseupDetect = function(event){
+        if(event.pageX != $scope.xpos){
+            $scope.endx = event.pageX;
+            $scope.createEventDialog();
+        }
+        else{
+            $scope.createNodeDialog();
+        }
+    }
+
+    $scope.createNodeDialog = function() {
+        //$scope.mytime = xPos2Date($scope.xpos); ask Nick about this function.
+        $scope.mytime = new Date($scope.xpos);
         var modalInstance = $modal.open({
             templateUrl: '/partials/node-creation.html',
             controller: 'nodeModalController',
             size:'sm',
         });
         modalInstance.result.then(function (summary, description) {
-            $http.post('/node',{summary:summary,description:description,due:$scope.mytime, stream:$scope.stream._id}).success(function(data,status,headers,config) {
+            $http.post('/node',{summary:summary,description:description,due:$scope.mytime,stream:$scope.stream._id}).success(function(data,status,headers,config) {
                 // var nodeHtml = "<button class='node' id="+data.id.toString()+" ng-click='findNode("+data.id.toString()+")'></button>";
                 // $("#nodebox").prepend(nodeHtml);//ask Nick about frontend node handling
             }).error(console.error);
         });
-    });
-}};
+    };
+
+    $scope.createEventDialog = function() {
+        //$scope.mytime = xPos2Date(event.pageX); ask Nick about this function.
+        $scope.startTime = new Date($scope.xpos);
+        $scope.endTime = new Date($scope.endx);
+        var modalInstance = $modal.open({
+            templateUrl: '/partials/event-creation.html',
+            controller: 'eventModalController',
+            size:'sm',
+        });
+        modalInstance.result.then(function (title) {
+            $http.post('/event',{title:title, startTime:$scope.startTime, endTime:$scope.endTime, stream:$scope.stream._id}).success(function(data,status,headers,config) {
+                // var nodeHtml = "<button class='node' id="+data.id.toString()+" ng-click='findNode("+data.id.toString()+")'></button>";
+                // $("#nodebox").prepend(nodeHtml);//ask Nick about frontend node handling
+            }).error(console.error);
+        });
+    };
+};
 
 // ----- Export Controllers
 app.controller('UserCtrl', ['$scope', '$http', '$location', '$modal', UserCtrl]);

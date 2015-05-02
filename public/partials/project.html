@@ -3,7 +3,7 @@
 
 <div ng-repeat="stream in project.streams">
 
-    <div class="stream-container" ng-controller='streamController' ng-click='createNodeDialog($event)'>
+    <div class="stream-container" ng-controller='streamController' ng-mousedown='mousedownDetect($event)' ng-mouseup='mouseupDetect($event)'>
 
         <div id="left-stream-bar" class="stream"></div>
         <div class="stream-label">{{stream.name}}</div>
