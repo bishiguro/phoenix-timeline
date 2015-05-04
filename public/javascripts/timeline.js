@@ -13,7 +13,7 @@
 // ----- CONSTANTS & CONFIG ----- //
 var MS_PER_HOUR = 3600000;              // Number of milliseconds per hour
 var DEFAULT_UPDATE_INTERVAL = 30000;    // Default update interval in ms
-var currentDate = new Date();
+var selectedDate = new Date();
 
 
 /**
@@ -44,14 +44,14 @@ function update () {
     this.hour_width = hour_tick_list.offsetWidth / num_hours;
 
     // Determine the pixel offset of the current-time-bar from the left
-    this.now_offset = .25 * hour_tick_list.offsetWidth;
+    this.now_offset = .25 * hour_tick_list.offsetWidth + ((new Date() - selectedDate) / MS_PER_HOUR ) * hour_width;
     document.querySelector('#current-time-bar').style.left = this.now_offset + "px";
 
     // Calculate the start point of the first hour
-    var hours_to_left = this.now_offset / this.hour_width;
+    var hours_to_left = hour_tick_list.offsetWidth * .25 / this.hour_width;
 
-    hour_start = Math.floor(currentDate.getHours() - hours_to_left);
-    initial_offset = this.now_offset + ((hour2Date(hour_start) - currentDate) / MS_PER_HOUR) * this.hour_width;
+    hour_start = Math.floor(selectedDate.getHours() - hours_to_left);
+    initial_offset = hours_to_left * this.hour_width + ((hour2Date(hour_start) - selectedDate) / MS_PER_HOUR) * this.hour_width;
 
     // Create first hour tick and place it on timeline
     var hour_tick = createHourTick(hour_start);

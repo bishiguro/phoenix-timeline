@@ -87,7 +87,7 @@ function DateCtrl ($scope) {
 
     // When the new date is set, update the timeline
     $scope.$watch('dt', function() {
-        currentDate = $scope.dt;
+        selectedDate = $scope.dt;
         update();
     })
 }
