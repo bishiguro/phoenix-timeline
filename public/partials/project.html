@@ -1,6 +1,7 @@
+
 <!-- PROJECT STREAMS -->
 <div ng-repeat="stream in project.streams" ng-controller="StreamDetailsCtrl">
-    <div class="stream-container" ng-hide="hiding">
+    <div class="stream-container" ng-hide="hiding" ng-controller='StreamController' ng-mousedown='mousedownDetect($event)' ng-mouseup='mouseupDetect($event)'>
 
         <!-- LEFT PART OF STREAM -->
         <div id="left-stream-bar" class="stream"></div>
@@ -44,9 +45,9 @@
         <div class="item-container" ng-repeat="event in stream.events">
             <div class="item event" data-start-date="{{event.startTime}}" data-end-date="{{event.endTime}}"></div>
         </div>
-
     </div>
 </div>
+
 
 <!-- NEW STREAM BUTTON -->
 <div class="stream-container">

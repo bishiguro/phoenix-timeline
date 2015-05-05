@@ -23,7 +23,6 @@ function databaseError(err, req, res) {
     res.sendStatus(500);
 }
 
-
 // ----- GET HANDLERS ----- //
 
 routes.home = function(req, res) {
@@ -78,12 +77,13 @@ routes.createNode = function(req, res) {
     Node.create({
         summary: req.body.summary,
         description: req.body.description,
-        dueDate: req.body.dueDate
+        dueDate: req.body.due
     }, function (err, node) {
         if (err) return databaseError(err, req, res);
-        else res.json({ id: node._id });
+        else res.json({summary:node.summary, description:node.description, date:node.dueDate});
     });
 }
+
 
 routes.createEvent = function(req, res) {
     Event.create({
@@ -92,7 +92,7 @@ routes.createEvent = function(req, res) {
         endTime: req.body.endTime
     }, function(err, event) {
         if (err) return databaseError(err, req, res);
-        else res.send({ id: event._id });
+        else res.send({title:event.title, startTime:event.startTime, endTime:event.endTime});
     });
 }
 
