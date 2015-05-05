@@ -43,15 +43,17 @@ function update () {
     num_hours = Math.pow(slider_value, 2);
     this.hour_width = hour_tick_list.offsetWidth / num_hours;
 
+    var now = new Date();
+
     // Determine the pixel offset of the current-time-bar from the left
-    this.now_offset = .25 * hour_tick_list.offsetWidth + ((new Date() - selectedDate) / MS_PER_HOUR ) * hour_width;
+    this.now_offset = .25 * hour_tick_list.offsetWidth + ((now - selectedDate) / MS_PER_HOUR ) * hour_width;
     document.querySelector('#current-time-bar').style.left = this.now_offset + "px";
 
     // Calculate the start point of the first hour
-    var hours_to_left = hour_tick_list.offsetWidth * .25 / this.hour_width;
+    var hours_to_left = this.now_offset / this.hour_width;
 
-    hour_start = Math.floor(selectedDate.getHours() - hours_to_left);
-    initial_offset = hours_to_left * this.hour_width + ((hour2Date(hour_start) - selectedDate) / MS_PER_HOUR) * this.hour_width;
+    var hour_start = Math.floor(now.getHours() - hours_to_left);
+    initial_offset = now_offset + ((hour2Date(hour_start) - now) / MS_PER_HOUR) * this.hour_width;
 
     // Create first hour tick and place it on timeline
     var hour_tick = createHourTick(hour_start);
