@@ -250,8 +250,7 @@ function StreamController($scope,$http,$modal){
     }
 
     $scope.createNodeDialog = function() {
-        //$scope.mytime = xPos2Date($scope.xpos); ask Nick about this function.
-        $scope.mytime = new Date($scope.xpos);
+        $scope.mytime = xPos2Date($scope.xpos); 
         var modalInstance = $modal.open({
             templateUrl: '/partials/node-creation.html',
             controller: 'nodeModalController',
@@ -265,9 +264,8 @@ function StreamController($scope,$http,$modal){
     };
 
     $scope.createEventDialog = function() {
-        //$scope.mytime = xPos2Date(event.pageX); ask Nick about this function.
-        $scope.startTime = new Date($scope.xpos);
-        $scope.endTime = new Date($scope.endx);
+        $scope.startTime = xPos2Date($scope.xpos);
+        $scope.endTime = xPos2Date($scope.endx);
         var modalInstance = $modal.open({
             templateUrl: '/partials/event-creation.html',
             controller: 'eventModalController',

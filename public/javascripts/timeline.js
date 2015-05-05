@@ -170,7 +170,7 @@ function updateEventDuration() {
     in rendering data with associated dates to the screen. See also the inverse
     function, xPos2Date.
 */
-function date2XPos(xpos) {
+function xPos2Date(xpos) {
     // Calculate the time in hours relative to now
     var rel_time = (xpos - this.now_offset) / this.hour_width;
     var d = new Date();
@@ -188,7 +188,7 @@ function date2XPos(xpos) {
     the timeline. This is especially useful in creating objects from
     click events. See also the inverse function, date2XPos.
 */
-function xPos2Date(date) {
+function date2XPos(date) {
     var date = new Date(date);
     return this.now_offset + this.hour_width * ((date - new Date()) / MS_PER_HOUR);
 }
