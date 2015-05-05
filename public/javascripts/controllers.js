@@ -234,7 +234,10 @@ function DateCtrl ($scope) {
 
     // When the new date is set, update the timeline
     $scope.$watch('dt', function() {
-        selectedDate = $scope.dt;
+        selectedDate = new Date();
+        selectedDate.setFullYear($scope.dt.getFullYear());
+        selectedDate.setMonth($scope.dt.getMonth());
+        selectedDate.setDate($scope.dt.getDate());
         update();
     })
 }
