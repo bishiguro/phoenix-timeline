@@ -48,7 +48,12 @@ function UserCtrl ($scope, $http, $location, $modal) {
         var modalInstance = $modal.open({
             templateUrl: '/partials/project-deletion.html',
             controller: 'ProjectDeletionCtrl',
-            size: 'sm'
+            size: 'sm',
+            resolve: {
+                projectName: function () {
+                    return $scope.user.currentProject;
+                }
+            }
         });
         // If OK, delete the current Project
         modalInstance.result.then(function (name) {
@@ -65,7 +70,12 @@ function UserCtrl ($scope, $http, $location, $modal) {
         var modalInstance = $modal.open({
             templateUrl: '/partials/project-edit.html',
             controller: 'ProjectEditCtrl',
-            size: 'sm'
+            size: 'sm',
+            resolve: {
+                currentName: function () {
+                    return $scope.user.currentProject;
+                }
+            }
         });
         modalInstance.result.then(function (name) {
             $http.put('/projects/'+$scope.user.currentProject, {name:name})
@@ -251,13 +261,15 @@ app.controller('ProjectCreationCtrl', function ($scope, $modalInstance) {
 });
 
 // Project Controller Modal Instance Control
-app.controller('ProjectDeletionCtrl', function ($scope, $modalInstance) {
+app.controller('ProjectDeletionCtrl', function ($scope, $modalInstance, projectName) {
+    $scope.projectName = projectName;
     $scope.ok = function () { $modalInstance.close($scope.name); };
     $scope.cancel = function () { $modalInstance.dismiss('cancel'); };
 });
 
 // Project Controller Modal Instance Control
-app.controller('ProjectEditCtrl', function ($scope, $modalInstance) {
+app.controller('ProjectEditCtrl', function ($scope, $modalInstance, currentName) {
+    $scope.currentName = currentName;
     $scope.ok = function () { $modalInstance.close($scope.name); };
     $scope.cancel = function () { $modalInstance.dismiss('cancel'); };
 });
