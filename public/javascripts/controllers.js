@@ -32,14 +32,46 @@ function UserCtrl ($scope, $http, $location, $modal) {
             controller: 'ProjectCreationCtrl',
             size: 'sm'
         });
-
         modalInstance.result.then(function (name) {
             $http.post('/projects', {name: name})
                 .success(function(data, status) {
-                var index = $scope.user.projects.push({name: name});
-                $scope.user.currentProject = name;
-            }).error(function(data, status){
+                    var index = $scope.user.projects.push({name: name});
+                    $scope.user.currentProject = name;
+                }).error(function(data, status){
+            });
+        });
+    }
 
+    // Project Deletion Modal Control
+    $scope.check = function () {
+        // Check to make sure the User can and wants to delete the Project
+        var modalInstance = $modal.open({
+            templateUrl: '/partials/project-deletion.html',
+            controller: 'ProjectDeletionCtrl',
+            size: 'sm'
+        });
+        // If OK, delete the current Project
+        modalInstance.result.then(function (name) {
+            $http.delete('/projects/'+$scope.user.currentProject)
+                .success( function(data, status) {
+                    $scope.user.currentProject = $scope.user.projects[0].name;
+                }).error(function(data, status){
+            });
+        });
+    }
+
+    // Project Edit Modal Control
+    $scope.edit = function () {
+        var modalInstance = $modal.open({
+            templateUrl: '/partials/project-edit.html',
+            controller: 'ProjectEditCtrl',
+            size: 'sm'
+        });
+        modalInstance.result.then(function (name) {
+            $http.put('/projects/'+$scope.user.currentProject, {name:name})
+                .success( function(data, status) {
+                    $scope.user.currentProject = name;
+                }).error(function(data, status){
             });
         });
     }
@@ -59,7 +91,6 @@ function ProjectCtrl ($scope, $http, $routeParams, $modal) {
             controller: 'StreamCreationCtrl',
             size: 'sm'
         });
-
         modalInstance.result.then(function (name) {
             $http.post('/streams', {name: name, projectName: $routeParams.projectName})
                 .success(function(data, status) {
@@ -215,6 +246,18 @@ function NodeDetailsCtrl($scope, $http) {
 
 // Project Controller Modal Instance Control
 app.controller('ProjectCreationCtrl', function ($scope, $modalInstance) {
+    $scope.ok = function () { $modalInstance.close($scope.name); };
+    $scope.cancel = function () { $modalInstance.dismiss('cancel'); };
+});
+
+// Project Controller Modal Instance Control
+app.controller('ProjectDeletionCtrl', function ($scope, $modalInstance) {
+    $scope.ok = function () { $modalInstance.close($scope.name); };
+    $scope.cancel = function () { $modalInstance.dismiss('cancel'); };
+});
+
+// Project Controller Modal Instance Control
+app.controller('ProjectEditCtrl', function ($scope, $modalInstance) {
     $scope.ok = function () { $modalInstance.close($scope.name); };
     $scope.cancel = function () { $modalInstance.dismiss('cancel'); };
 });

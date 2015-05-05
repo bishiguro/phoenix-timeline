@@ -2,11 +2,12 @@
 <div ng-repeat="stream in project.streams" ng-controller="StreamDetailsCtrl">
     <div class="stream-container" ng-hide="hiding">
 
+        <!-- LEFT PART OF STREAM -->
         <div id="left-stream-bar" class="stream"></div>
 
-        <!-- STREAM DROPDOWN MENU -->
+        <!-- STREAM TITLE/EDIT MENU -->
         <div class="dropdown" dropdown is-open="status.displaying">
-            <!-- Stream Button -->
+            <!-- Stream Title Button -->
             <button class="stream-label dropdown-toggle" ng-click="showStreamDetails(stream._id,$event)">{{stream.name}}</button>
             <!-- Stream Details Menu -->
             <div class="dropdown-menu" ng-click="$event.stopPropagation()">
@@ -32,6 +33,7 @@
             </div>
         </div>
 
+        <!-- RIGHT PART OF STREAM -->
         <!-- TODO: Rig up click to create items -->
         <div class="stream"></div>
 
