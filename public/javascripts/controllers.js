@@ -226,7 +226,6 @@ function DateCtrl ($scope) {
     $scope.open = function($event) {
         $event.preventDefault();
         $event.stopPropagation();
-
         $scope.opened = true;
     };
 
@@ -240,11 +239,70 @@ function DateCtrl ($scope) {
     })
 }
 
+function StreamCtrl($scope,$http,$modal){
+
+    $scope.summary = '';
+    $scope.description = '';
+    $scope.mytime = Date;
+
+    $scope.title = '';
+    $scope.xpos = 0;
+    $scope.ypos = 0;
+    $scope.endx = 0;
+
+
+    $scope.mousedownDetect = function(event){
+        $scope.xpos = event.pageX;
+        $scope.ypos = event.pageY;
+    }
+
+    $scope.mouseupDetect = function(event){
+        if(event.pageX != $scope.xpos){
+            $scope.endx = event.pageX;
+            $scope.createEventDialog();
+        }
+        else{
+            $scope.createNodeDialog();
+        }
+    }
+
+    $scope.createNodeDialog = function() {
+        $scope.mytime = xPos2Date($scope.xpos);
+        var modalInstance = $modal.open({
+            templateUrl: '/partials/node-creation.html',
+            controller: 'ModalCtrl',
+            size:'sm',
+        });
+        modalInstance.result.then(function (summary, description) {
+            $http.post('/nodes',{summary:summary,description:description,due:$scope.mytime,stream:$scope.stream._id}).success(function(data,status,headers,config) {
+                $scope.stream.nodes.push(data);
+            }).error(console.error);
+        });
+    };
+
+    $scope.createEventDialog = function() {
+        $scope.startTime = xPos2Date($scope.xpos);
+        $scope.endTime = xPos2Date($scope.endx);
+        var modalInstance = $modal.open({
+            templateUrl: '/partials/event-creation.html',
+            controller: 'ModalCtrl',
+            size:'sm',
+        });
+        modalInstance.result.then(function (title) {
+            $http.post('/events',{title:title, startTime:$scope.startTime, endTime:$scope.endTime, stream:$scope.stream._id}).success(function(data,status,headers,config) {
+                $scope.stream.events.push(data);
+            }).error(console.error);
+        });
+    };
+};
+
 
 // ----- Export Controllers
 app.controller('UserCtrl', ['$scope', '$http', '$location', '$modal', UserCtrl]);
 app.controller('ProjectCtrl', ['$scope', '$http', '$routeParams', '$modal', ProjectCtrl]);
 app.controller('DateCtrl', ['$scope', DateCtrl]);
+app.controller('StreamCtrl',['$scope','$http','$modal', StreamCtrl]);
 app.controller('StreamDetailsCtrl', ['$scope','$http', StreamDetailsCtrl]);
 app.controller('EventDetailsCtrl', ['$scope','$http', EventDetailsCtrl]);
 app.controller('NodeDetailsCtrl', ['$scope','$http', NodeDetailsCtrl]);
+
