@@ -53,7 +53,7 @@ function update () {
     var hours_to_left = this.now_offset / this.hour_width;
 
     var hour_start = Math.floor(now.getHours() - hours_to_left);
-    initial_offset = now_offset + ((hour2Date(hour_start) - now) / MS_PER_HOUR) * this.hour_width;
+    var initial_offset = now_offset + ((hour2Date(hour_start) - now) / MS_PER_HOUR) * this.hour_width;
 
     // Create first hour tick and place it on timeline
     var hour_tick = createHourTick(hour_start);
