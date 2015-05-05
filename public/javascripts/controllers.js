@@ -129,7 +129,7 @@ function StreamDetailsCtrl($scope, $http) {
             $event.preventDefault();
             $event.stopPropagation();
             $scope.streamValues.name = data.stream.name;
-            $scope.streamValues.beginning = data.stream.beginning;
+            $scope.streamValues.beginning = dateFormat(data.stream.beginning,"m/dd/yy");
             $scope.streamValues.end = data.stream.end;
             $scope.streamValues.users = data.stream.users;
             $scope.status.displaying = !$scope.displaying;
@@ -175,8 +175,8 @@ function EventDetailsCtrl($scope, $http) {
             $event.preventDefault();
             $event.stopPropagation();
             $scope.eventValues.ttl = data.event.title;
-            $scope.eventValues.start = data.event.startTime;
-            $scope.eventValues.end = data.event.endTime;
+            $scope.eventValues.start = dateFormat(data.event.startTime,"m/dd/yy");
+            $scope.eventValues.end = dateFormat(data.event.endTime,"m/dd/yy")
             $scope.status.displaying = !$scope.displaying;
         }).error(console.error);
     };
