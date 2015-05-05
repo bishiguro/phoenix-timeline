@@ -6,11 +6,9 @@ function UserCtrl ($scope, $http, $location, $modal) {
     // Update user data from server
     $http.get('/user').success(function(data) {
         $scope.user = data;
-        console.log(data);
     });
 
     $scope.$on('$routeChangeSuccess', function(next, current) {
-        console.log($scope.user);
         var newCurrentProject = $location.path().slice(1);
         angular.forEach ($scope.user.projects, function(project) {
             if (project.name == newCurrentProject)
