@@ -80,13 +80,12 @@
             </div>
 
            <!-- MASTER STREAM -->
-            <div class="stream-container">
+            <div class="stream-container" ng-controller='StreamController' ng-mousedown='mousedownDetect($event)' ng-mouseup = 'mouseupDetect($event)'>
                 <div id="left-stream-bar" class="stream"></div>
                 <div class="stream-label">{{user.stream.name}}</div>
                 <!-- TODO: Rig up click to create items -->
                 <div class="stream"></div>
             </div>
-
 
             <div ng-view></div>
         </div>
