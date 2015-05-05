@@ -5,12 +5,19 @@
 
         <div id="left-stream-bar" class="stream"></div>
 
+
+        <!-- Stream Button -->
+        <div class="stream-label-box">
+            <div class="stream-label">{{stream.name}}</div>
+            <div class="ui-label ui-clickable centered-text" ng-click="showStreamDetails(stream._id, $event)">Edit</div>
+        </div>
+
         <!-- STREAM DROPDOWN MENU -->
-        <div class="dropdown" dropdown is-open="status.displaying">
-            <!-- Stream Button -->
-            <button class="stream-label dropdown-toggle" ng-click="showStreamDetails(stream._id,$event)">{{stream.name}}</button>
+        <span dropdown is-open="status.displaying">
+
             <!-- Stream Details Menu -->
             <div class="dropdown-menu" ng-click="$event.stopPropagation()">
+
                 <!-- Display Mode -->
                 <div ng-hide="editing" class="ui-control flex-parent flex-hcenter">
                     <label class="ui-label">Name: {{ streamValues.name }}</label>
@@ -20,6 +27,7 @@
                     <button class="btn" ng-click="editing = true">Edit</button>
                     <button class="btn" ng-click="deleteStream(stream._id); hiding = true">Delete</button>
                 </div>
+
                 <!-- Edit Mode -->
                 <form ng-show="editing" ng-submit="saveEditedStream(stream);editing = false">
                     <label>Name:</label>
@@ -31,7 +39,7 @@
                     <button class="btn" type="submit">Save</button>
                 </form>
             </div>
-        </div>
+        </span>
 
         <div class="stream"></div>
 
