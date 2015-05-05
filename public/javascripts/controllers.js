@@ -261,8 +261,7 @@ function StreamController($scope,$http,$modal){
         });
         modalInstance.result.then(function (summary, description) {
             $http.post('/nodes',{summary:summary,description:description,due:$scope.mytime,stream:$scope.stream._id}).success(function(data,status,headers,config) {
-                // var nodeHtml = "<button class='node' id="+data.id.toString()+" ng-click='findNode("+data.id.toString()+")'></button>";
-                // $("#nodebox").prepend(nodeHtml);//ask Nick about frontend node handling
+                $scope.stream.nodes.push(data);
             }).error(console.error);
         });
     };
@@ -278,8 +277,7 @@ function StreamController($scope,$http,$modal){
         });
         modalInstance.result.then(function (title) {
             $http.post('/events',{title:title, startTime:$scope.startTime, endTime:$scope.endTime, stream:$scope.stream._id}).success(function(data,status,headers,config) {
-                // var nodeHtml = "<button class='node' id="+data.id.toString()+" ng-click='findNode("+data.id.toString()+")'></button>";
-                // $("#nodebox").prepend(nodeHtml);//ask Nick about frontend node handling
+                $scope.stream.events.push(data);
             }).error(console.error);
         });
     };
