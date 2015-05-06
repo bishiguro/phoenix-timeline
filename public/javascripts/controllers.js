@@ -29,7 +29,7 @@ function UserCtrl ($scope, $http, $location, $modal) {
     $scope.open = function () {
         var modalInstance = $modal.open({
             templateUrl: '/partials/project-creation.html',
-            controller: 'ProjectCreationCtrl',
+            controller: 'ModalCtrl',
             size: 'sm'
         });
         modalInstance.result.then(function (name) {
@@ -91,14 +91,14 @@ function ProjectCtrl ($scope, $http, $routeParams, $modal) {
     $http.get('/projects/' + $routeParams.projectName)
         .success( function (data, status) {
             $scope.project = data;
-        }).error(function(data, status){    
+        }).error(function(data, status){
     });
 
     // Stream Creation Modal Control
     $scope.open = function () {
         var modalInstance = $modal.open({
             templateUrl: '/partials/stream-creation.html',
-            controller: 'StreamCreationCtrl',
+            controller: 'ModalCtrl',
             size: 'sm'
         });
         modalInstance.result.then(function (name) {
@@ -110,6 +110,12 @@ function ProjectCtrl ($scope, $http, $routeParams, $modal) {
         });
     }
 }
+
+// Modal Instance Control
+app.controller('ModalCtrl', function ($scope, $modalInstance) {
+    $scope.ok = function () { $modalInstance.close($scope.name); };
+    $scope.cancel = function () { $modalInstance.dismiss('cancel'); };
+});
 
 //Controller for Stream Details Menu
 function StreamDetailsCtrl($scope, $http) {
@@ -199,7 +205,7 @@ function EventDetailsCtrl($scope, $http) {
     // Delete an Event //
     $scope.deleteStream = function (id) {
         $http.delete('/events/'+id)
-            .success( function(data, status) {                
+            .success( function(data, status) {
             }).error(function(data, status){
         });
     }
@@ -247,23 +253,37 @@ function NodeDetailsCtrl($scope, $http) {
     // Delete an Event //
     $scope.deleteStream = function (id) {
         $http.delete('/nodes/'+id)
-            .success( function(data, status) {                
+            .success( function(data, status) {
             }).error(function(data, status){
         });
     }
 }
 
-app.controller('nodeModalController', function ($scope, $modalInstance) {
-    $scope.ok = function () { $modalInstance.close($scope.description, $scope.summary); };
-    $scope.cancel = function () { $modalInstance.dismiss('cancel'); };
-});
+// Toolbar Date Picker Controller
+function DateCtrl ($scope) {
+    // Define onclick functions
+    $scope.today = function() { $scope.dt = new Date(); }
+    $scope.clear = function () { $scope.dt = null; };
+    $scope.open = function($event) {
+        $event.preventDefault();
+        $event.stopPropagation();
+        $scope.opened = true;
+    };
 
-app.controller('eventModalController', function ($scope, $modalInstance) {
-    $scope.ok = function () { $modalInstance.close($scope.title); };
-    $scope.cancel = function () { $modalInstance.dismiss('cancel'); };
-});
+    // Set current date as default
+    $scope.today();
 
-function StreamController($scope,$http,$modal){
+    // When the new date is set, update the timeline
+    $scope.$watch('dt', function() {
+        selectedDate = new Date();
+        selectedDate.setFullYear($scope.dt.getFullYear());
+        selectedDate.setMonth($scope.dt.getMonth());
+        selectedDate.setDate($scope.dt.getDate());
+        update();
+    })
+}
+
+function StreamCtrl($scope,$http,$modal){
 
     $scope.summary = '';
     $scope.description = '';
@@ -291,10 +311,10 @@ function StreamController($scope,$http,$modal){
     }
 
     $scope.createNodeDialog = function() {
-        $scope.mytime = xPos2Date($scope.xpos); 
+        $scope.mytime = xPos2Date($scope.xpos);
         var modalInstance = $modal.open({
             templateUrl: '/partials/node-creation.html',
-            controller: 'nodeModalController',
+            controller: 'ModalCtrl',
             size:'sm',
         });
         modalInstance.result.then(function (summary, description) {
@@ -309,7 +329,7 @@ function StreamController($scope,$http,$modal){
         $scope.endTime = xPos2Date($scope.endx);
         var modalInstance = $modal.open({
             templateUrl: '/partials/event-creation.html',
-            controller: 'eventModalController',
+            controller: 'ModalCtrl',
             size:'sm',
         });
         modalInstance.result.then(function (title) {
@@ -319,11 +339,6 @@ function StreamController($scope,$http,$modal){
         });
     };
 };
-
-// ----- Export Controllers
-app.controller('UserCtrl', ['$scope', '$http', '$location', '$modal', UserCtrl]);
-app.controller('ProjectCtrl', ['$scope', '$http', '$routeParams', ProjectCtrl]);
-app.controller('StreamController',['$scope','$http','$modal',StreamController]);
 
 
 // Project Controller Modal Instance Control
@@ -352,10 +367,11 @@ app.controller('StreamCreationCtrl', function ($scope, $modalInstance) {
     $scope.cancel = function () { $modalInstance.dismiss('cancel'); };
 });
 
-
 // ----- Export Controllers
 app.controller('UserCtrl', ['$scope', '$http', '$location', '$modal', UserCtrl]);
 app.controller('ProjectCtrl', ['$scope', '$http', '$routeParams', '$modal', ProjectCtrl]);
+app.controller('DateCtrl', ['$scope', DateCtrl]);
+app.controller('StreamCtrl',['$scope','$http','$modal', StreamCtrl]);
 app.controller('StreamDetailsCtrl', ['$scope','$http', StreamDetailsCtrl]);
 app.controller('EventDetailsCtrl', ['$scope','$http', EventDetailsCtrl]);
 app.controller('NodeDetailsCtrl', ['$scope','$http', NodeDetailsCtrl]);

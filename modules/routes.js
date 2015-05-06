@@ -117,21 +117,21 @@ routes.getStreams = function(req, res) {
     Stream.find({}, function(err, streams){
         if(err) databaseError(err, req, res);
         else res.send(streams);
-    });    
+    });
 }
 
 routes.getNodes = function(req, res) {
     Node.find({}, function(err, nodes){
         if(err) databaseError(err, req, res);
         else res.send(nodes);
-    });    
+    });
 }
 
 routes.getEvents = function(req, res) {
     Event.find({}, function(err, events){
         if(err) databaseError(err, req, res);
         else res.send(events);
-    });    
+    });
 }
 
 // ----- MODEL READ API (Single Entries) ----- //
@@ -193,7 +193,7 @@ routes.updateProject = function(req, res) {
         else {
             project.name = req.body.name;
             project.save();
-            res.send({ project: project });            
+            res.send({ project: project });
         };
     });
 }
@@ -206,7 +206,7 @@ routes.updateStream = function(req, res) {
             stream.beginning = req.body.beginning;
             stream.end = req.body.end;
             stream.save();
-            res.send({ steam: stream });            
+            res.send({ steam: stream });
         };
     });
 }
@@ -244,7 +244,7 @@ routes.deleteProject = function(req, res) {
     Project.findOneAndRemove({'name' : req.params.projectName}, function (err, project){
         if (err) databaseError(err, req, res);
         else {
-            res.sendStatus(200);         
+            res.sendStatus(200);
         };
     });
 }
@@ -253,7 +253,7 @@ routes.deleteStream = function(req, res) {
     Stream.findOneAndRemove({'_id' : req.params.id}, function (err, stream){
         if (err) databaseError(err, req, res);
         else {
-            res.sendStatus(200);         
+            res.sendStatus(200);
         };
     });
 }
@@ -262,7 +262,7 @@ routes.deleteNode = function(req, res) {
     Node.findOneAndRemove({'_id' : req.params.id}, function (err, node){
         if (err) databaseError(err, req, res);
         else {
-            res.sendStatus(200);         
+            res.sendStatus(200);
         };
     });
 }
@@ -271,9 +271,9 @@ routes.deleteEvent = function(req, res) {
     Event.findOneAndRemove({'_id' : req.params.id}, function (err, event){
         if (err) databaseError(err, req, res);
         else {
-            res.sendStatus(200);         
+            res.sendStatus(200);
         };
-    });    
+    });
 }
 
 
