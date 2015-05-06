@@ -12,6 +12,8 @@
 
 // ----- CONSTANTS & CONFIG ----- //
 var MS_PER_HOUR = 3600000;              // Number of milliseconds per hour
+var MS_PER_MINUTE = 3600000/60;
+var MS_PER_DAY = 3600000*24;
 var DEFAULT_UPDATE_INTERVAL = 30000;    // Default update interval in ms
 var selectedDate = new Date();
 
@@ -40,6 +42,7 @@ function update () {
 
     // Determine the pixel width of an hour
     var slider_value = document.querySelector('#scale-slider').value;
+
     num_hours = Math.pow(slider_value, 2);
     this.hour_width = hour_tick_list.offsetWidth / num_hours;
 
@@ -49,26 +52,141 @@ function update () {
     this.now_offset = .25 * hour_tick_list.offsetWidth + ((now - selectedDate) / MS_PER_HOUR ) * hour_width;
     document.querySelector('#current-time-bar').style.left = this.now_offset + "px";
 
-    // Calculate the start point of the first hour
-    var hours_to_left = this.now_offset / this.hour_width;
+    // hours being displayed
+    if (slider_value > 2.5 && slider_value < 6.94) {
 
-    var hour_start = Math.floor(now.getHours() - hours_to_left);
-    var initial_offset = now_offset + ((hour2Date(hour_start) - now) / MS_PER_HOUR) * this.hour_width;
 
-    // Create first hour tick and place it on timeline
-    var hour_tick = createHourTick(hour_start);
-    hour_tick.style.left = initial_offset + "px";
-    hour_tick_list.appendChild(hour_tick);
+        // Calculate the start point of the first hour
+        var hours_to_left = this.now_offset / this.hour_width;
 
-    for (var i = 1; i < num_hours + 2; i++) {
-        var hour_tick = createHourTick(i + hour_start);
+        var hour_start = Math.floor(now.getHours() - hours_to_left);
+        var initial_offset = now_offset + ((hour2Date(hour_start) - now) / MS_PER_HOUR) * this.hour_width;
+        // console.log(initial_offset)
+        // Create first hour tick and place it on timeline
+        var hour_tick = createHourTick(hour_start);
         hour_tick.style.left = initial_offset + "px";
         hour_tick_list.appendChild(hour_tick);
-    }
 
-    updateElemOffset('.item');
-    updateEventDuration();
+        for (var i = 1; i < num_hours + 2; i++) {
+            var hour_tick = createHourTick(i + hour_start);
+            hour_tick.style.left = initial_offset + "px";
+            hour_tick_list.appendChild(hour_tick);
+        }
+
+        updateElemOffset('.item');
+        updateEventDuration();
+    
+    // minutes being displayed
+
+    } else if (slider_value <2.5) {
+        slider_value = 1;
+
+        num_hours = Math.pow(slider_value, 2);
+        num_minutes = num_hours*60;
+        this.hour_width = hour_tick_list.offsetWidth / num_hours;
+        this.minute_width = hour_tick_list.offsetWidth / num_minutes;
+
+        // Calculate the start point of the first hour
+        var hours_to_left = this.now_offset / this.hour_width;
+        var minutes_to_left = this.now_offset / this.minute_width;
+
+ 
+        var now = new Date();
+        hour_start = Math.floor(now.getHours() - hours_to_left);
+        minute_start = Math.floor(now.getMinutes() + 2 - minutes_to_left);
+        initial_offset = this.now_offset + ((minute2Date(minute_start) - now) / MS_PER_MINUTE) * this.minute_width;
+        
+        // console.log(initial_offset)
+        // Create first hour tick and place it on timeline
+        var minute_tick = createMinuteTick(hour_start, minute_start+5);
+
+        minute_tick.style.left = initial_offset + "px";
+        // console.log ("initial_offset minute")
+        // console.log (initial_offset)
+
+        hour_tick_list.appendChild(minute_tick); 
+        // console.log (hour_tick_list)
+
+        for (var i = 1; i < num_minutes + 2; i++) {
+            var minute_tick = createMinuteTick(hour_start, i + minute_start);
+            // console.log("hour_start")
+            // console.log(hour_start)
+            minute_tick.style.left = initial_offset + "px";
+            hour_tick_list.appendChild(minute_tick);
+            // console.log(minute_tick)
+
+
+            if (minute_tick.innerHTML == "0"){
+                    // hour_tick = createHourTick(minute_tick.innerHTML);
+                    hour_tick = createMinuteTick2(hour_start + 2 , minute_tick.innerHTML);
+                    // console.log ("minute_start")
+                    // console.log(minute_start);
+                    // console.log(minute_tick)
+                    minute_tick.innerHTML = hour_tick.innerHTML
+
+                    minute_tick.className = "hourmin-tick";
+
+                    // var hour_tick = createHourTick(i + hour_start);
+                    // hour_tick.style.left = initial_offset + "px";
+            
+                    hour_tick_list.appendChild(minute_tick);
+            }
+        }
+
+        updateElemOffset('.item');
+        updateEventDuration();
+
+    } else if (slider_value > 6.94) {
+            num_hours = Math.pow(slider_value, 2);
+            num_dates = num_hours/24;
+            this.hour_width = hour_tick_list.offsetWidth / num_hours;
+            this.date_width = hour_tick_list.offsetWidth / num_dates;
+
+            // Calculate the start point of the first hour
+            var hours_to_left = this.now_offset / this.hour_width;
+
+
+            var dates_to_left = this.now_offset / this.date_width;
+
+            var now = new Date();
+            // console.log(now)
+            hour_start = Math.floor(now.getHours() - hours_to_left);
+            date_start = Math.floor(now.getDate() + 1 - dates_to_left);
+
+            // console.log (date_start)
+
+            initial_offset = this.now_offset + ((date2Date(date_start) - now) / MS_PER_DAY) * this.date_width;
+            // console.log ("initial_offset")
+            // console.log (now_offset)
+
+            // console.log (date2Date(hour_start,date_start))
+
+            // Create first hour tick and place it on timeline
+            var date_tick = createDateTick(hour_start, date_start);
+            date_tick.style.left = initial_offset + "px";
+            hour_tick_list.appendChild(date_tick);
+
+
+            for (var i = 1; i < num_dates + 2; i++) {
+                var date_tick = createDateTick(hour_start, i + date_start);
+                date_tick.style.left = initial_offset + "px";
+                
+                hour_tick_list.appendChild(date_tick);
+
+            }
+
+            // console.log(date_tick)
+
+            updateElemOffset('.item');
+            updateEventDuration();
+
+        }
+
 }
+
+
+
+
 
 
 /**
@@ -107,6 +225,27 @@ function createHourTick (value) {
     return hour_tick
 }
 
+// value 1 -- hour , value 2 -- minute
+
+function createMinuteTick (value1, value2) {
+    var minute_tick = document.createElement("LI");
+    var text = document.createTextNode(minute2Date(value1,value2).format("M"));
+    minute_tick.appendChild(text);
+    minute_tick.className = "minute-tick";
+    minute_tick.style.width = this.minute_width + "px";
+    return minute_tick
+}
+
+function createMinuteTick2 (value1, value2) {
+    var minute_tick = document.createElement("LI");
+    var text = document.createTextNode(minute2Date(value1,value2).format("hT"));
+    minute_tick.appendChild(text);
+    minute_tick.className = "minute-tick";
+    minute_tick.style.width = this.minute_width + "px";
+    return minute_tick
+}
+
+
 
 /**
     hour2Date
@@ -125,6 +264,33 @@ function hour2Date(hour) {
     return now;
 }
 
+function minute2Date(hour, minute) {
+    var now = new Date();
+    now.setHours(hour);
+    now.setMinutes(minute);
+    now.setSeconds(0);
+    return now;
+}
+
+function date2Date(hour, date) {
+    var now = new Date();
+    now.setDate(date)
+    now.setHours(hour);
+    now.setMinutes(0);
+    now.setSeconds(0);
+    return now;
+}
+
+
+// value 1 -- date , value 2 -- hour, value 3 -- minute, 
+function createDateTick (value3, value4) {
+    var date_tick = document.createElement("LI");
+    var text = document.createTextNode(date2Date(value3, value4).format());
+    date_tick.appendChild(text);
+    date_tick.className = "hour-tick";
+    date_tick.style.width = this.date_width + "px";
+    return date_tick
+}
 
 /**
     updateElemOffset
