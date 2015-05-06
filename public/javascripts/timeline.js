@@ -13,6 +13,7 @@
 // ----- CONSTANTS & CONFIG ----- //
 var MS_PER_HOUR = 3600000;              // Number of milliseconds per hour
 var DEFAULT_UPDATE_INTERVAL = 30000;    // Default update interval in ms
+var selectedDate = new Date();
 
 
 /**
@@ -37,20 +38,22 @@ function update () {
     hour_tick_list = document.querySelector("#hour-tick-list");
     hour_tick_list.innerHTML = "";
 
-    // Determine the pixel offset of the current-time-bar from the left
-    this.now_offset = .25 * hour_tick_list.offsetWidth;
-    document.querySelector('#current-time-bar').style.left = this.now_offset + "px";
-
     // Determine the pixel width of an hour
     var slider_value = document.querySelector('#scale-slider').value;
     num_hours = Math.pow(slider_value, 2);
     this.hour_width = hour_tick_list.offsetWidth / num_hours;
 
+    var now = new Date();
+
+    // Determine the pixel offset of the current-time-bar from the left
+    this.now_offset = .25 * hour_tick_list.offsetWidth + ((now - selectedDate) / MS_PER_HOUR ) * hour_width;
+    document.querySelector('#current-time-bar').style.left = this.now_offset + "px";
+
     // Calculate the start point of the first hour
     var hours_to_left = this.now_offset / this.hour_width;
-    var now = new Date();
-    hour_start = Math.floor(now.getHours() - hours_to_left);
-    initial_offset = this.now_offset + ((hour2Date(hour_start) - now) / MS_PER_HOUR) * this.hour_width;
+
+    var hour_start = Math.floor(now.getHours() - hours_to_left);
+    var initial_offset = now_offset + ((hour2Date(hour_start) - now) / MS_PER_HOUR) * this.hour_width;
 
     // Create first hour tick and place it on timeline
     var hour_tick = createHourTick(hour_start);
@@ -170,7 +173,7 @@ function updateEventDuration() {
     in rendering data with associated dates to the screen. See also the inverse
     function, xPos2Date.
 */
-function date2XPos(xpos) {
+function xPos2Date(xpos) {
     // Calculate the time in hours relative to now
     var rel_time = (xpos - this.now_offset) / this.hour_width;
     var d = new Date();
@@ -188,7 +191,7 @@ function date2XPos(xpos) {
     the timeline. This is especially useful in creating objects from
     click events. See also the inverse function, date2XPos.
 */
-function xPos2Date(date) {
+function date2XPos(date) {
     var date = new Date(date);
     return this.now_offset + this.hour_width * ((date - new Date()) / MS_PER_HOUR);
 }
