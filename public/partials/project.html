@@ -1,22 +1,23 @@
 
 <!-- PROJECT STREAMS -->
-<div ng-repeat="stream in project.streams" ng-controller="StreamDetailsCtrl">
-    <div class="stream-container" ng-hide="hiding" ng-controller='StreamController'>
+<div class="stream-container" ng-repeat="stream in project.streams" ng-controller='StreamController'>
+    <div id="left-stream-bar" class="stream" ng-mousedown='mousedownDetect($event)' ng-mouseup='mouseupDetect($event)'>
+        <div class="stream-line"></div>
+    </div>
 
-        <div id="left-stream-bar" class="stream" ng-mousedown='mousedownDetect($event)' ng-mouseup='mouseupDetect($event)'></div>
+    <!-- Stream Name -->
+    <div class="stream-label disguised-input" contenteditable>{{stream.name}}</div>
 
-        <!-- Stream Name -->
-        <div class="stream-label disguised-input" contenteditable>{{stream.name}}</div>
+    <div class="stream" ng-mousedown='mousedownDetect($event)' ng-mouseup='mouseupDetect($event)'>
+        <div class="stream-line"></div>
+    </div>
 
-        <div class="stream" ng-mousedown='mousedownDetect($event)' ng-mouseup='mouseupDetect($event)'></div>
+    <div class="item-container" ng-repeat="node in stream.nodes">
+        <div class="item node" data-start-date="{{node.dueDate}}"></div>
+    </div>
 
-        <div class="item-container" ng-repeat="node in stream.nodes">
-            <div class="item node" data-start-date="{{node.dueDate}}"></div>
-        </div>
-
-        <div class="item-container" ng-repeat="event in stream.events">
-            <div class="item event" data-start-date="{{event.startTime}}" data-end-date="{{event.endTime}}"></div>
-        </div>
+    <div class="item-container" ng-repeat="event in stream.events">
+        <div class="item event" data-start-date="{{event.startTime}}" data-end-date="{{event.endTime}}"></div>
     </div>
 </div>
 

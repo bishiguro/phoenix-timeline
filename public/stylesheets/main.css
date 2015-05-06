@@ -310,10 +310,8 @@ input[type="range"]::-webkit-slider-thumb {
 }
 
 .stream {
-    border-top: 1px solid #222;
-    border-bottom: 1px solid #999;
     flex: 0 1 95%;
-    margin: 1rem 0;
+    padding: 1rem 0;
 }
 
 #left-stream-bar {
@@ -399,4 +397,10 @@ input[type="range"]::-webkit-slider-thumb {
 .disguised-input:focus:after, .disguised-input:hover:after {
     width: 100%;
     background: #222;
+}
+
+.stream-line {
+    border-top: 1px solid #222;
+    border-bottom: 1px solid #999;
+    width: 100%;
 }
