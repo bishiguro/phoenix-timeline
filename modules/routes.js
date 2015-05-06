@@ -75,7 +75,7 @@ function populateGoogleEvents(req, res) {
     google_calendar = new gcal.GoogleCalendar(req.user.googleAccessToken);
     google_calendar.calendarList.list(function(err, data) {
         if (err) return res.sendStatus(500);
-        else if (data.items) {
+        else {
             // Retrieves Calendar ID of primary calendar
             var email = data.items[0].id;
             // Retrieves User's GCal Events from their primary calendar
@@ -83,7 +83,7 @@ function populateGoogleEvents(req, res) {
                 if (err) return res.sendStatus(500);
                 else {
                     for (i=0; i<data.items.length; i++) {
-                        eventToStream(req, res, data.items[i]); // FIXME: asynchronous
+                        eventToStream(req, res, data.items[i]);
                     }
                 }
             })
@@ -94,8 +94,11 @@ function populateGoogleEvents(req, res) {
 // ----- GET HANDLERS ----- //
 
 routes.home = function(req, res) {
-    populateGoogleEvents(req, res); // FIXME: move to login, with Google
     res.sendFile(path.join(__dirname, '../views/index.html'));
+}
+
+routes.googleSync = function (req, res) {
+    populateGoogleEvents(req, res)
 }
 
 routes.logout = function(req, res) {
