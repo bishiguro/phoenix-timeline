@@ -3,7 +3,7 @@ var app = angular.module('controllers', []);
 
 
 
-// ----- Controller Definitions
+// ----- Page Controller Definitions ----- //
 function UserCtrl ($scope, $http, $location, $modal) {
     // Update user data from server
     $http.get('/user').success(function(data) {
@@ -74,10 +74,11 @@ function ProjectCtrl ($scope, $http, $routeParams, $modal) {
 }
 
 // Modal Instance Control
-app.controller('ModalCtrl', function ($scope, $modalInstance) {
+function ModalCtrl ($scope, $modalInstance) {
     $scope.ok = function () { $modalInstance.close($scope.name); };
     $scope.cancel = function () { $modalInstance.dismiss('cancel'); };
-});
+};
+
 
 // Toolbar Date Picker Controller
 function DateCtrl ($scope) {
@@ -104,7 +105,7 @@ function DateCtrl ($scope) {
 }
 
 
-function StreamCtrl($scope,$http,$modal){
+function StreamCtrl($scope, $http, $modal){
     $scope.summary = '';
     $scope.description = '';
     $scope.title = '';
@@ -160,19 +161,16 @@ function StreamCtrl($scope,$http,$modal){
 
     // -- Save Edits -- //
     $scope.save = function () {
-        console.log("Editing stream: " + $scope.id);
-        $http.put('/streams/' + $scope.id, $scope.stream)
+        $http.put('/streams/' + $scope.stream._id, $scope.stream)
             .success(function(data, status, headers, config) { $scope.stream = $scope.stream; })
             .error(console.error);
     };
 
     // -- Deletion -- //
     $scope.delete = function () {
-        console.log("Deleting stream: " + $scope.id);
-        $http.delete('/streams/' + $scope.id)
-            .success( function(data, status) {})
-            .error(function(data, status){
-        });
+        $http.delete('/streams/' + $scope.stream._id)
+            .success( function(data, status) { $scope.project.streams.splice($scope.index, 1); })
+            .error(function(data, status) {});
     }
 };
 
@@ -277,6 +275,7 @@ function NodeDetailsCtrl($scope, $http) {
 // ----- Export Controllers ----- //
 app.controller('UserCtrl', ['$scope', '$http', '$location', '$modal', UserCtrl]);
 app.controller('ProjectCtrl', ['$scope', '$http', '$routeParams', '$modal', ProjectCtrl]);
+app.controller('ModalCtrl', ['$scope', '$modalInstance', ModalCtrl]);
 app.controller('DateCtrl', ['$scope', DateCtrl]);
 app.controller('StreamCtrl',['$scope','$http','$modal', StreamCtrl]);
 app.controller('EventDetailsCtrl', ['$scope','$http', EventDetailsCtrl]);

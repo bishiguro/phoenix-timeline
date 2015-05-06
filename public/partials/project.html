@@ -1,11 +1,15 @@
 <!-- PROJECT STREAMS -->
-<div class="stream-container" ng-repeat="stream in project.streams" ng-controller='StreamCtrl'>
+<div class="stream-container" ng-repeat="stream in project.streams track by $index" ng-controller='StreamCtrl'>
     <div id="left-stream-bar" class="stream" ng-mousedown='mousedownDetect($event)' ng-mouseup='mouseupDetect($event)'>
         <div class="stream-line"></div>
     </div>
 
     <!-- Stream Name -->
-    <div class="stream-label disguised-input" contenteditable>{{stream.name}}</div>
+    <div class="stream-toolbox">
+        <span class="delete-control" ng-click="delete()"><span class="glyphicon glyphicon-remove"></span></span>
+        <span class="stream-label disguised-input" contenteditable ng-model="stream.name" ng-blur="save()"></span>
+    </div>
+
 
     <div class="stream" ng-mousedown='mousedownDetect($event)' ng-mouseup='mouseupDetect($event)'>
         <div class="stream-line"></div>

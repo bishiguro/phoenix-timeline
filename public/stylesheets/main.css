@@ -17,6 +17,8 @@
 .lane { font-family: lane, sans-serif; }
 .fabrica { font-family: lane, sans-serif; }
 
+
+
 /* ----- Utility Classes ----- */
 
 .centered-text { text-align: center; }
@@ -139,6 +141,7 @@ input[type="range"]::-webkit-slider-thumb {
     order: 2;
     height: 100%;
     position: relative;
+    overflow-y: auto;
 }
 
 #body {
@@ -305,14 +308,17 @@ input[type="range"]::-webkit-slider-thumb {
     font-size: 1.5rem;
     font-family: source-sans-pro;
     text-transform: uppercase;
-    color: #222;
-    margin: 1rem;
-    flex: 1 0 auto;
 }
 
 .stream {
     flex: 0 1 95%;
     padding: 1rem 0;
+}
+
+.stream-line {
+    border-top: 1px solid #222;
+    border-bottom: 1px solid #999;
+    width: 100%;
 }
 
 #left-stream-bar {
@@ -399,9 +405,10 @@ input[type="range"]::-webkit-slider-thumb {
     width: 100%;
     background: #222;
 }
+.delete-control:hover { color: darkred; }
 
-.stream-line {
-    border-top: 1px solid #222;
-    border-bottom: 1px solid #999;
-    width: 100%;
+.stream-toolbox {
+    color: #222;
+    margin: 1rem;
+    flex: 1 0 auto;
 }
