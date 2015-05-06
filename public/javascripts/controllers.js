@@ -196,19 +196,6 @@ function StreamCtrl($scope, $http, $modal){
         });
     };
 
-<<<<<<< HEAD
-    // Toggle Edit Menu //
-    $scope.showStreamDetails = function(id,$event) {
-        $http.get('/streams/'+id).success(function(data,status,headers,config) {
-            $event.preventDefault();
-            $event.stopPropagation();
-            $scope.streamValues.name = data.stream.name;
-            $scope.streamValues.beginning = dateFormat(data.stream.beginning,"m/dd/yy");
-            $scope.streamValues.end = data.stream.end;
-            $scope.streamValues.users = data.stream.users;
-            $scope.status.displaying = !$scope.displaying;
-        }).error(console.error);
-=======
     $scope.createEventDialog = function() {
         $scope.startTime = xPos2Date($scope.xpos);
         $scope.endTime = xPos2Date($scope.endx);
@@ -222,7 +209,6 @@ function StreamCtrl($scope, $http, $modal){
                 $scope.stream.events.push(data);
             }).error(console.error);
         });
->>>>>>> 1449a38017688d40e0aa0d6406327d6332fe9342
     };
 
     // -- Save Edits -- //
@@ -337,8 +323,6 @@ function NodeDetailsCtrl($scope, $http) {
     }
 }
 
-
-<<<<<<< HEAD
 // Project Controller Modal Instance Control
 app.controller('ProjectCreationCtrl', function ($scope, $modalInstance) {
     $scope.ok = function () { $modalInstance.close($scope.name); };
@@ -359,16 +343,8 @@ app.controller('ProjectEditCtrl', function ($scope, $modalInstance, currentName)
     $scope.cancel = function () { $modalInstance.dismiss('cancel'); };
 });
 
-// Stream Controller Modal Instance Control
-app.controller('StreamCreationCtrl', function ($scope, $modalInstance) {
-    $scope.ok = function () { $modalInstance.close($scope.name); };
-    $scope.cancel = function () { $modalInstance.dismiss('cancel'); };
-});
 
-// ----- Export Controllers
-=======
 // ----- Export Controllers ----- //
->>>>>>> 1449a38017688d40e0aa0d6406327d6332fe9342
 app.controller('UserCtrl', ['$scope', '$http', '$location', '$modal', UserCtrl]);
 app.controller('ProjectCtrl', ['$scope', '$http', '$routeParams', '$modal', ProjectCtrl]);
 app.controller('ModalCtrl', ['$scope', '$modalInstance', ModalCtrl]);
