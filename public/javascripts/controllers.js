@@ -92,7 +92,12 @@ function UserCtrl ($scope, $http, $location, $modal) {
         });
         modalInstance.result.then(function (name) {
             $http.put('/projects/'+$scope.user.currentProject, {name:name})
-                .success( function(data, status) {                    
+                .success( function(data, status) {
+                    $scope.user.projects.forEach(function(project) {
+                        if (project.name == $scope.user.currentProject) {
+                            project.name = name;
+                        }
+                    })                  
                     $scope.user.currentProject = name;
                 }).error(function(data, status){
             });
