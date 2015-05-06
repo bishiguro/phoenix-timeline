@@ -44,7 +44,7 @@ function UserCtrl ($scope, $http, $location, $modal) {
 
     // Project Deletion Modal Control
     $scope.check = function () {
-        // Check to make sure the User can and wants to delete the Project
+        // Check to make sure the User wants to delete the Project
         var modalInstance = $modal.open({
             templateUrl: '/partials/project-deletion.html',
             controller: 'ProjectDeletionCtrl',
@@ -59,7 +59,14 @@ function UserCtrl ($scope, $http, $location, $modal) {
         modalInstance.result.then(function (name) {
             $http.delete('/projects/'+$scope.user.currentProject)
                 .success( function(data, status) {
-                    $scope.user.currentProject = $scope.user.projects[0].name;
+                    if ($scope.user.currentProject == $scope.user.projects[0].name) {
+                        if ($scope.user.projects.length < 2) {
+                            $scope.user.projects = [];
+                            $scope.user.currentProject = '';
+                        }
+                        else { $scope.user.currentProject = $scope.user.projects[1].name; }
+                    }
+                    else { $scope.user.currentProject = $scope.user.projects[0].name; }
                 }).error(function(data, status){
             });
         });
@@ -79,7 +86,7 @@ function UserCtrl ($scope, $http, $location, $modal) {
         });
         modalInstance.result.then(function (name) {
             $http.put('/projects/'+$scope.user.currentProject, {name:name})
-                .success( function(data, status) {
+                .success( function(data, status) {                    
                     $scope.user.currentProject = name;
                 }).error(function(data, status){
             });
