@@ -90,6 +90,7 @@ function UserCtrl ($scope, $http, $location, $modal) {
                 }
             }
         });
+
         modalInstance.result.then(function (name) {
             $http.put('/projects/'+$scope.user.currentProject, {name:name})
                 .success( function(data, status) {
@@ -135,6 +136,7 @@ function ProjectCtrl ($scope, $http, $routeParams, $modal) {
             controller: 'ModalCtrl',
             size: 'sm'
         });
+
         modalInstance.result.then(function (name) {
             $http.post('/streams', {name: name, projectName: $routeParams.projectName})
                 .success(function(data, status) {
@@ -178,29 +180,20 @@ function DateCtrl ($scope) {
 
 
 function StreamCtrl($scope, $http, $modal){
-    $scope.summary = '';
-    $scope.description = '';
-    $scope.title = '';
-
-
-    $scope.mousedownDetect = function(event){
-        $scope.xpos = event.pageX;
-        $scope.ypos = event.pageY;
-    }
-
+    // Detect click vs. click-drag and call appropriate function
+    $scope.mousedownDetect = function(event) { $scope.xpos = event.pageX; }
     $scope.mouseupDetect = function(event){
-        if(event.pageX != $scope.xpos){
-            $scope.endx = event.pageX;
-            $scope.createEventDialog();
-        }
-        else $scope.createNodeDialog();
+        if (event.pageX == $scope.xpos) $scope.createNodeDialog($scope.xpos);
+        else $scope.createEventDialog($scope.xpos, event.pageX);
     }
 
-    $scope.createNodeDialog = function() {
-        $scope.mytime = xPos2Date($scope.xpos);
+    // Generate a modal for node creation
+    $scope.createNodeDialog = function(clickPos) {
+        var due = xPos2Date(clickPos);
+
         var modalInstance = $modal.open({
             templateUrl: '/partials/node-creation.html',
-            controller: 'ModalCtrl',
+            controller: 'NodeCreationCtrl',
             size:'sm',
         });
 
@@ -216,16 +209,23 @@ function StreamCtrl($scope, $http, $modal){
         });
     };
 
-    $scope.createEventDialog = function() {
-        $scope.startTime = xPos2Date($scope.xpos);
-        $scope.endTime = xPos2Date($scope.endx);
+    // Generate a modal for event creation
+    $scope.createEventDialog = function(startPos, endPos) {
+        $scope.startTime = xPos2Date(startPos);
+        $scope.endTime = xPos2Date(endPos);
         var modalInstance = $modal.open({
             templateUrl: '/partials/event-creation.html',
             controller: 'ModalCtrl',
             size:'sm',
         });
+
         modalInstance.result.then(function (title) {
-            $http.post('/events',{title:title, startTime:$scope.startTime, endTime:$scope.endTime, stream:$scope.stream._id}).success(function(data,status,headers,config) {
+            $http.post('/events', {
+                title: title,
+                startTime:$scope.startTime,
+                endTime:$scope.endTime,
+                stream:$scope.stream._id
+            }).success(function(data, status) {
                 $scope.stream.events.push(data);
             }).error(console.error);
         });
@@ -244,6 +244,12 @@ function StreamCtrl($scope, $http, $modal){
             .success( function(data, status) { $scope.project.streams.splice($scope.index, 1); })
             .error(function(data, status) {});
     }
+};
+
+// Node Creation Modal Control
+function NodeCreationCtrl ($scope, $modalInstance) {
+    $scope.ok = function () { $modalInstance.close($scope.summary, $scope.description); };
+    $scope.cancel = function () { $modalInstance.dismiss('cancel'); };
 };
 
 
@@ -298,9 +304,9 @@ function EventDetailsCtrl($scope, $http) {
 function NodeDetailsCtrl($scope, $http) {
     $scope.nodeValues = {
         sum: '',
-        desc: '',
-        due: ''
+        desc: ''
     };
+
     $scope.status = {
         displaying: false,
     };
@@ -311,6 +317,7 @@ function NodeDetailsCtrl($scope, $http) {
             .success(function(data,status,headers,config) {
             $event.preventDefault();
             $event.stopPropagation();
+
             $scope.nodeValues.sum = data.node.summary;
             $scope.nodeValues.desc = data.node.description;
             $scope.nodeValues.due = dateFormat(data.node.dueDate,"m/dd/yy");
@@ -343,13 +350,19 @@ function NodeDetailsCtrl($scope, $http) {
     }
 }
 
+
+
 // ----- Export Controllers ----- //
+// Main Controllers
 app.controller('UserCtrl', ['$scope', '$http', '$location', '$modal', UserCtrl]);
 app.controller('ProjectCtrl', ['$scope', '$http', '$routeParams', '$modal', ProjectCtrl]);
-app.controller('ModalCtrl', ['$scope', '$modalInstance', ModalCtrl]);
 app.controller('DateCtrl', ['$scope', DateCtrl]);
 app.controller('StreamCtrl',['$scope','$http','$modal', StreamCtrl]);
+
+// Modal Controllers
+app.controller('ModalCtrl', ['$scope', '$modalInstance', ModalCtrl]);
 app.controller('EventDetailsCtrl', ['$scope','$http', EventDetailsCtrl]);
 app.controller('NodeDetailsCtrl', ['$scope','$http', NodeDetailsCtrl]);
+app.controller('NodeCreationCtrl', ['$scope', '$modalInstance', NodeCreationCtrl]);
 app.controller('ProjectDeletionCtrl', ['$scope', '$modalInstance', 'projectName', ProjectDeletionCtrl]);
 app.controller('ProjectEditCtrl', ['$scope', '$modalInstance', 'currentName', ProjectEditCtrl]);
