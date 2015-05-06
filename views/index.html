@@ -92,20 +92,23 @@
                 </ul>
             </div>
 
-           <!-- MASTER STREAM -->
-            <div class="stream-container" ng-controller='StreamCtrl'>
-                <div id="left-stream-bar" class="stream" ng-mousedown='mousedownDetect($event)' ng-mouseup='mouseupDetect($event)'>
-                    <div class="stream-line"></div>
+            <div id="streams-panel">
+
+                <!-- MASTER STREAM -->
+                <div class="stream-container" ng-controller='StreamCtrl'>
+                    <div id="left-stream-bar" class="stream" ng-mousedown='mousedownDetect($event)' ng-mouseup='mouseupDetect($event)'>
+                        <div class="stream-line"></div>
+                    </div>
+
+                    <div class="stream-toolbox"><div class="stream-label">{{user.stream.name}}</div></div>
+
+                    <div class="stream" ng-mousedown='mousedownDetect($event)' ng-mouseup='mouseupDetect($event)'>
+                        <div class="stream-line"></div>
+                    </div>
                 </div>
 
-                <div class="stream-toolbox"><div class="stream-label">{{user.stream.name}}</div></div>
-
-                <div class="stream" ng-mousedown='mousedownDetect($event)' ng-mouseup='mouseupDetect($event)'>
-                    <div class="stream-line"></div>
-                </div>
+                <div ng-view></div>
             </div>
-
-            <div ng-view></div>
         </div>
 
     </body>
