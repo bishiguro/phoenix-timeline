@@ -162,7 +162,7 @@ function StreamCtrl($scope, $http, $modal){
     // -- Save Edits -- //
     $scope.save = function () {
         $http.put('/streams/' + $scope.stream._id, $scope.stream)
-            .success(function(data, status, headers, config) { $scope.stream = $scope.stream; })
+            .success(function(data, status, headers, config) {})
             .error(console.error);
     };
 
