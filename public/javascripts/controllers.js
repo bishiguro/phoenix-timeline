@@ -1,6 +1,8 @@
 // ----- Controller Module Creation
 var app = angular.module('controllers', []);
 
+
+
 // ----- Controller Definitions
 function UserCtrl ($scope, $http, $location, $modal) {
     // Update user data from server
@@ -29,7 +31,7 @@ function UserCtrl ($scope, $http, $location, $modal) {
     $scope.open = function () {
         var modalInstance = $modal.open({
             templateUrl: '/partials/project-creation.html',
-            controller: 'ProjectCreationCtrl',
+            controller: 'ModalCtrl',
             size: 'sm'
         });
 
@@ -45,6 +47,7 @@ function UserCtrl ($scope, $http, $location, $modal) {
     }
 }
 
+
 function ProjectCtrl ($scope, $http, $routeParams, $modal) {
     $http.get('/projects/' + $routeParams.projectName)
         .success( function (data, status) {
@@ -56,7 +59,7 @@ function ProjectCtrl ($scope, $http, $routeParams, $modal) {
     $scope.open = function () {
         var modalInstance = $modal.open({
             templateUrl: '/partials/stream-creation.html',
-            controller: 'StreamCreationCtrl',
+            controller: 'ModalCtrl',
             size: 'sm'
         });
 
@@ -69,6 +72,110 @@ function ProjectCtrl ($scope, $http, $routeParams, $modal) {
         });
     }
 }
+
+// Modal Instance Control
+app.controller('ModalCtrl', function ($scope, $modalInstance) {
+    $scope.ok = function () { $modalInstance.close($scope.name); };
+    $scope.cancel = function () { $modalInstance.dismiss('cancel'); };
+});
+
+// Toolbar Date Picker Controller
+function DateCtrl ($scope) {
+    // Define onclick functions
+    $scope.today = function() { $scope.dt = new Date(); }
+    $scope.clear = function () { $scope.dt = null; };
+    $scope.open = function($event) {
+        $event.preventDefault();
+        $event.stopPropagation();
+        $scope.opened = true;
+    };
+
+    // Set current date as default
+    $scope.today();
+
+    // When the new date is set, update the timeline
+    $scope.$watch('dt', function() {
+        selectedDate = new Date();
+        selectedDate.setFullYear($scope.dt.getFullYear());
+        selectedDate.setMonth($scope.dt.getMonth());
+        selectedDate.setDate($scope.dt.getDate());
+        update();
+    })
+}
+
+
+function StreamCtrl($scope,$http,$modal){
+    $scope.summary = '';
+    $scope.description = '';
+    $scope.title = '';
+
+
+    $scope.mousedownDetect = function(event){
+        $scope.xpos = event.pageX;
+        $scope.ypos = event.pageY;
+    }
+
+    $scope.mouseupDetect = function(event){
+        if(event.pageX != $scope.xpos){
+            $scope.endx = event.pageX;
+            $scope.createEventDialog();
+        }
+        else $scope.createNodeDialog();
+    }
+
+    $scope.createNodeDialog = function() {
+        $scope.mytime = xPos2Date($scope.xpos);
+        var modalInstance = $modal.open({
+            templateUrl: '/partials/node-creation.html',
+            controller: 'ModalCtrl',
+            size:'sm',
+        });
+
+        modalInstance.result.then(function (summary, description) {
+            $http.post('/nodes', {
+                summary: summary,
+                description: description,
+                due: due,
+                stream: $scope.stream._id
+            }).success(function(data,status,headers,config) {
+                $scope.stream.nodes.push(data);
+            }).error(console.error);
+        });
+    };
+
+    $scope.createEventDialog = function() {
+        $scope.startTime = xPos2Date($scope.xpos);
+        $scope.endTime = xPos2Date($scope.endx);
+        var modalInstance = $modal.open({
+            templateUrl: '/partials/event-creation.html',
+            controller: 'ModalCtrl',
+            size:'sm',
+        });
+        modalInstance.result.then(function (title) {
+            $http.post('/events',{title:title, startTime:$scope.startTime, endTime:$scope.endTime, stream:$scope.stream._id}).success(function(data,status,headers,config) {
+                $scope.stream.events.push(data);
+            }).error(console.error);
+        });
+    };
+
+    // -- Save Edits -- //
+    $scope.save = function () {
+        console.log("Editing stream: " + $scope.id);
+        $http.put('/streams/' + $scope.id, $scope.stream)
+            .success(function(data, status, headers, config) { $scope.stream = $scope.stream; })
+            .error(console.error);
+    };
+
+    // -- Deletion -- //
+    $scope.delete = function () {
+        console.log("Deleting stream: " + $scope.id);
+        $http.delete('/streams/' + $scope.id)
+            .success( function(data, status) {})
+            .error(function(data, status){
+        });
+    }
+};
+
 
 
 // ----- Detail Controllers ----- //
@@ -166,112 +273,12 @@ function NodeDetailsCtrl($scope, $http) {
     }
 }
 
-app.controller('nodeModalController', function ($scope, $modalInstance) {
-    $scope.ok = function () { $modalInstance.close($scope.description, $scope.summary); };
-    $scope.cancel = function () { $modalInstance.dismiss('cancel'); };
-});
 
-app.controller('eventModalController', function ($scope, $modalInstance) {
-    $scope.ok = function () { $modalInstance.close($scope.title); };
-    $scope.cancel = function () { $modalInstance.dismiss('cancel'); };
-});
-
-function StreamController($scope,$http,$modal){
-
-    $scope.summary = '';
-    $scope.description = '';
-    $scope.title = '';
-
-
-    $scope.mousedownDetect = function(event){
-        $scope.xpos = event.pageX;
-        $scope.ypos = event.pageY;
-    }
-
-    $scope.mouseupDetect = function(event){
-        if(event.pageX != $scope.xpos){
-            $scope.endx = event.pageX;
-            $scope.createEventDialog();
-        }
-        else $scope.createNodeDialog();
-    }
-
-    $scope.createNodeDialog = function() {
-        var due = xPos2Date($scope.xpos);
-        var modalInstance = $modal.open({
-            templateUrl: '/partials/node-creation.html',
-            controller: 'nodeModalController',
-            size:'sm'
-        });
-
-        modalInstance.result.then(function (summary, description) {
-            $http.post('/nodes', {
-                summary: summary,
-                description: description,
-                due: due,
-                stream: $scope.stream._id
-            }).success(function(data,status,headers,config) {
-                $scope.stream.nodes.push(data);
-            }).error(console.error);
-        });
-    };
-
-    $scope.createEventDialog = function() {
-        $scope.startTime = xPos2Date($scope.xpos);
-        $scope.endTime = xPos2Date($scope.endx);
-        var modalInstance = $modal.open({
-            templateUrl: '/partials/event-creation.html',
-            controller: 'eventModalController',
-            size:'sm',
-        });
-        modalInstance.result.then(function (title) {
-            $http.post('/events',{title:title, startTime:$scope.startTime, endTime:$scope.endTime, stream:$scope.stream._id}).success(function(data,status,headers,config) {
-                $scope.stream.events.push(data);
-            }).error(console.error);
-        });
-    };
-
-    // -- Save Edits
-    $scope.save = function () {
-        console.log("Editing stream: " + $scope.id);
-        $http.put('/streams/' + $scope.id, $scope.stream)
-            .success(function(data, status, headers, config) { $scope.stream = $scope.stream; })
-            .error(console.error);
-    };
-
-    // -- Deletion -- //
-    $scope.delete = function () {
-        console.log("Deleting stream: " + $scope.id);
-        $http.delete('/streams/' + $scope.id)
-            .success( function(data, status) {})
-            .error(function(data, status){
-        });
-    }
-};
-
-// ----- Export Controllers
-app.controller('UserCtrl', ['$scope', '$http', '$location', '$modal', UserCtrl]);
-app.controller('ProjectCtrl', ['$scope', '$http', '$routeParams', ProjectCtrl]);
-app.controller('StreamController',['$scope','$http','$modal',StreamController]);
-
-
-// Project Controller Modal Instance Control
-app.controller('ProjectCreationCtrl', function ($scope, $modalInstance) {
-    $scope.ok = function () { $modalInstance.close($scope.name); };
-    $scope.cancel = function () { $modalInstance.dismiss('cancel'); };
-});
-
-// Stream Controller Modal Instance Control
-app.controller('StreamCreationCtrl', function ($scope, $modalInstance) {
-    $scope.ok = function () { $modalInstance.close($scope.name); };
-    $scope.cancel = function () { $modalInstance.dismiss('cancel'); };
-});
-
-
-// ----- Export Controllers
+// ----- Export Controllers ----- //
 app.controller('UserCtrl', ['$scope', '$http', '$location', '$modal', UserCtrl]);
 app.controller('ProjectCtrl', ['$scope', '$http', '$routeParams', '$modal', ProjectCtrl]);
-app.controller('StreamDetailsCtrl', ['$scope','$http', StreamDetailsCtrl]);
+app.controller('DateCtrl', ['$scope', DateCtrl]);
+app.controller('StreamCtrl',['$scope','$http','$modal', StreamCtrl]);
 app.controller('EventDetailsCtrl', ['$scope','$http', EventDetailsCtrl]);
 app.controller('NodeDetailsCtrl', ['$scope','$http', NodeDetailsCtrl]);
 
