@@ -17,6 +17,8 @@
 .lane { font-family: lane, sans-serif; }
 .fabrica { font-family: lane, sans-serif; }
 
+
+
 /* ----- Utility Classes ----- */
 
 .centered-text { text-align: center; }
@@ -138,7 +140,8 @@ input[type="range"]::-webkit-slider-thumb {
 #timeline {
     order: 2;
     height: 100%;
-    position: relative;
+    display: flex;
+    flex-direction: column;
 }
 
 #body {
@@ -158,6 +161,7 @@ input[type="range"]::-webkit-slider-thumb {
 #clock-bar {
     width: 100%;
     height: 1.5rem;
+    order: 1;
 }
 
 #hour-tick-list {
@@ -298,22 +302,24 @@ input[type="range"]::-webkit-slider-thumb {
     margin-top: 2rem;
     display: flex;
     align-items: center;
+    padding: 1rem 0;
 }
 
 .stream-label {
     font-size: 1.5rem;
     font-family: source-sans-pro;
     text-transform: uppercase;
-    color: #222;
-
-    margin: 1rem;
-    flex: 1 0 auto;
 }
 
 .stream {
+    flex: 0 1 95%;
+    padding: 1rem 0;
+}
+
+.stream-line {
     border-top: 1px solid #222;
     border-bottom: 1px solid #999;
-    flex: 0 1 95%;
+    width: 100%;
 }
 
 #left-stream-bar {
@@ -379,4 +385,41 @@ input[type="range"]::-webkit-slider-thumb {
 #node-dialog{
     background-color:red;
     position:fixed;
+}
+
+.ui-clickable:hover {
+    color: #222;
+}
+
+/* -- Disguised Input -- */
+
+.disguised-input { outline: none; }
+
+.disguised-input:after {
+    content: '';
+    display: block;
+    height: 1px;
+
+    /* Initial state and transisiton */
+    width: 0;
+    background: transparent;
+    transition: width .5s ease, background-color .5s ease;
+}
+
+/* Target mouseover and focus states */
+.disguised-input:focus:after, .disguised-input:hover:after {
+    width: 100%;
+    background: #222;
+}
+.delete-control:hover { color: darkred; }
+
+.stream-toolbox {
+    color: #222;
+    margin: 1rem;
+    flex: 1 0 auto;
+}
+
+#streams-panel {
+    order: 2;
+    overflow-y: auto;
 }
