@@ -236,11 +236,7 @@ routes.updateEvent = function(req, res) {
 // ----- MODEL DELETE API ----- //
 
 routes.deleteProject = function(req, res) {
-<<<<<<< HEAD
     Project.findOneAndRemove({'name' : req.params.projectName}, function (err, project){
-=======
-    Project.findByIdAndRemove(req.params.id, function (err, project){
->>>>>>> 1449a38017688d40e0aa0d6406327d6332fe9342
         if (err) databaseError(err, req, res);
         else res.sendStatus(200);
     });
