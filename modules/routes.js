@@ -188,7 +188,7 @@ routes.updateUser = function(req, res) {
 }
 
 routes.updateProject = function(req, res) {
-    Project.findById(req.params.id, function(err, project){
+    Project.findOne({'name':req.params.projectName}, function(err, project){
         if (err) databaseError(err, req, res);
         else {
             project.name = req.body.name;
@@ -236,7 +236,7 @@ routes.updateEvent = function(req, res) {
 // ----- MODEL DELETE API ----- //
 
 routes.deleteProject = function(req, res) {
-    Project.findByIdAndRemove(req.params.id, function (err, project){
+    Project.findOneAndRemove({'name' : req.params.projectName}, function (err, project){
         if (err) databaseError(err, req, res);
         else res.sendStatus(200);
     });
