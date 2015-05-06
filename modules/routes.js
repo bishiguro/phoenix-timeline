@@ -36,56 +36,65 @@ function stringToDate(date) {
     return new Date(year, month, day, hour, minute, second);
 }
 
+function eventToStream(req, res, googleEvent) {
+    if (googleEvent.start.dateTime) { // differentiate Google events from Google tasks
+        // For each new Google Event in their calendar, create a Phoenix Timeline Event
+        var title = googleEvent.summary;
+        var startTime = stringToDate(googleEvent.start.dateTime);
+        var endTime = stringToDate(googleEvent.end.dateTime);
+        
+        Event.findOne({title: title}, function (err, event) { // TODO: verify with username
+            if (err) return databaseError(err, req, res);
+            // Only create the Event if it has not yet been stored
+            else if (!event) {
+                Event.create({
+                    title: title,
+                    startTime: startTime,
+                    endTime: endTime
+                }, function(err, event) {
+                    if (err) return databaseError(err, req, res);
+                    // Push each new Event into the User's Personal Stream
+                    else addToStream(req, res, event);
+                })
+            }
+        })
+    }
+}
+
+function addToStream(req, res, event) {
+    User.findByIdAndUpdate(req.user._id,
+        {$push: {'stream.events': event}},
+        function (err, user) { 
+            if (err) return databaseError(err, req, res);
+        }
+    )
+}
+
 function populateGoogleEvents(req, res) {
     // Accesses User's GCal via their stored Access Token
     google_calendar = new gcal.GoogleCalendar(req.user.googleAccessToken);
-    // Retrieves Calendar ID of primary calendar
     google_calendar.calendarList.list(function(err, data) {
         if (err) return res.sendStatus(500);
-        var email = data.items[0].id;
-        // Retrieves User's GCal Events from their primary calendar
-        google_calendar.events.list(email, function(err, data) {
-            if (err) return res.sendStatus(500);
-            else {
-                for (i=0; i<data.items.length; i++) { // FIXME: remove for loop (async)
-                    // For each new Google Event in their calendar, create a Phoenix Timeline Event
-                    var title = data.items[i].summary;
-                    var startTime = stringToDate(data.items[i].start.dateTime);
-                    var endTime = stringToDate(data.items[i].end.dateTime);
-                    Event.findOne({title: title}, // TODO: verify with username
-                        function (err, event) {
-                        if (err) return databaseError(err, req, res);
-                        // Only create the Event if it has not yet been stored
-                        else if (!event) {
-                            Event.create({
-                                title: title,
-                                startTime: startTime,
-                                endTime: endTime
-                            }, function(err, event) {
-                                if (err) return databaseError(err, req, res);
-                                // Push each new Event into the User's Personal Stream
-                                else {
-                                    User.findOneAndUpdate( 
-                                        {name: req.user.name},
-                                        {$push: {'stream.events': event}},
-                                        function (err, user) {
-                                            if (err) return databaseError(err, req, res);
-                                        }
-                                    )
-                                }
-                            })
-                        }
-                    })
+        else if (data.items) {
+            // Retrieves Calendar ID of primary calendar
+            var email = data.items[0].id;
+            // Retrieves User's GCal Events from their primary calendar
+            google_calendar.events.list(email, function(err, data) {
+                if (err) return res.sendStatus(500);
+                else {
+                    for (i=0; i<data.items.length; i++) {
+                        eventToStream(req, res, data.items[i]); // FIXME: asynchronous
+                    }
                 }
-            }
-        })
+            })
+        }
     });
 }
 
 // ----- GET HANDLERS ----- //
 
 routes.home = function(req, res) {
-    populateGoogleEvents(req, res);
+    populateGoogleEvents(req, res); // FIXME: move to login, with Google
     res.sendFile(path.join(__dirname, '../views/index.html'));
 }
 
