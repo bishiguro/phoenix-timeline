@@ -106,6 +106,20 @@ function UserCtrl ($scope, $http, $location, $modal) {
     }
 }
 
+// Delete Project Modal Control
+function ProjectDeletionCtrl ($scope, $modalInstance, projectName) {
+    $scope.projectName = projectName;
+    $scope.ok = function () { $modalInstance.close($scope.name); };
+    $scope.cancel = function () { $modalInstance.dismiss('cancel'); };
+};
+
+// Edit Project Modal Control
+function ProjectEditCtrl ($scope, $modalInstance, currentName) {
+    $scope.currentName = currentName;
+    $scope.ok = function () { $modalInstance.close($scope.name); };
+    $scope.cancel = function () { $modalInstance.dismiss('cancel'); };
+};
+
 
 function ProjectCtrl ($scope, $http, $routeParams, $modal) {
     $http.get('/projects/' + $routeParams.projectName)
@@ -329,27 +343,6 @@ function NodeDetailsCtrl($scope, $http) {
     }
 }
 
-// Project Controller Modal Instance Control
-app.controller('ProjectCreationCtrl', function ($scope, $modalInstance) {
-    $scope.ok = function () { $modalInstance.close($scope.name); };
-    $scope.cancel = function () { $modalInstance.dismiss('cancel'); };
-});
-
-// Project Controller Modal Instance Control
-app.controller('ProjectDeletionCtrl', function ($scope, $modalInstance, projectName) {
-    $scope.projectName = projectName;
-    $scope.ok = function () { $modalInstance.close($scope.name); };
-    $scope.cancel = function () { $modalInstance.dismiss('cancel'); };
-});
-
-// Project Controller Modal Instance Control
-app.controller('ProjectEditCtrl', function ($scope, $modalInstance, currentName) {
-    $scope.currentName = currentName;
-    $scope.ok = function () { $modalInstance.close($scope.name); };
-    $scope.cancel = function () { $modalInstance.dismiss('cancel'); };
-});
-
-
 // ----- Export Controllers ----- //
 app.controller('UserCtrl', ['$scope', '$http', '$location', '$modal', UserCtrl]);
 app.controller('ProjectCtrl', ['$scope', '$http', '$routeParams', '$modal', ProjectCtrl]);
@@ -358,4 +351,5 @@ app.controller('DateCtrl', ['$scope', DateCtrl]);
 app.controller('StreamCtrl',['$scope','$http','$modal', StreamCtrl]);
 app.controller('EventDetailsCtrl', ['$scope','$http', EventDetailsCtrl]);
 app.controller('NodeDetailsCtrl', ['$scope','$http', NodeDetailsCtrl]);
-
+app.controller('ProjectDeletionCtrl', ['$scope', '$modalInstance', 'projectName', ProjectDeletionCtrl]);
+app.controller('ProjectEditCtrl', ['$scope', '$modalInstance', 'currentName', ProjectEditCtrl]);
