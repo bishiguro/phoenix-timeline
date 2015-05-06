@@ -70,7 +70,7 @@
                         </span>
                     </p>
                     <label class="ui-label" for="date-selector">Date Shown</label>
-                </div>  
+                </div>
 
                 <!-- LOGOUT BUTTON -->
                 <div class="ui-control col-md-4">
@@ -92,15 +92,23 @@
                 </ul>
             </div>
 
-           <!-- MASTER STREAM -->
-            <div class="stream-container" ng-controller='StreamCtrl' ng-mousedown='mousedownDetect($event)' ng-mouseup = 'mouseupDetect($event)'>
-                <div id="left-stream-bar" class="stream"></div>
-                <div class="stream-label">{{user.stream.name}}</div>
-                <!-- TODO: Rig up click to create items -->
-                <div class="stream"></div>
-            </div>
+            <div id="streams-panel">
 
-            <div ng-view></div>
+                <!-- MASTER STREAM -->
+                <div class="stream-container" ng-controller='StreamCtrl'>
+                    <div id="left-stream-bar" class="stream" ng-mousedown='mousedownDetect($event)' ng-mouseup='mouseupDetect($event)'>
+                        <div class="stream-line"></div>
+                    </div>
+
+                    <div class="stream-toolbox"><div class="stream-label">{{user.stream.name}}</div></div>
+
+                    <div class="stream" ng-mousedown='mousedownDetect($event)' ng-mouseup='mouseupDetect($event)'>
+                        <div class="stream-line"></div>
+                    </div>
+                </div>
+
+                <div ng-view></div>
+            </div>
         </div>
 
     </body>

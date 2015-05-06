@@ -198,16 +198,11 @@ routes.updateProject = function(req, res) {
     });
 }
 
+// TODO: All put API put methods should be as simple as this.
 routes.updateStream = function(req, res) {
-    Stream.findById(req.params.id, function(err, stream){
-        if (err) databaseError(err, req, res);
-        else {
-            stream.name = req.body.name;
-            stream.beginning = req.body.beginning;
-            stream.end = req.body.end;
-            stream.save();
-            res.send({ steam: stream });
-        };
+    Stream.findByIdAndUpdate(req.params.id, req.body, function (err, stream) {
+        if (err) return databaseError(err, req, res);
+        res.json(stream);
     });
 }
 
@@ -241,38 +236,30 @@ routes.updateEvent = function(req, res) {
 // ----- MODEL DELETE API ----- //
 
 routes.deleteProject = function(req, res) {
-    Project.findOneAndRemove({'_id' : req.params.id}, function (err, project){
+    Project.findByIdAndRemove(req.params.id, function (err, project){
         if (err) databaseError(err, req, res);
-        else {
-            res.sendStatus(200);
-        };
+        else res.sendStatus(200);
     });
 }
 
 routes.deleteStream = function(req, res) {
-    Stream.findOneAndRemove({'_id' : req.params.id}, function (err, stream){
+    Stream.findByIdAndRemove(req.params.id, function (err, stream){
         if (err) databaseError(err, req, res);
-        else {
-            res.sendStatus(200);
-        };
+        else res.sendStatus(200);
     });
 }
 
 routes.deleteNode = function(req, res) {
-    Node.findOneAndRemove({'_id' : req.params.id}, function (err, node){
+    Node.findByIdAndRemove(req.params.id, function (err, node){
         if (err) databaseError(err, req, res);
-        else {
-            res.sendStatus(200);
-        };
+        else res.sendStatus(200);
     });
 }
 
 routes.deleteEvent = function(req, res) {
-    Event.findOneAndRemove({'_id' : req.params.id}, function (err, event){
+    Event.findByIdAndRemove(req.params.id, function (err, event){
         if (err) databaseError(err, req, res);
-        else {
-            res.sendStatus(200);
-        };
+        else res.sendStatus(200);
     });
 }
 
