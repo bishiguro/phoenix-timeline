@@ -93,6 +93,7 @@ function UserCtrl ($scope, $http, $location, $modal) {
         modalInstance.result.then(function (name) {
             $http.put('/projects/'+$scope.user.currentProject, {name:name})
                 .success( function(data, status) {
+                    //Update the project name in the selector
                     $scope.user.projects.forEach(function(project) {
                         if (project.name == $scope.user.currentProject) {
                             project.name = name;
