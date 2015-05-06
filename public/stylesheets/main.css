@@ -305,14 +305,15 @@ input[type="range"]::-webkit-slider-thumb {
     font-family: source-sans-pro;
     text-transform: uppercase;
     color: #222;
-
-    margin: 0 1rem;
+    margin: 1rem;
+    flex: 1 0 auto;
 }
 
 .stream {
     border-top: 1px solid #222;
     border-bottom: 1px solid #999;
     flex: 0 1 95%;
+    margin: 1rem 0;
 }
 
 #left-stream-bar {
@@ -375,12 +376,27 @@ input[type="range"]::-webkit-slider-thumb {
     position:fixed;
 }
 
-
-.stream-label-box {
-    padding-top: 1rem;
-    flex: 1 0 auto;
-}
-
 .ui-clickable:hover {
     color: #222;
+}
+
+/* -- Disguised Input -- */
+
+.disguised-input { outline: none; }
+
+.disguised-input:after {
+    content: '';
+    display: block;
+    height: 1px;
+
+    /* Initial state and transisiton */
+    width: 0;
+    background: transparent;
+    transition: width .5s ease, background-color .5s ease;
+}
+
+/* Target mouseover and focus states */
+.disguised-input:focus:after, .disguised-input:hover:after {
+    width: 100%;
+    background: #222;
 }
