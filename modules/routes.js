@@ -73,6 +73,8 @@ routes.createStream = function(req, res) {
     });
 }
 
+
+// TODO: Consider combining create Node and Event - code is near identical
 routes.createNode = function(req, res) {
     console.log(req.body)
     Node.create({
@@ -109,7 +111,23 @@ routes.createEvent = function(req, res) {
         endTime: req.body.endTime
     }, function(err, event) {
         if (err) return databaseError(err, req, res);
-        else res.send({title:event.title, startTime:event.startTime, endTime:event.endTime});
+        else {
+            // If specified stream is undefined, publish event to master stream
+            if (req.body.stream == undefined) User.findByIdAndUpdate(req.user._id, {
+                $push: {'stream.events': event}
+            }, function (err, user) {
+                if (err) return databaseError(err, req, res);
+                res.json(event);
+            });
+
+            // Otherwise, publish it do the spceifed stream
+            else Stream.findByIdAndUpdate (req.body.stream, {
+                $push: {event: event}
+            }, function (err, stream) {
+                if (err) return databaseError(err, req, res);
+                res.json(event);
+            });
+        }
     });
 }
 

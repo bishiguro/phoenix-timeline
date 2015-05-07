@@ -187,7 +187,7 @@ function StreamCtrl($scope, $http, $modal){
         else $scope.createEventDialog($scope.xpos, event.pageX);
     }
 
-    // Generate a modal for node creation
+    // -- Generate a modal for node creation -- //
     $scope.createNodeDialog = function(clickPos) {
         var due = xPos2Date(clickPos);
 
@@ -204,17 +204,18 @@ function StreamCtrl($scope, $http, $modal){
                 description: description,
                 due: due,
                 stream: stream
-            }).success(function(data,status,headers,config) {
+            }).success(function(data, status, headers, config) {
                 if ($scope.stream) $scope.stream.nodes.push(data);
                 else $scope.user.stream.nodes.push(data);
             }).error(console.error);
         });
     };
 
-    // Generate a modal for event creation
+    // -- Generate a modal for event creation -- //
     $scope.createEventDialog = function(startPos, endPos) {
-        $scope.startTime = xPos2Date(startPos);
-        $scope.endTime = xPos2Date(endPos);
+        var startTime = xPos2Date(startPos);
+        var endTime = xPos2Date(endPos);
+
         var modalInstance = $modal.open({
             templateUrl: '/partials/event-creation.html',
             controller: 'ModalCtrl',
@@ -222,13 +223,16 @@ function StreamCtrl($scope, $http, $modal){
         });
 
         modalInstance.result.then(function (title) {
+            if ($scope.stream) var stream = $scope.stream._id;
             $http.post('/events', {
                 title: title,
-                startTime:$scope.startTime,
-                endTime:$scope.endTime,
-                stream:$scope.stream._id
+                startTime: startTime,
+                endTime: endTime,
+                stream: stream
             }).success(function(data, status) {
-                $scope.stream.events.push(data);
+                if ($scope.stream) $scope.stream.events.push(data);
+                else $scope.user.stream.events.push(data);
+                console.log($scope.user);
             }).error(console.error);
         });
     };
