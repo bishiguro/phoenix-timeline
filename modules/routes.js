@@ -74,13 +74,30 @@ routes.createStream = function(req, res) {
 }
 
 routes.createNode = function(req, res) {
+    console.log(req.body)
     Node.create({
         summary: req.body.summary,
         description: req.body.description,
         dueDate: req.body.due
     }, function (err, node) {
         if (err) return databaseError(err, req, res);
-        else res.json({summary:node.summary, description:node.description, date:node.dueDate});
+        else {
+            // If specified stream is undefined, publish node to master stream
+            if (req.body.stream == undefined) User.findByIdAndUpdate(req.user._id, {
+                $push: {'stream.nodes': node}
+            }, function (err, user) {
+                if (err) return databaseError(err, req, res);
+                res.json(node);
+            });
+
+            // Otherwise, publish it do the spceifed stream
+            else Stream.findByIdAndUpdate (req.body.stream, {
+                $push: {nodes: node}
+            }, function (err, stream) {
+                if (err) return databaseError(err, req, res);
+                res.json(node);
+            });
+        }
     });
 }
 

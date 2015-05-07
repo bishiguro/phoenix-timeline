@@ -198,13 +198,15 @@ function StreamCtrl($scope, $http, $modal){
         });
 
         modalInstance.result.then(function (summary, description) {
+            if ($scope.stream) var stream = $scope.stream._id;
             $http.post('/nodes', {
                 summary: summary,
                 description: description,
                 due: due,
-                stream: $scope.stream._id
+                stream: stream
             }).success(function(data,status,headers,config) {
-                $scope.stream.nodes.push(data);
+                if ($scope.stream) $scope.stream.nodes.push(data);
+                else $scope.user.stream.nodes.push(data);
             }).error(console.error);
         });
     };
