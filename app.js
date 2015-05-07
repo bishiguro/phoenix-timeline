@@ -72,6 +72,7 @@ app.get('/projects', routes.getProjects);
 app.get('/streams', routes.getStreams);
 app.get('/nodes', routes.getNodes);
 app.get('/events', routes.getEvents);
+
 // Single entries
 app.get('/user', routes.findUser);
 app.get('/projects/:projectName', routes.findProject);

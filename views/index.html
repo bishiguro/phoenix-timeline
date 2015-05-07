@@ -115,10 +115,18 @@
                         <div class="stream-line"></div>
                     </div>
 
-                    <div class="stream-toolbox"><div class="stream-label">{{user.stream.name}}</div></div>
+                    <div class="stream-toolbox"><div class="stream-label">Personal</div></div>
 
                     <div class="stream" ng-mousedown='mousedownDetect($event)' ng-mouseup='mouseupDetect($event)'>
                         <div class="stream-line"></div>
+                    </div>
+
+                    <div class="item-container" ng-repeat="node in user.stream.nodes">
+                        <div class="item node" data-start-date="{{node.dueDate}}"></div>
+                    </div>
+
+                    <div class="item-container" ng-repeat="event in user.stream.events">
+                        <div class="item event" data-start-date="{{event.startTime}}" data-end-date="{{event.endTime}}"></div>
                     </div>
                 </div>
 

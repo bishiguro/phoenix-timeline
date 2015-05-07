@@ -76,7 +76,6 @@ routes.createStream = function(req, res) {
 
 // TODO: Consider combining create Node and Event - code is near identical
 routes.createNode = function(req, res) {
-    console.log(req.body)
     Node.create({
         summary: req.body.summary,
         description: req.body.description,
@@ -173,7 +172,7 @@ routes.getEvents = function(req, res) {
 
 routes.findUser = function(req, res) {
     User.findById(req.user._id)
-        .populate('projects')
+        .populate('projects stream.events stream.nodes')
         .exec( function(err, user) {
         if (err) databaseError(err, req, res);
         res.json(user);
@@ -182,7 +181,9 @@ routes.findUser = function(req, res) {
 
 routes.findProject = function(req, res) {
     Project.findOne({name: req.params.projectName})
-        .populate('streams').exec( function (err, project) {
+        .populate('streams')
+        .populate('nodes events')
+        .exec( function (err, project) {
         if (err) databaseError(err, req, res);
         res.json(project);
     });
@@ -215,7 +216,7 @@ routes.findEvent = function(req, res) {
 routes.updateUser = function(req, res) {
     User.findByIdAndUpdate(req.user._id, req.body, function (err, user) {
         if (err) return databaseError(err, req, res);
-        user.populate('projects', function(err, user) {
+        user.populate('projects stream.events stream.nodes', function(err, user) {
             res.json(user);
         });
 

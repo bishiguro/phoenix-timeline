@@ -178,7 +178,6 @@ function DateCtrl ($scope) {
     })
 }
 
-
 function StreamCtrl($scope, $http, $modal){
     // Detect click vs. click-drag and call appropriate function
     $scope.mousedownDetect = function(event) { $scope.xpos = event.pageX; }
@@ -232,7 +231,6 @@ function StreamCtrl($scope, $http, $modal){
             }).success(function(data, status) {
                 if ($scope.stream) $scope.stream.events.push(data);
                 else $scope.user.stream.events.push(data);
-                console.log($scope.user);
             }).error(console.error);
         });
     };
@@ -257,8 +255,6 @@ function NodeCreationCtrl ($scope, $modalInstance) {
     $scope.ok = function () { $modalInstance.close($scope.summary, $scope.description); };
     $scope.cancel = function () { $modalInstance.dismiss('cancel'); };
 };
-
-
 
 // ----- Detail Controllers ----- //
 function EventDetailsCtrl($scope, $http) {
