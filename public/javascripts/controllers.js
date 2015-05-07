@@ -45,6 +45,14 @@ function UserCtrl ($scope, $http, $location, $modal) {
             });
         });
     }
+
+    // Google Calendar Sync
+    $scope.sync = function () {
+        $http.get('/sync')
+            .success(function(data, status) {
+            }).error(function(data, status) {
+            });
+    }
 }
 
 
