@@ -30,8 +30,8 @@
 
             <!-- LEFT HEADER TOOLBAR -->
             <div class="col-md-4 row">
-
                 <div class="col-md-6 row">
+
                     <!-- PROJECT SELECTION MENU -->
                     <div class="col-md-8 ui-control">
                         <select id="project-selection" ng-model="user.currentProject" ng-options="project.name as project.name for project in user.projects" class="capitalize ui-button full-width">
@@ -49,6 +49,21 @@
                     <div class="col-md-4 ui-control">
                         <button id="google-sync" class="ui-button full-width" ng-click="sync()"> </button>
                         <label class="ui-label centered-text">Google Sync</label>
+                    </div>
+
+                </div>
+                <div class="col-md-6 row">
+
+                    <!-- EDIT PROJECT BUTTON -->
+                    <div class="col-md-4 ui-control">
+                        <button id="edit-project" class="ui-button full-width" ng-click="edit()">#</button>
+                        <label class="ui-label centered-text" for="edit-project">Edit</label>
+                    </div>
+
+                    <!-- DELETE PROJECT BUTTON -->
+                    <div class="col-md-4 ui-control">
+                        <button id="delete-button" class="ui-button full-width" ng-click="check()">x</button>
+                        <label class="ui-label centered-text" for="delete-button">Delete</label>
                     </div>
 
                 </div>

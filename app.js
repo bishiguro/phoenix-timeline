@@ -82,13 +82,13 @@ app.get('/events/:id', routes.findEvent);
 
 // PUT API (Update)
 app.put('/user', routes.updateUser);
-app.put('/projects/:id', routes.updateProject);
+app.put('/projects/:projectName', routes.updateProject);
 app.put('/streams/:id', routes.updateStream);
 app.put('/nodes/:id', routes.updateNode);
 app.put('/events/:id', routes.updateEvent);
 
 // DELETE API (Delete)
-app.delete('/projects/:id', routes.deleteProject);
+app.delete('/projects/:projectName', routes.deleteProject);
 app.delete('/streams/:id', routes.deleteStream);
 app.delete('/nodes/:id', routes.deleteNode);
 app.delete('/events/:id', routes.deleteEvent);

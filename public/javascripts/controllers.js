@@ -34,14 +34,73 @@ function UserCtrl ($scope, $http, $location, $modal) {
             controller: 'ModalCtrl',
             size: 'sm'
         });
-
         modalInstance.result.then(function (name) {
             $http.post('/projects', {name: name})
                 .success(function(data, status) {
-                var index = $scope.user.projects.push({name: name});
-                $scope.user.currentProject = name;
-            }).error(function(data, status){
+                    var index = $scope.user.projects.push({name: name});
+                    $scope.user.currentProject = name;
+                }).error(function(data, status){
+            });
+        });
+    }
 
+    // Project Deletion Modal Control
+    $scope.check = function () {
+        // Check to make sure the User wants to delete the Project
+        var modalInstance = $modal.open({
+            templateUrl: '/partials/project-deletion.html',
+            controller: 'ProjectDeletionCtrl',
+            size: 'sm',
+            resolve: {
+                projectName: function () {
+                    return $scope.user.currentProject;
+                }
+            }
+        });
+        // If OK, delete the current Project
+        modalInstance.result.then(function (name) {
+            $http.delete('/projects/'+$scope.user.currentProject)
+                .success( function(data, status) {
+                    // If the current project is the first project in the list...
+                    if ($scope.user.currentProject == $scope.user.projects[0].name) {
+                        // Clear the list if there are less than two projects
+                        if ($scope.user.projects.length < 2) {
+                            $scope.user.projects = [];
+                            $scope.user.currentProject = '';
+                        }
+                        // Otherwise, switch to the second project
+                        else { $scope.user.currentProject = $scope.user.projects[1].name; }
+                    }
+                    // Otherwise, switch to the first project
+                    else { $scope.user.currentProject = $scope.user.projects[0].name; }
+                }).error(function(data, status){
+            });
+        });
+    }
+
+    // Project Edit Modal Control
+    $scope.edit = function () {
+        var modalInstance = $modal.open({
+            templateUrl: '/partials/project-edit.html',
+            controller: 'ProjectEditCtrl',
+            size: 'sm',
+            resolve: {
+                currentName: function () {
+                    return $scope.user.currentProject;
+                }
+            }
+        });
+        modalInstance.result.then(function (name) {
+            $http.put('/projects/'+$scope.user.currentProject, {name:name})
+                .success( function(data, status) {
+                    //Update the project name in the selector
+                    $scope.user.projects.forEach(function(project) {
+                        if (project.name == $scope.user.currentProject) {
+                            project.name = name;
+                        }
+                    })                  
+                    $scope.user.currentProject = name;
+                }).error(function(data, status){
             });
         });
     }
@@ -54,6 +113,20 @@ function UserCtrl ($scope, $http, $location, $modal) {
             });
     }
 }
+
+// Delete Project Modal Control
+function ProjectDeletionCtrl ($scope, $modalInstance, projectName) {
+    $scope.projectName = projectName;
+    $scope.ok = function () { $modalInstance.close($scope.name); };
+    $scope.cancel = function () { $modalInstance.dismiss('cancel'); };
+};
+
+// Edit Project Modal Control
+function ProjectEditCtrl ($scope, $modalInstance, currentName) {
+    $scope.currentName = currentName;
+    $scope.ok = function () { $modalInstance.close($scope.name); };
+    $scope.cancel = function () { $modalInstance.dismiss('cancel'); };
+};
 
 
 function ProjectCtrl ($scope, $http, $routeParams, $modal) {
@@ -70,7 +143,6 @@ function ProjectCtrl ($scope, $http, $routeParams, $modal) {
             controller: 'ModalCtrl',
             size: 'sm'
         });
-
         modalInstance.result.then(function (name) {
             $http.post('/streams', {name: name, projectName: $routeParams.projectName})
                 .success(function(data, status) {
@@ -201,8 +273,8 @@ function EventDetailsCtrl($scope, $http) {
             $event.preventDefault();
             $event.stopPropagation();
             $scope.eventValues.ttl = data.event.title;
-            $scope.eventValues.start = data.event.startTime;
-            $scope.eventValues.end = data.event.endTime;
+            $scope.eventValues.start = dateFormat(data.event.startTime,"m/dd/yy");
+            $scope.eventValues.end = dateFormat(data.event.endTime,"m/dd/yy")
             $scope.status.displaying = !$scope.displaying;
         }).error(console.error);
     };
@@ -279,7 +351,6 @@ function NodeDetailsCtrl($scope, $http) {
     }
 }
 
-
 // ----- Export Controllers ----- //
 app.controller('UserCtrl', ['$scope', '$http', '$location', '$modal', UserCtrl]);
 app.controller('ProjectCtrl', ['$scope', '$http', '$routeParams', '$modal', ProjectCtrl]);
@@ -288,4 +359,5 @@ app.controller('DateCtrl', ['$scope', DateCtrl]);
 app.controller('StreamCtrl',['$scope','$http','$modal', StreamCtrl]);
 app.controller('EventDetailsCtrl', ['$scope','$http', EventDetailsCtrl]);
 app.controller('NodeDetailsCtrl', ['$scope','$http', NodeDetailsCtrl]);
-
+app.controller('ProjectDeletionCtrl', ['$scope', '$modalInstance', 'projectName', ProjectDeletionCtrl]);
+app.controller('ProjectEditCtrl', ['$scope', '$modalInstance', 'currentName', ProjectEditCtrl]);

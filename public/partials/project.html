@@ -1,4 +1,5 @@
 <!-- PROJECT STREAMS -->
+
 <div class="stream-container" ng-repeat="stream in project.streams track by $index" ng-controller='StreamCtrl'>
     <div id="left-stream-bar" class="stream" ng-mousedown='mousedownDetect($event)' ng-mouseup='mouseupDetect($event)'>
         <div class="stream-line"></div>
@@ -21,6 +22,7 @@
 
     <div class="item-container" ng-repeat="event in stream.events">
         <div class="item event" data-start-date="{{event.startTime}}" data-end-date="{{event.endTime}}"></div>
+
     </div>
 </div>
 
