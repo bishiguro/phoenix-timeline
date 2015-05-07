@@ -24,7 +24,10 @@ function UserCtrl ($scope, $http, $location, $modal) {
         $location.path('/' + value);
 
         $http.put('/user', {currentProject: value})
-            .success(function(data, status) { $scope.user = data });
+            .success(function(data, status) {
+            $scope.user = data;
+            update();
+        });
     });
 
     // Project Creation Modal Control
@@ -37,9 +40,9 @@ function UserCtrl ($scope, $http, $location, $modal) {
         modalInstance.result.then(function (name) {
             $http.post('/projects', {name: name})
                 .success(function(data, status) {
-                    var index = $scope.user.projects.push({name: name});
-                    $scope.user.currentProject = name;
-                }).error(function(data, status){
+                var index = $scope.user.projects.push({name: name});
+                $scope.user.currentProject = name;
+            }).error(function(data, status){
             });
         });
     }
@@ -61,19 +64,19 @@ function UserCtrl ($scope, $http, $location, $modal) {
         modalInstance.result.then(function (name) {
             $http.delete('/projects/'+$scope.user.currentProject)
                 .success( function(data, status) {
-                    // If the current project is the first project in the list...
-                    if ($scope.user.currentProject == $scope.user.projects[0].name) {
-                        // Clear the list if there are less than two projects
-                        if ($scope.user.projects.length < 2) {
-                            $scope.user.projects = [];
-                            $scope.user.currentProject = '';
-                        }
-                        // Otherwise, switch to the second project
-                        else { $scope.user.currentProject = $scope.user.projects[1].name; }
+                // If the current project is the first project in the list...
+                if ($scope.user.currentProject == $scope.user.projects[0].name) {
+                    // Clear the list if there are less than two projects
+                    if ($scope.user.projects.length < 2) {
+                        $scope.user.projects = [];
+                        $scope.user.currentProject = '';
                     }
-                    // Otherwise, switch to the first project
-                    else { $scope.user.currentProject = $scope.user.projects[0].name; }
-                }).error(function(data, status){
+                    // Otherwise, switch to the second project
+                    else { $scope.user.currentProject = $scope.user.projects[1].name; }
+                }
+                // Otherwise, switch to the first project
+                else { $scope.user.currentProject = $scope.user.projects[0].name; }
+            }).error(function(data, status){
             });
         });
     }
@@ -94,14 +97,14 @@ function UserCtrl ($scope, $http, $location, $modal) {
         modalInstance.result.then(function (name) {
             $http.put('/projects/'+$scope.user.currentProject, {name:name})
                 .success( function(data, status) {
-                    //Update the project name in the selector
-                    $scope.user.projects.forEach(function(project) {
-                        if (project.name == $scope.user.currentProject) {
-                            project.name = name;
-                        }
-                    })                  
-                    $scope.user.currentProject = name;
-                }).error(function(data, status){
+                //Update the project name in the selector
+                $scope.user.projects.forEach(function(project) {
+                    if (project.name == $scope.user.currentProject) {
+                        project.name = name;
+                    }
+                })
+                $scope.user.currentProject = name;
+            }).error(function(data, status){
             });
         });
     }
