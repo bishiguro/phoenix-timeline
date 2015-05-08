@@ -107,6 +107,15 @@ function UserCtrl ($scope, $http, $location, $modal) {
             });
         });
     }
+
+    // Google Calendar Sync
+    $scope.sync = function () {
+        $http.get('/sync')
+            .success(function(data, status) {
+                $scope.user = data;
+            }).error(function(data, status) {
+            });
+    }
 }
 
 // Delete Project Modal Control

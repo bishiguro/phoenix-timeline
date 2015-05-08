@@ -1,5 +1,7 @@
 var mongoose = require('mongoose');
 var path = require("path");
+var async = require("async");
+var gcal = require("google-calendar");
 
 var User = require(path.join(__dirname,"../models/user"));
 var Project = require(path.join(__dirname,"../models/project"));
@@ -23,10 +25,72 @@ function databaseError(err, req, res) {
     res.sendStatus(500);
 }
 
+function eventToStream (googleEvent, callback) {
+    var req = this.req;
+    var res = this.res;
+
+    if (googleEvent.start.dateTime) { // differentiate Google events from Google tasks
+        // For each new Google Event in their calendar, create a Phoenix Timeline Event
+        var title = googleEvent.summary;
+        var startTime = new Date(googleEvent.start.dateTime);
+        var endTime = new Date(googleEvent.end.dateTime);
+        
+        Event.findOne({title: title}, function (err, event) { // TODO: verify with username
+            if (err) callback('Database Error.');
+            // Only create the Event if it has not yet been stored
+            else if (!event) {
+                Event.create({
+                    title: title,
+                    startTime: startTime,
+                    endTime: endTime
+                }, function(err, event) {
+                    if (err) callback('Database Error.');
+                    // Push each new Event into the User's Personal Stream
+                    else {
+                        User.findByIdAndUpdate(req.user._id,
+                            {$push: {'stream.events': event}}, function (err, user) { 
+                                if (err) callback('Database Error');
+                                else {
+                                    callback();
+                                }
+                            }
+                        )
+                    }
+                })
+            }
+            else callback();
+        })
+    } else callback();
+}
+
+function populateGoogleEvents(req, res) {
+    // Accesses User's GCal via their stored Access Token
+    google_calendar = new gcal.GoogleCalendar(req.user.googleAccessToken);
+    google_calendar.calendarList.list(function(err, data) {
+        if (err) return res.sendStatus(500);
+        else {
+            // Retrieves Calendar ID of primary calendar
+            var email = data.items[0].id;
+            // Retrieves User's GCal Events from their primary calendar
+            google_calendar.events.list(email, function(err, data) {
+                if (err) return res.sendStatus(500);
+                else
+                    async.each(data.items, eventToStream.bind({req: req, res: res}), function (err) {
+                        routes.findUser(req, res);
+                    });
+            })
+        }
+    });
+}
+
 // ----- GET HANDLERS ----- //
 
 routes.home = function(req, res) {
     res.sendFile(path.join(__dirname, '../views/index.html'));
+}
+
+routes.googleSync = function (req, res) {
+    populateGoogleEvents(req, res);
 }
 
 routes.logout = function(req, res) {
