@@ -73,6 +73,8 @@ routes.createStream = function(req, res) {
     });
 }
 
+
+// TODO: Consider combining create Node and Event - code is near identical
 routes.createNode = function(req, res) {
     Node.create({
         summary: req.body.summary,
@@ -80,7 +82,23 @@ routes.createNode = function(req, res) {
         dueDate: req.body.due
     }, function (err, node) {
         if (err) return databaseError(err, req, res);
-        else res.json({summary:node.summary, description:node.description, date:node.dueDate});
+        else {
+            // If specified stream is undefined, publish node to master stream
+            if (req.body.stream == undefined) User.findByIdAndUpdate(req.user._id, {
+                $push: {'stream.nodes': node}
+            }, function (err, user) {
+                if (err) return databaseError(err, req, res);
+                res.json(node);
+            });
+
+            // Otherwise, publish it do the spceifed stream
+            else Stream.findByIdAndUpdate (req.body.stream, {
+                $push: {nodes: node}
+            }, function (err, stream) {
+                if (err) return databaseError(err, req, res);
+                res.json(node);
+            });
+        }
     });
 }
 
@@ -92,7 +110,23 @@ routes.createEvent = function(req, res) {
         endTime: req.body.endTime
     }, function(err, event) {
         if (err) return databaseError(err, req, res);
-        else res.send({title:event.title, startTime:event.startTime, endTime:event.endTime});
+        else {
+            // If specified stream is undefined, publish event to master stream
+            if (req.body.stream == undefined) User.findByIdAndUpdate(req.user._id, {
+                $push: {'stream.events': event}
+            }, function (err, user) {
+                if (err) return databaseError(err, req, res);
+                res.json(event);
+            });
+
+            // Otherwise, publish it do the spceifed stream
+            else Stream.findByIdAndUpdate (req.body.stream, {
+                $push: {events: event}
+            }, function (err, stream) {
+                if (err) return databaseError(err, req, res);
+                res.json(event);
+            });
+        }
     });
 }
 
@@ -138,7 +172,7 @@ routes.getEvents = function(req, res) {
 
 routes.findUser = function(req, res) {
     User.findById(req.user._id)
-        .populate('projects')
+        .populate('projects stream.events stream.nodes')
         .exec( function(err, user) {
         if (err) databaseError(err, req, res);
         res.json(user);
@@ -147,7 +181,8 @@ routes.findUser = function(req, res) {
 
 routes.findProject = function(req, res) {
     Project.findOne({name: req.params.projectName})
-        .populate('streams').exec( function (err, project) {
+        .deepPopulate('streams streams.nodes streams.events')
+        .exec( function (err, project) {
         if (err) databaseError(err, req, res);
         res.json(project);
     });
@@ -180,7 +215,7 @@ routes.findEvent = function(req, res) {
 routes.updateUser = function(req, res) {
     User.findByIdAndUpdate(req.user._id, req.body, function (err, user) {
         if (err) return databaseError(err, req, res);
-        user.populate('projects', function(err, user) {
+        user.populate('projects stream.events stream.nodes', function(err, user) {
             res.json(user);
         });
 

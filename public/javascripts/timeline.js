@@ -12,7 +12,7 @@
 
 // ----- CONSTANTS & CONFIG ----- //
 var MS_PER_HOUR = 3600000;              // Number of milliseconds per hour
-var DEFAULT_UPDATE_INTERVAL = 30000;    // Default update interval in ms
+var DEFAULT_UPDATE_INTERVAL = 250;    // Default update interval in ms
 var selectedDate = new Date();
 
 
@@ -53,7 +53,7 @@ function update () {
     var hours_to_left = this.now_offset / this.hour_width;
 
     var hour_start = Math.floor(now.getHours() - hours_to_left);
-    var initial_offset = now_offset + ((hour2Date(hour_start) - now) / MS_PER_HOUR) * this.hour_width;
+    this.initial_offset = now_offset + ((hour2Date(hour_start) - now) / MS_PER_HOUR) * this.hour_width;
 
     // Create first hour tick and place it on timeline
     var hour_tick = createHourTick(hour_start);
@@ -138,7 +138,7 @@ function hour2Date(hour) {
 function updateElemOffset(query_selector) {
     var items = document.querySelectorAll(query_selector);
     for (var i=0; i < items.length; i++)
-        items[i].style.left = xPos2Date(items[i].getAttribute('data-start-date')) + 'px';
+        items[i].style.left = date2XPos(items[i].getAttribute('data-start-date')) + 'px';
 }
 
 
@@ -173,17 +173,14 @@ function updateEventDuration() {
     in rendering data with associated dates to the screen. See also the inverse
     function, xPos2Date.
 */
-function xPos2Date(xpos) {
-    // Calculate the time in hours relative to now
-    var rel_time = (xpos - this.now_offset) / this.hour_width;
-    var d = new Date();
-    d.setMilliseconds(MS_PER_HOUR * rel_time);
-    return d;
+function date2XPos(date) {
+    var date = new Date(date);
+    return this.now_offset + this.hour_width * ((date - new Date()) / MS_PER_HOUR);
 }
 
 
 /**
-    date2XPos
+    xPos2Date
     ----
 
     A utility to convert from an onscreen x-position (in pixels from the
@@ -191,9 +188,12 @@ function xPos2Date(xpos) {
     the timeline. This is especially useful in creating objects from
     click events. See also the inverse function, date2XPos.
 */
-function date2XPos(date) {
-    var date = new Date(date);
-    return this.now_offset + this.hour_width * ((date - new Date()) / MS_PER_HOUR);
+function xPos2Date(xpos) {
+    // Calculate the time in hours relative to now
+    var rel_time = (xpos - this.now_offset) / this.hour_width;
+    var d = new Date ();
+    d.setMilliseconds(MS_PER_HOUR * rel_time);
+    return d;
 }
 
 
