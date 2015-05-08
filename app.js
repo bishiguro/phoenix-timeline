@@ -59,6 +59,7 @@ app.use(function (req, res, next) {
 // ROUTING
 app.get('/', routes.home);
 app.get('/logout', routes.logout);
+app.get('/sync', routes.googleSync);
 
 // POST API (Create)
 app.post('/projects', routes.createProject);
@@ -72,6 +73,7 @@ app.get('/projects', routes.getProjects);
 app.get('/streams', routes.getStreams);
 app.get('/nodes', routes.getNodes);
 app.get('/events', routes.getEvents);
+
 // Single entries
 app.get('/user', routes.findUser);
 app.get('/projects/:projectName', routes.findProject);

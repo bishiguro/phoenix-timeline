@@ -8,6 +8,7 @@
         <!-- Linked CSS -->
         <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" />
         <link rel="stylesheet" href="/stylesheets/main.css" />
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
 
         <!-- Linked JS -->
         <script src="/javascripts/timeline.js"></script>
@@ -21,6 +22,7 @@
         <!-- Angular Controllers -->
         <script src="/javascripts/angular-app.js"></script>
         <script src="/javascripts/controllers.js"></script>
+
     </head>
 
     <body id="body" onload="startUpdates()" ng-controller='UserCtrl'>
@@ -58,6 +60,12 @@
                     <div class="col-md-4 ui-control">
                         <button id="delete-button" class="ui-button full-width" ng-click="check()">x</button>
                         <label class="ui-label centered-text" for="delete-button">Delete</label>
+                    </div>
+
+                    <!-- GOOGLE SYNC BUTTON -->
+                    <div class="col-md-4 ui-control">
+                        <button id="google-sync" class="ui-button full-width" ng-click="sync()"><i class="fa fa-google"></i></button>
+                        <label class="ui-label centered-text">Sync</label>
                     </div>
 
                 </div>
@@ -115,16 +123,19 @@
                         <div class="stream-line"></div>
                     </div>
 
-                    <div class="stream-toolbox"><div class="stream-label">{{user.stream.name}}</div></div>
+                    <div class="stream-toolbox"><div class="stream-label">Personal</div></div>
 
                     <div class="stream" ng-mousedown='mousedownDetect($event)' ng-mouseup='mouseupDetect($event)'>
                         <div class="stream-line"></div>
                     </div>
+
+                    <!-- Personal Stream Nodes and Events -->
+                    <div class="item node" data-start-date="{{node.dueDate}}" ng-repeat="node in user.stream.nodes"></div>
+                    <div class="item event" data-start-date="{{event.startTime}}" data-end-date="{{event.endTime}}" ng-repeat="event in user.stream.events"></div>
                 </div>
 
                 <div ng-view></div>
             </div>
         </div>
-
     </body>
 </html>

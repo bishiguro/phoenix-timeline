@@ -15,7 +15,7 @@ function UserCtrl ($scope, $http, $location, $modal) {
         angular.forEach ($scope.user.projects, function(project) {
             if (project.name == newCurrentProject)
                 return $http.put('/user', {currentProject: newCurrentProject })
-                    .success(function(data, status) { $scope.user = data });
+                    .success(function(data, status) { $scope.user = data; });
         });
     });
 
@@ -24,7 +24,9 @@ function UserCtrl ($scope, $http, $location, $modal) {
         $location.path('/' + value);
 
         $http.put('/user', {currentProject: value})
-            .success(function(data, status) { $scope.user = data });
+            .success(function(data, status) {
+            $scope.user = data;
+        });
     });
 
     // Project Creation Modal Control
@@ -37,9 +39,9 @@ function UserCtrl ($scope, $http, $location, $modal) {
         modalInstance.result.then(function (name) {
             $http.post('/projects', {name: name})
                 .success(function(data, status) {
-                    var index = $scope.user.projects.push({name: name});
-                    $scope.user.currentProject = name;
-                }).error(function(data, status){
+                var index = $scope.user.projects.push({name: name});
+                $scope.user.currentProject = name;
+            }).error(function(data, status){
             });
         });
     }
@@ -61,19 +63,19 @@ function UserCtrl ($scope, $http, $location, $modal) {
         modalInstance.result.then(function (name) {
             $http.delete('/projects/'+$scope.user.currentProject)
                 .success( function(data, status) {
-                    // If the current project is the first project in the list...
-                    if ($scope.user.currentProject == $scope.user.projects[0].name) {
-                        // Clear the list if there are less than two projects
-                        if ($scope.user.projects.length < 2) {
-                            $scope.user.projects = [];
-                            $scope.user.currentProject = '';
-                        }
-                        // Otherwise, switch to the second project
-                        else { $scope.user.currentProject = $scope.user.projects[1].name; }
+                // If the current project is the first project in the list...
+                if ($scope.user.currentProject == $scope.user.projects[0].name) {
+                    // Clear the list if there are less than two projects
+                    if ($scope.user.projects.length < 2) {
+                        $scope.user.projects = [];
+                        $scope.user.currentProject = '';
                     }
-                    // Otherwise, switch to the first project
-                    else { $scope.user.currentProject = $scope.user.projects[0].name; }
-                }).error(function(data, status){
+                    // Otherwise, switch to the second project
+                    else { $scope.user.currentProject = $scope.user.projects[1].name; }
+                }
+                // Otherwise, switch to the first project
+                else { $scope.user.currentProject = $scope.user.projects[0].name; }
+            }).error(function(data, status){
             });
         });
     }
@@ -90,19 +92,29 @@ function UserCtrl ($scope, $http, $location, $modal) {
                 }
             }
         });
+
         modalInstance.result.then(function (name) {
             $http.put('/projects/'+$scope.user.currentProject, {name:name})
                 .success( function(data, status) {
-                    //Update the project name in the selector
-                    $scope.user.projects.forEach(function(project) {
-                        if (project.name == $scope.user.currentProject) {
-                            project.name = name;
-                        }
-                    })                  
-                    $scope.user.currentProject = name;
-                }).error(function(data, status){
+                //Update the project name in the selector
+                $scope.user.projects.forEach(function(project) {
+                    if (project.name == $scope.user.currentProject) {
+                        project.name = name;
+                    }
+                })
+                $scope.user.currentProject = name;
+            }).error(function(data, status){
             });
         });
+    }
+
+    // Google Calendar Sync
+    $scope.sync = function () {
+        $http.get('/sync')
+            .success(function(data, status) {
+                $scope.user = data;
+            }).error(function(data, status) {
+            });
     }
 }
 
@@ -135,6 +147,7 @@ function ProjectCtrl ($scope, $http, $routeParams, $modal) {
             controller: 'ModalCtrl',
             size: 'sm'
         });
+
         modalInstance.result.then(function (name) {
             $http.post('/streams', {name: name, projectName: $routeParams.projectName})
                 .success(function(data, status) {
@@ -176,57 +189,59 @@ function DateCtrl ($scope) {
     })
 }
 
-
 function StreamCtrl($scope, $http, $modal){
-    $scope.summary = '';
-    $scope.description = '';
-    $scope.title = '';
-
-
-    $scope.mousedownDetect = function(event){
-        $scope.xpos = event.pageX;
-        $scope.ypos = event.pageY;
-    }
-
+    // Detect click vs. click-drag and call appropriate function
+    $scope.mousedownDetect = function(event) { $scope.xpos = event.pageX; }
     $scope.mouseupDetect = function(event){
-        if(event.pageX != $scope.xpos){
-            $scope.endx = event.pageX;
-            $scope.createEventDialog();
-        }
-        else $scope.createNodeDialog();
+        if (event.pageX == $scope.xpos) $scope.createNodeDialog($scope.xpos);
+        else $scope.createEventDialog($scope.xpos, event.pageX);
     }
 
-    $scope.createNodeDialog = function() {
-        $scope.mytime = xPos2Date($scope.xpos);
+    // -- Generate a modal for node creation -- //
+    $scope.createNodeDialog = function(clickPos) {
+        var due = xPos2Date(clickPos);
+
         var modalInstance = $modal.open({
             templateUrl: '/partials/node-creation.html',
-            controller: 'ModalCtrl',
+            controller: 'NodeCreationCtrl',
             size:'sm',
         });
 
         modalInstance.result.then(function (summary, description) {
+            if ($scope.stream) var stream = $scope.stream._id;
             $http.post('/nodes', {
                 summary: summary,
                 description: description,
                 due: due,
-                stream: $scope.stream._id
-            }).success(function(data,status,headers,config) {
-                $scope.stream.nodes.push(data);
+                stream: stream
+            }).success(function(data, status, headers, config) {
+                if ($scope.stream) $scope.stream.nodes.push(data);
+                else $scope.user.stream.nodes.push(data);
             }).error(console.error);
         });
     };
 
-    $scope.createEventDialog = function() {
-        $scope.startTime = xPos2Date($scope.xpos);
-        $scope.endTime = xPos2Date($scope.endx);
+    // -- Generate a modal for event creation -- //
+    $scope.createEventDialog = function(startPos, endPos) {
+        var startTime = xPos2Date(startPos);
+        var endTime = xPos2Date(endPos);
+
         var modalInstance = $modal.open({
             templateUrl: '/partials/event-creation.html',
             controller: 'ModalCtrl',
             size:'sm',
         });
+
         modalInstance.result.then(function (title) {
-            $http.post('/events',{title:title, startTime:$scope.startTime, endTime:$scope.endTime, stream:$scope.stream._id}).success(function(data,status,headers,config) {
-                $scope.stream.events.push(data);
+            if ($scope.stream) var stream = $scope.stream._id;
+            $http.post('/events', {
+                title: title,
+                startTime: startTime,
+                endTime: endTime,
+                stream: stream
+            }).success(function(data, status) {
+                if ($scope.stream) $scope.stream.events.push(data);
+                else $scope.user.stream.events.push(data);
             }).error(console.error);
         });
     };
@@ -246,7 +261,11 @@ function StreamCtrl($scope, $http, $modal){
     }
 };
 
-
+// Node Creation Modal Control
+function NodeCreationCtrl ($scope, $modalInstance) {
+    $scope.ok = function () { $modalInstance.close($scope.summary, $scope.description); };
+    $scope.cancel = function () { $modalInstance.dismiss('cancel'); };
+};
 
 // ----- Detail Controllers ----- //
 function EventDetailsCtrl($scope, $http) {
@@ -298,9 +317,9 @@ function EventDetailsCtrl($scope, $http) {
 function NodeDetailsCtrl($scope, $http) {
     $scope.nodeValues = {
         sum: '',
-        desc: '',
-        due: ''
+        desc: ''
     };
+
     $scope.status = {
         displaying: false,
     };
@@ -311,6 +330,7 @@ function NodeDetailsCtrl($scope, $http) {
             .success(function(data,status,headers,config) {
             $event.preventDefault();
             $event.stopPropagation();
+
             $scope.nodeValues.sum = data.node.summary;
             $scope.nodeValues.desc = data.node.description;
             $scope.nodeValues.due = dateFormat(data.node.dueDate,"m/dd/yy");
@@ -343,13 +363,19 @@ function NodeDetailsCtrl($scope, $http) {
     }
 }
 
+
+
 // ----- Export Controllers ----- //
+// Main Controllers
 app.controller('UserCtrl', ['$scope', '$http', '$location', '$modal', UserCtrl]);
 app.controller('ProjectCtrl', ['$scope', '$http', '$routeParams', '$modal', ProjectCtrl]);
-app.controller('ModalCtrl', ['$scope', '$modalInstance', ModalCtrl]);
 app.controller('DateCtrl', ['$scope', DateCtrl]);
 app.controller('StreamCtrl',['$scope','$http','$modal', StreamCtrl]);
+
+// Modal Controllers
+app.controller('ModalCtrl', ['$scope', '$modalInstance', ModalCtrl]);
 app.controller('EventDetailsCtrl', ['$scope','$http', EventDetailsCtrl]);
 app.controller('NodeDetailsCtrl', ['$scope','$http', NodeDetailsCtrl]);
+app.controller('NodeCreationCtrl', ['$scope', '$modalInstance', NodeCreationCtrl]);
 app.controller('ProjectDeletionCtrl', ['$scope', '$modalInstance', 'projectName', ProjectDeletionCtrl]);
 app.controller('ProjectEditCtrl', ['$scope', '$modalInstance', 'currentName', ProjectEditCtrl]);

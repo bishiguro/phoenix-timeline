@@ -1,5 +1,7 @@
 var mongoose = require('mongoose');
 var path = require("path");
+var async = require("async");
+var gcal = require("google-calendar");
 
 var User = require(path.join(__dirname,"../models/user"));
 var Project = require(path.join(__dirname,"../models/project"));
@@ -23,10 +25,72 @@ function databaseError(err, req, res) {
     res.sendStatus(500);
 }
 
+function eventToStream (googleEvent, callback) {
+    var req = this.req;
+    var res = this.res;
+
+    if (googleEvent.start.dateTime) { // differentiate Google events from Google tasks
+        // For each new Google Event in their calendar, create a Phoenix Timeline Event
+        var title = googleEvent.summary;
+        var startTime = new Date(googleEvent.start.dateTime);
+        var endTime = new Date(googleEvent.end.dateTime);
+        
+        Event.findOne({title: title}, function (err, event) { // TODO: verify with username
+            if (err) callback('Database Error.');
+            // Only create the Event if it has not yet been stored
+            else if (!event) {
+                Event.create({
+                    title: title,
+                    startTime: startTime,
+                    endTime: endTime
+                }, function(err, event) {
+                    if (err) callback('Database Error.');
+                    // Push each new Event into the User's Personal Stream
+                    else {
+                        User.findByIdAndUpdate(req.user._id,
+                            {$push: {'stream.events': event}}, function (err, user) { 
+                                if (err) callback('Database Error');
+                                else {
+                                    callback();
+                                }
+                            }
+                        )
+                    }
+                })
+            }
+            else callback();
+        })
+    } else callback();
+}
+
+function populateGoogleEvents(req, res) {
+    // Accesses User's GCal via their stored Access Token
+    google_calendar = new gcal.GoogleCalendar(req.user.googleAccessToken);
+    google_calendar.calendarList.list(function(err, data) {
+        if (err) return res.sendStatus(500);
+        else {
+            // Retrieves Calendar ID of primary calendar
+            var email = data.items[0].id;
+            // Retrieves User's GCal Events from their primary calendar
+            google_calendar.events.list(email, function(err, data) {
+                if (err) return res.sendStatus(500);
+                else
+                    async.each(data.items, eventToStream.bind({req: req, res: res}), function (err) {
+                        routes.findUser(req, res);
+                    });
+            })
+        }
+    });
+}
+
 // ----- GET HANDLERS ----- //
 
 routes.home = function(req, res) {
     res.sendFile(path.join(__dirname, '../views/index.html'));
+}
+
+routes.googleSync = function (req, res) {
+    populateGoogleEvents(req, res);
 }
 
 routes.logout = function(req, res) {
@@ -73,6 +137,8 @@ routes.createStream = function(req, res) {
     });
 }
 
+
+// TODO: Consider combining create Node and Event - code is near identical
 routes.createNode = function(req, res) {
     Node.create({
         summary: req.body.summary,
@@ -80,7 +146,23 @@ routes.createNode = function(req, res) {
         dueDate: req.body.due
     }, function (err, node) {
         if (err) return databaseError(err, req, res);
-        else res.json({summary:node.summary, description:node.description, date:node.dueDate});
+        else {
+            // If specified stream is undefined, publish node to master stream
+            if (req.body.stream == undefined) User.findByIdAndUpdate(req.user._id, {
+                $push: {'stream.nodes': node}
+            }, function (err, user) {
+                if (err) return databaseError(err, req, res);
+                res.json(node);
+            });
+
+            // Otherwise, publish it do the spceifed stream
+            else Stream.findByIdAndUpdate (req.body.stream, {
+                $push: {nodes: node}
+            }, function (err, stream) {
+                if (err) return databaseError(err, req, res);
+                res.json(node);
+            });
+        }
     });
 }
 
@@ -92,7 +174,23 @@ routes.createEvent = function(req, res) {
         endTime: req.body.endTime
     }, function(err, event) {
         if (err) return databaseError(err, req, res);
-        else res.send({title:event.title, startTime:event.startTime, endTime:event.endTime});
+        else {
+            // If specified stream is undefined, publish event to master stream
+            if (req.body.stream == undefined) User.findByIdAndUpdate(req.user._id, {
+                $push: {'stream.events': event}
+            }, function (err, user) {
+                if (err) return databaseError(err, req, res);
+                res.json(event);
+            });
+
+            // Otherwise, publish it do the spceifed stream
+            else Stream.findByIdAndUpdate (req.body.stream, {
+                $push: {events: event}
+            }, function (err, stream) {
+                if (err) return databaseError(err, req, res);
+                res.json(event);
+            });
+        }
     });
 }
 
@@ -138,7 +236,7 @@ routes.getEvents = function(req, res) {
 
 routes.findUser = function(req, res) {
     User.findById(req.user._id)
-        .populate('projects')
+        .populate('projects stream.events stream.nodes')
         .exec( function(err, user) {
         if (err) databaseError(err, req, res);
         res.json(user);
@@ -147,7 +245,8 @@ routes.findUser = function(req, res) {
 
 routes.findProject = function(req, res) {
     Project.findOne({name: req.params.projectName})
-        .populate('streams').exec( function (err, project) {
+        .deepPopulate('streams streams.nodes streams.events')
+        .exec( function (err, project) {
         if (err) databaseError(err, req, res);
         res.json(project);
     });
@@ -180,7 +279,7 @@ routes.findEvent = function(req, res) {
 routes.updateUser = function(req, res) {
     User.findByIdAndUpdate(req.user._id, req.body, function (err, user) {
         if (err) return databaseError(err, req, res);
-        user.populate('projects', function(err, user) {
+        user.populate('projects stream.events stream.nodes', function(err, user) {
             res.json(user);
         });
 
