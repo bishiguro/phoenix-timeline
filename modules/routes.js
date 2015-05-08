@@ -121,7 +121,7 @@ routes.createEvent = function(req, res) {
 
             // Otherwise, publish it do the spceifed stream
             else Stream.findByIdAndUpdate (req.body.stream, {
-                $push: {event: event}
+                $push: {events: event}
             }, function (err, stream) {
                 if (err) return databaseError(err, req, res);
                 res.json(event);
