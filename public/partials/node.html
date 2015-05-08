@@ -1,0 +1,27 @@
+<link rel="stylesheet" href="/stylesheets/main.css"/>
+
+<div class="dropdown" dropdown is-open="status.displaying" ng-hide="hiding">
+    <!-- Node Button -->
+    <button class="dropdown-toggle node" id={{node.id}} ng-click="showNodeDetails(node._id,$event)"></button>
+    <!-- Node Details Menu -->
+    <div class="dropdown-menu" ng-click="$event.stopPropagation()">
+        <!-- Display Mode -->
+        <div ng-hide="editing" class="ui-control flex-parent flex-hcenter">
+            <label class="ui-label">Summary: {{ nodeValues.sum }}</label>
+            <label class="ui-label">Description: {{ nodeValues.desc }}</label>
+            <label class="ui-label">Due Date: {{ nodeValues.due }}</label>
+            <button class="btn" ng-click="editing = true">Edit</button>
+            <button class="btn" ng-click="deleteEvent(node._id); hiding = true">Delete</button>
+        </div>
+        <!-- Edit Mode -->
+        <form ng-show="editing" ng-submit="saveEditedNode(node);editing = false">
+            <label>Summary:</label>
+            <input type="text" ng-model="nodeValues.sum" name="sum"><br/>
+            <label>Description:</label>
+            <input type="text" ng-model="nodeValues.desc" name="desc"><br/>
+            <label>Due Date:</label>
+            <input type="text" ng-model="nodeValues.due" name="due"><br/>
+            <button class="btn" type="submit">Save</button>
+        </form>
+    </div>
+</div>
