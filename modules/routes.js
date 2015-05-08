@@ -37,8 +37,7 @@ function stringToDate(date) {
     return new Date(year, month, day, hour, minute, second);
 }
 
-function eventToStream (googleEvent, addToStream) {
-    
+function eventToStream (googleEvent, callback) {
     var req = this.req;
     var res = this.res;
 
@@ -49,7 +48,7 @@ function eventToStream (googleEvent, addToStream) {
         var endTime = stringToDate(googleEvent.end.dateTime);
         
         Event.findOne({title: title}, function (err, event) { // TODO: verify with username
-            if (err) return databaseError(err, req, res);
+            if (err) callback('Database Error.');
             // Only create the Event if it has not yet been stored
             else if (!event) {
                 Event.create({
@@ -57,20 +56,23 @@ function eventToStream (googleEvent, addToStream) {
                     startTime: startTime,
                     endTime: endTime
                 }, function(err, event) {
-                    if (err) return databaseError(err, req, res);
+                    if (err) callback('Database Error.');
                     // Push each new Event into the User's Personal Stream
                     else {
                         User.findByIdAndUpdate(req.user._id,
-                            {$push: {'stream.events': event}},
-                            function (err, user) { 
-                                if (err) return databaseError(err, req, res);
+                            {$push: {'stream.events': event}}, function (err, user) { 
+                                if (err) callback('Database Error');
+                                else {
+                                    callback(null, event);
+                                }
                             }
                         )
                     }
                 })
             }
+            else callback();
         })
-    }
+    } else callback();
 }
 
 function populateGoogleEvents(req, res) {
@@ -85,14 +87,12 @@ function populateGoogleEvents(req, res) {
             google_calendar.events.list(email, function(err, data) {
                 if (err) return res.sendStatus(500);
                 else {
-                    var eventLibrary = {
+                    var args = {
                         req: req,
-                        res: res,
-                        eventToStream: eventToStream
+                        res: res
                     }
-                    async.each(data.items, eventLibrary.eventToStream.bind(eventLibrary), function (err, events) {
-                        console.log(events);
-                        res.json(events);
+                    async.each(data.items, eventToStream.bind(args), function (err) {
+                        routes.findUser(req, res);
                     })
                 }
             })

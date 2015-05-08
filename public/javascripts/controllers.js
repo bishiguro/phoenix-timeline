@@ -109,6 +109,8 @@ function UserCtrl ($scope, $http, $location, $modal) {
     $scope.sync = function () {
         $http.get('/sync')
             .success(function(data, status) {
+                console.log('SUCCESS!');
+                $scope.user = data;
             }).error(function(data, status) {
             });
     }
