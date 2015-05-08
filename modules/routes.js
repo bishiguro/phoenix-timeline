@@ -25,18 +25,6 @@ function databaseError(err, req, res) {
     res.sendStatus(500);
 }
 
-// Converts Google Calendar Date strings to Javascript Date objects
-function stringToDate(date) {
-    var year = date.substring(0,4);
-    // Javascript Date objects define a month as a number between 0-11
-    var month = (parseInt(date.substring(5,7))-1).toString();
-    var day = date.substring(8,10);
-    var hour = date.substring(11,13);
-    var minute = date.substring(14,16);
-    var second = date.substring(17,19);
-    return new Date(year, month, day, hour, minute, second);
-}
-
 function eventToStream (googleEvent, callback) {
     var req = this.req;
     var res = this.res;
@@ -44,8 +32,8 @@ function eventToStream (googleEvent, callback) {
     if (googleEvent.start.dateTime) { // differentiate Google events from Google tasks
         // For each new Google Event in their calendar, create a Phoenix Timeline Event
         var title = googleEvent.summary;
-        var startTime = stringToDate(googleEvent.start.dateTime);
-        var endTime = stringToDate(googleEvent.end.dateTime);
+        var startTime = new Date(googleEvent.start.dateTime);
+        var endTime = new Date(googleEvent.end.dateTime);
         
         Event.findOne({title: title}, function (err, event) { // TODO: verify with username
             if (err) callback('Database Error.');
