@@ -51,7 +51,7 @@ function eventToStream (googleEvent, callback) {
                             {$push: {'stream.events': event}}, function (err, user) { 
                                 if (err) callback('Database Error');
                                 else {
-                                    callback(null, event);
+                                    callback();
                                 }
                             }
                         )
@@ -74,15 +74,10 @@ function populateGoogleEvents(req, res) {
             // Retrieves User's GCal Events from their primary calendar
             google_calendar.events.list(email, function(err, data) {
                 if (err) return res.sendStatus(500);
-                else {
-                    var args = {
-                        req: req,
-                        res: res
-                    }
-                    async.each(data.items, eventToStream.bind(args), function (err) {
+                else
+                    async.each(data.items, eventToStream.bind({req: req, res: res}), function (err) {
                         routes.findUser(req, res);
-                    })
-                }
+                    });
             })
         }
     });
