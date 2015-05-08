@@ -181,10 +181,10 @@ routes.findUser = function(req, res) {
 
 routes.findProject = function(req, res) {
     Project.findOne({name: req.params.projectName})
-        .populate('streams')
-        .populate('nodes events')
+        .deepPopulate('streams streams.nodes streams.events')
         .exec( function (err, project) {
         if (err) databaseError(err, req, res);
+        console.log(project.streams);
         res.json(project);
     });
 }

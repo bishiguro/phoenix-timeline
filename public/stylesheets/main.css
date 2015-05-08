@@ -417,4 +417,5 @@ input[type="range"]::-webkit-slider-thumb {
 #streams-panel {
     order: 2;
     overflow-y: auto;
+    overflow-x: hidden;
 }
