@@ -10,8 +10,6 @@ function UserCtrl ($scope, $http, $location, $modal) {
         $scope.user = data;
     });
 
-    $scope.$on('$viewContentLoaded', update);
-
     $scope.$on('$routeChangeSuccess', function(next, current) {
         var newCurrentProject = $location.path().slice(1);
         angular.forEach ($scope.user.projects, function(project) {
