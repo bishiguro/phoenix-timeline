@@ -1,5 +1,6 @@
 var mongoose = require('mongoose');
 var path = require("path");
+var async = require("async");
 var gcal = require("google-calendar");
 
 var User = require(path.join(__dirname,"../models/user"));
@@ -36,7 +37,11 @@ function stringToDate(date) {
     return new Date(year, month, day, hour, minute, second);
 }
 
-function eventToStream(req, res, googleEvent) {
+function eventToStream (googleEvent, addToStream) {
+    
+    var req = this.req;
+    var res = this.res;
+
     if (googleEvent.start.dateTime) { // differentiate Google events from Google tasks
         // For each new Google Event in their calendar, create a Phoenix Timeline Event
         var title = googleEvent.summary;
@@ -54,20 +59,18 @@ function eventToStream(req, res, googleEvent) {
                 }, function(err, event) {
                     if (err) return databaseError(err, req, res);
                     // Push each new Event into the User's Personal Stream
-                    else addToStream(req, res, event);
+                    else {
+                        User.findByIdAndUpdate(req.user._id,
+                            {$push: {'stream.events': event}},
+                            function (err, user) { 
+                                if (err) return databaseError(err, req, res);
+                            }
+                        )
+                    }
                 })
             }
         })
     }
-}
-
-function addToStream(req, res, event) {
-    User.findByIdAndUpdate(req.user._id,
-        {$push: {'stream.events': event}},
-        function (err, user) { 
-            if (err) return databaseError(err, req, res);
-        }
-    )
 }
 
 function populateGoogleEvents(req, res) {
@@ -82,9 +85,15 @@ function populateGoogleEvents(req, res) {
             google_calendar.events.list(email, function(err, data) {
                 if (err) return res.sendStatus(500);
                 else {
-                    for (i=0; i<data.items.length; i++) {
-                        eventToStream(req, res, data.items[i]);
+                    var eventLibrary = {
+                        req: req,
+                        res: res,
+                        eventToStream: eventToStream
                     }
+                    async.each(data.items, eventLibrary.eventToStream.bind(eventLibrary), function (err, events) {
+                        console.log(events);
+                        res.json(events);
+                    })
                 }
             })
         }
@@ -98,7 +107,7 @@ routes.home = function(req, res) {
 }
 
 routes.googleSync = function (req, res) {
-    populateGoogleEvents(req, res)
+    populateGoogleEvents(req, res);
 }
 
 routes.logout = function(req, res) {
