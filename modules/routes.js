@@ -184,7 +184,6 @@ routes.findProject = function(req, res) {
         .deepPopulate('streams streams.nodes streams.events')
         .exec( function (err, project) {
         if (err) databaseError(err, req, res);
-        console.log(project.streams);
         res.json(project);
     });
 }

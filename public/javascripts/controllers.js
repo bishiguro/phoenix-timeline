@@ -10,12 +10,14 @@ function UserCtrl ($scope, $http, $location, $modal) {
         $scope.user = data;
     });
 
+    $scope.$on('$viewContentLoaded', update);
+
     $scope.$on('$routeChangeSuccess', function(next, current) {
         var newCurrentProject = $location.path().slice(1);
         angular.forEach ($scope.user.projects, function(project) {
             if (project.name == newCurrentProject)
                 return $http.put('/user', {currentProject: newCurrentProject })
-                    .success(function(data, status) { $scope.user = data });
+                    .success(function(data, status) { $scope.user = data; });
         });
     });
 
@@ -26,7 +28,6 @@ function UserCtrl ($scope, $http, $location, $modal) {
         $http.put('/user', {currentProject: value})
             .success(function(data, status) {
             $scope.user = data;
-            update();
         });
     });
 

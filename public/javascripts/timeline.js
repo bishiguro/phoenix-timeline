@@ -12,7 +12,7 @@
 
 // ----- CONSTANTS & CONFIG ----- //
 var MS_PER_HOUR = 3600000;              // Number of milliseconds per hour
-var DEFAULT_UPDATE_INTERVAL = 30000;    // Default update interval in ms
+var DEFAULT_UPDATE_INTERVAL = 250;    // Default update interval in ms
 var selectedDate = new Date();
 
 
