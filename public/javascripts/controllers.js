@@ -246,6 +246,8 @@ function StreamCtrl($scope, $http, $modal){
         });
     };
 
+    $scope.blur = function (event) { event.target.blur(); }
+
     // -- Save Edits -- //
     $scope.save = function () {
         $http.put('/streams/' + $scope.stream._id, $scope.stream)
@@ -254,9 +256,9 @@ function StreamCtrl($scope, $http, $modal){
     };
 
     // -- Deletion -- //
-    $scope.delete = function () {
+    $scope.delete = function (index) {
         $http.delete('/streams/' + $scope.stream._id)
-            .success( function(data, status) { $scope.project.streams.splice($scope.index, 1); })
+            .success( function(data, status) { $scope.project.streams.splice(index, 1); })
             .error(function(data, status) {});
     }
 };

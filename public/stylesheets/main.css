@@ -179,7 +179,7 @@ input[type="range"]::-webkit-slider-thumb {
     display: inline-block;
     box-sizing: border-box;
 
-    border-right: 1px solid #222;
+    border-left: 1px solid #222;
     font-family: fabrica, sans-serif;
     padding-top: .5rem;
     padding-left: .5rem;
