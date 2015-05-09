@@ -130,8 +130,8 @@
                     </div>
 
                     <!-- Personal Stream Nodes and Events -->
-                    <div class="item node" data-start-date="{{node.dueDate}}" ng-repeat="node in user.stream.nodes"></div>
-                    <div class="item event" data-start-date="{{event.startTime}}" data-end-date="{{event.endTime}}" ng-repeat="event in user.stream.events"></div>
+                    <div class="item node" data-start-date="{{node.dueDate}}" ng-repeat="node in user.stream.nodes" ng-click="editNodeDialog(node)"></div>
+                    <div class="item event" data-start-date="{{event.startTime}}" data-end-date="{{event.endTime}}" ng-repeat="event in user.stream.events" ng-click="editEventDialog(event)"></div>
                 </div>
 
                 <div ng-view></div>
