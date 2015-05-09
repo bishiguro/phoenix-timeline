@@ -100,6 +100,7 @@ function startUpdates(ms_interval) {
 */
 function createHourTick (value) {
     var hour_tick = document.createElement("LI");
+    addDay(hour_tick,value);
     var text = document.createTextNode(hour2Date(value).format("hT"));
     hour_tick.appendChild(text);
     hour_tick.className = "hour-tick";
@@ -197,11 +198,15 @@ function xPos2Date(xpos) {
 }
 
 
-// In Progress, for a future feature
-function addDay(hour_node) {
+function addDay(hour_node, value) {
+    var container = document.createElement("DIV")
+
+    var date = document.createTextNode(" ");
     // If the hour is the beginning of a day
-    if (hour_node % 24 === 0) {
-        // Add a date node inside of it, beneath the hour tick
-        var date = document.createTextNode(hour2Date(hour_node).format("ddd, mmm dS"));
-    } else return hour_node;
+    if (value % 24 === 0)
+        date = document.createTextNode(hour2Date(value).format("ddd, mmm dS"));
+
+    container.appendChild(date);
+    hour_node.appendChild(container);
+    return hour_node;
 }
