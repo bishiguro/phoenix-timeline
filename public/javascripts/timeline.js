@@ -13,12 +13,11 @@
 // ----- CONSTANTS & CONFIG ----- //
 var MS_PER_HOUR = 3600000;              // Number of milliseconds per hour
 
-var MS_PER_MINUTE = 3600000/60;
-var MS_PER_DAY = 3600000*24;
-// var DEFAULT_UPDATE_INTERVAL = 30000;    // Default update interval in ms
-
+var MS_PER_MINUTE = 3600000/60;     // Number of milliseconds per minute
+var MS_PER_DAY = 3600000*24;        // Number of milliseconds per day 
 var DEFAULT_UPDATE_INTERVAL = 250;    // Default update interval in ms
-// >>>>>>> 610bbee6a0bffebb330f278b13cc228449b7e96c
+
+
 var selectedDate = new Date();
 
 
@@ -56,7 +55,7 @@ function update () {
 ;
 
     // hours being displayed
-    if (slider_value >= 2.5 && slider_value < 6.94) {
+    if (slider_value >= 2.5 && slider_value <= 8) {
 
             // Determine the pixel offset of the current-time-bar from the left
             this.now_offset = .25 * hour_tick_list.offsetWidth + ((now - selectedDate) / MS_PER_HOUR ) * hour_width;
@@ -67,19 +66,9 @@ function update () {
 
             var hour_start = Math.floor(now.getHours() - hours_to_left);
             this.initial_offset = now_offset + ((hour2Date(hour_start) - now) / MS_PER_HOUR) * this.hour_width;
-
-
-        
-
-        // var hour_start = Math.floor(now.getHours() - hours_to_left);
-        console.log("hourstart")
-        console.log(hour_start)
-        // var initial_offset = now_offset + ((hour2Date(hour_start) - now) / MS_PER_HOUR) * this.hour_width;
-        // console.log(initial_offset)
-        // Create first hour tick and place it on timeline
-        var hour_tick = createHourTick(hour_start);
-        hour_tick.style.left = initial_offset + "px";
-        hour_tick_list.appendChild(hour_tick);
+            var hour_tick = createHourTick(hour_start);
+            hour_tick.style.left = initial_offset + "px";
+            hour_tick_list.appendChild(hour_tick);
 
         for (var i = 1; i < num_hours + 2; i++) {
             var hour_tick = createHourTick(i + hour_start);
@@ -92,42 +81,10 @@ function update () {
     
     // minutes being displayed
 
-    } else if (slider_value <= 2.5) {
+    } else {
         slider_value = 1;
-        // num_hours = Math.pow(slider_value, 2);
-        
-        // num_minutes = num_hours*60;
-        // this.minute_width = hour_tick_list.offsetWidth / num_minutes;
 
-        // this.now_offset = .25 * hour_tick_list.offsetWidth + ((now - selectedDate) / MS_PER_HOUR) * hour_width;
-        // document.querySelector('#current-time-bar').style.left = this.now_offset + "px";
-
-        // // Calculate the start point of the first hour
-        // var hours_to_left = this.now_offset / this.hour_width;
-        // var minutes_to_left = this.now_offset / this.minute_width;
-
-        // var now = new Date();
-        // hour_start = Math.floor(now.getHours() - hours_to_left);
-        // minute_start = Math.floor(now.getMinutes() + 2 - minutes_to_left);
-        // initial_offset = this.now_offset + ((minute2Date(minute_start) - now) / MS_PER_MINUTE) * this.minute_width;
-        
-        // // console.log(initial_offset)
-        // // Create first hour tick and place it on timeline
-        // var minute_tick = createMinuteTick(hour_start, minute_start+5);
-
-        // minute_tick.style.left = initial_offset + "px";
-        // // console.log ("initial_offset minute")
-        // // console.log (initial_offset)
-
-        // hour_tick_list.appendChild(minute_tick); 
-        // // console.log (hour_tick_list)
-
-        // for (var i = 1; i < num_minutes + 2; i++) {
-        //     var minute_tick = createMinuteTick(hour_start, i + minute_start);
-        //     // console.log("hour_start")
-        //     // console.log(hour_start)
-        //     minute_tick.style.left = initial_offset + "px";
-                num_hours = Math.pow(slider_value, 2);
+        num_hours = Math.pow(slider_value, 2);
         num_minutes = num_hours*60;
         this.hour_width = hour_tick_list.offsetWidth / num_hours;
         this.minute_width = hour_tick_list.offsetWidth / num_minutes;
@@ -137,14 +94,15 @@ function update () {
 
         // Calculate the start point of the first hour
         var hours_to_left = this.now_offset / this.hour_width;
+        // Calculate the start point of the first minute
         var minutes_to_left = this.now_offset / this.minute_width;
  
         var now = new Date();
         hour_start = Math.floor(now.getHours() - hours_to_left);
-        minute_start = Math.floor(now.getMinutes() + 1 - minutes_to_left);
+        minute_start = Math.floor(now.getMinutes() + 2 - minutes_to_left);
         initial_offset = this.now_offset + ((minute2Date(minute_start) - now) / MS_PER_HOUR) * this.minute_width;
         
-        // Create first hour tick and place it on timeline
+        // Create first minute tick and place it on timeline
         var minute_tick = createMinuteTick(hour_start, minute_start);
 
         minute_tick.style.left = initial_offset + "px";
@@ -154,23 +112,16 @@ function update () {
             var minute_tick = createMinuteTick(hour_start, i + minute_start);
             minute_tick.style.left = initial_offset + "px";
             hour_tick_list.appendChild(minute_tick);
-            // console.log(minute_tick)
 
+            // showing hour for every 0th minute 
             if (minute_tick.innerHTML == "0"){
 
                     minute_now = Math.floor(now.getMinutes())
-                    // console.log(minute_now )
-
                     if (minute_now >= 15){
-                        // hour_tick = createHourTick(minute_tick.innerHTML);
                         hour_tick = createHourTick(hour_start + 2);
                     }else {
                         hour_tick = createHourTick(hour_start + 1);
                     }
-                        console.log("hourstart")
-                        console.log(hour_start)
-                        console.log("slidervalueinside")
-                        console.log(slider_value)
                         minute_tick.innerHTML = hour_tick.innerHTML
                         minute_tick.className = "hourmin-tick";
                         hour_tick_list.appendChild(minute_tick);
@@ -182,57 +133,8 @@ function update () {
         updateElemOffset('.item');
         updateEventDuration();
 
-    } else if (slider_value > 6.94) {
-            num_hours = Math.pow(slider_value, 2);
-            num_dates = num_hours/24;
-            this.hour_width = hour_tick_list.offsetWidth / num_hours;
-            this.date_width = hour_tick_list.offsetWidth / num_dates;
-
-            // Calculate the start point of the first hour
-            var hours_to_left = this.now_offset / this.hour_width;
-
-
-            var dates_to_left = this.now_offset / this.date_width;
-
-            var now = new Date();
-            // console.log(now)
-            hour_start = Math.floor(now.getHours() - hours_to_left);
-            date_start = Math.floor(now.getDate() + 1 - dates_to_left);
-
-            // console.log (date_start)
-
-            initial_offset = this.now_offset + ((date2Date(date_start) - now) / MS_PER_DAY) * this.date_width;
-            // console.log ("initial_offset")
-            // console.log (now_offset)
-
-            // console.log (date2Date(hour_start,date_start))
-
-            // Create first hour tick and place it on timeline
-            var date_tick = createDateTick(hour_start, date_start);
-            date_tick.style.left = initial_offset + "px";
-            hour_tick_list.appendChild(date_tick);
-
-
-            for (var i = 1; i < num_dates + 2; i++) {
-                var date_tick = createDateTick(hour_start, i + date_start);
-                date_tick.style.left = initial_offset + "px";
-                
-                hour_tick_list.appendChild(date_tick);
-
-            }
-
-            // console.log(date_tick)
-
-            updateElemOffset('.item');
-            updateEventDuration();
-
-        }
-
 }
-
-
-
-
+}
 
 
 /**
@@ -272,7 +174,6 @@ function createHourTick (value) {
 }
 
 // value 1 -- hour , value 2 -- minute
-
 function createMinuteTick (value1, value2) {
     var minute_tick = document.createElement("LI");
     var text = document.createTextNode(minute2Date(value1,value2).format("M"));
@@ -281,17 +182,6 @@ function createMinuteTick (value1, value2) {
     minute_tick.style.width = this.minute_width + "px";
     return minute_tick
 }
-
-// function createMinuteTick2 (value1, value2) {
-//     var minute_tick = document.createElement("LI");
-//     var text = document.createTextNode(minute2Date(value1,value2).format("hT"));
-//     minute_tick.appendChild(text);
-//     minute_tick.className = "minute-tick";
-//     minute_tick.style.width = this.minute_width + "px";
-//     return minute_tick
-// }
-
-
 
 /**
     hour2Date
@@ -318,25 +208,6 @@ function minute2Date(hour,minute) {
     return now;
 }
 
-function date2Date(hour, date) {
-    var now = new Date();
-    now.setDate(date)
-    now.setHours(hour);
-    now.setMinutes(0);
-    now.setSeconds(0);
-    return now;
-}
-
-
-// value 1 -- date , value 2 -- hour, value 3 -- minute, 
-function createDateTick (value3, value4) {
-    var date_tick = document.createElement("LI");
-    var text = document.createTextNode(date2Date(value3, value4).format());
-    date_tick.appendChild(text);
-    date_tick.className = "hour-tick";
-    date_tick.style.width = this.date_width + "px";
-    return date_tick
-}
 
 /**
     updateElemOffset
