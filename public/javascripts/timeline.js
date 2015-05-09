@@ -55,7 +55,7 @@ function update () {
 ;
 
     // hours being displayed
-    if (slider_value >= 2.5 && slider_value <= 8) {
+    if (slider_value >= 3.3 && slider_value <= 8) {
 
             // Determine the pixel offset of the current-time-bar from the left
             this.now_offset = .25 * hour_tick_list.offsetWidth + ((now - selectedDate) / MS_PER_HOUR ) * hour_width;
