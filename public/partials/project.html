@@ -7,7 +7,7 @@
 
     <!-- Stream Name -->
     <div class="stream-toolbox">
-        <span class="delete-control" ng-click="delete()"><span class="glyphicon glyphicon-remove"></span></span>
+        <span class="delete-control" ng-click="delete($index)"><span class="glyphicon glyphicon-remove"></span></span>
         <span class="stream-label disguised-input" contenteditable ng-model="stream.name" ng-blur="save()"></span>
     </div>
 
