@@ -50,11 +50,11 @@ function update () {
 
     // Determine the pixel offset of the current-time-bar from the left
     this.now_offset = .25 * hour_tick_list.offsetWidth + ((now - selectedDate) / MS_PER_HOUR ) * hour_width;
+
     document.querySelector('#current-time-bar').style.left = this.now_offset + "px";
 
     // hours being displayed
     if (slider_value > 2.5 && slider_value < 6.94) {
-
 
         // Calculate the start point of the first hour
         var hours_to_left = this.now_offset / this.hour_width;
@@ -80,17 +80,15 @@ function update () {
 
     } else if (slider_value <2.5) {
         slider_value = 1;
-
         num_hours = Math.pow(slider_value, 2);
+
         num_minutes = num_hours*60;
-        this.hour_width = hour_tick_list.offsetWidth / num_hours;
         this.minute_width = hour_tick_list.offsetWidth / num_minutes;
 
         // Calculate the start point of the first hour
         var hours_to_left = this.now_offset / this.hour_width;
         var minutes_to_left = this.now_offset / this.minute_width;
 
- 
         var now = new Date();
         hour_start = Math.floor(now.getHours() - hours_to_left);
         minute_start = Math.floor(now.getMinutes() + 2 - minutes_to_left);
@@ -115,22 +113,23 @@ function update () {
             hour_tick_list.appendChild(minute_tick);
             // console.log(minute_tick)
 
-
             if (minute_tick.innerHTML == "0"){
-                    // hour_tick = createHourTick(minute_tick.innerHTML);
-                    hour_tick = createMinuteTick2(hour_start + 2 , minute_tick.innerHTML);
-                    // console.log ("minute_start")
-                    // console.log(minute_start);
-                    // console.log(minute_tick)
-                    minute_tick.innerHTML = hour_tick.innerHTML
 
-                    minute_tick.className = "hourmin-tick";
+                    minute_now = Math.floor(now.getMinutes())
+                    console.log(minute_now )
 
-                    // var hour_tick = createHourTick(i + hour_start);
-                    // hour_tick.style.left = initial_offset + "px";
-            
-                    hour_tick_list.appendChild(minute_tick);
+                    if (minute_now > 15){
+                        // hour_tick = createHourTick(minute_tick.innerHTML);
+                        hour_tick = createHourTick(hour_start + 2);
+                    }else {
+                        hour_tick = createHourTick(hour_start + 1);
+                    }
+                        minute_tick.innerHTML = hour_tick.innerHTML
+                        minute_tick.className = "hourmin-tick";
+                        hour_tick_list.appendChild(minute_tick);
+
             }
+
         }
 
         updateElemOffset('.item');
@@ -236,14 +235,14 @@ function createMinuteTick (value1, value2) {
     return minute_tick
 }
 
-function createMinuteTick2 (value1, value2) {
-    var minute_tick = document.createElement("LI");
-    var text = document.createTextNode(minute2Date(value1,value2).format("hT"));
-    minute_tick.appendChild(text);
-    minute_tick.className = "minute-tick";
-    minute_tick.style.width = this.minute_width + "px";
-    return minute_tick
-}
+// function createMinuteTick2 (value1, value2) {
+//     var minute_tick = document.createElement("LI");
+//     var text = document.createTextNode(minute2Date(value1,value2).format("hT"));
+//     minute_tick.appendChild(text);
+//     minute_tick.className = "minute-tick";
+//     minute_tick.style.width = this.minute_width + "px";
+//     return minute_tick
+// }
 
 
 
@@ -264,9 +263,9 @@ function hour2Date(hour) {
     return now;
 }
 
-function minute2Date(hour, minute) {
+function minute2Date(hour,minute) {
     var now = new Date();
-    now.setHours(hour);
+    now.setHours(0);
     now.setMinutes(minute);
     now.setSeconds(0);
     return now;
