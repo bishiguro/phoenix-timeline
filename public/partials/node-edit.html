@@ -3,8 +3,8 @@
 </div>
 <div class="modal-body">
     <form>
-    	Summary: <label ng-hide="edit">{{node.summary}}</label></br>
-    	<input type="text" ng-model="summary" placeholder="{{node.summary}}" ng-show="edit"></input>
+    	<div>Summary: <label ng-hide="edit">{{node.summary}}</label></div>
+    	Summmary: <input type="text" ng-model="summary" placeholder="{{node.summary}}" ng-show="edit"></input>
     	Description: <label ng-hide="edit">{{node.description}}</label>
         <input type="text" ng-model="description" placeholder="{{node.description}}" ng-show="edit"></input>
 
@@ -12,7 +12,10 @@
 </div>
 <div class="modal-footer">
 	<button class="ui-button" ng-click="edit=true" ng-hide="edit">Edit</button>
-    <button class="ui-button" ng-click="save()" ng-show="edit">Save</button>
-    <button class="ui-button"  id="delete-button" ng-click="delete()">Delete</button>
+	<button class="ui-button" ng-click="edit=false" ng-show="edit">Back</button>
+
+	<button class="ui-button" id="delete-button" ng-click="delete()" ng-hide="edit">Delete</button>
+    <button class="ui-button" ng-click="save()" ng-show="edit">Save</button>    
+
     <button class="ui-button" ng-click="cancel()">Cancel</button>
 </div>
