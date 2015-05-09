@@ -18,7 +18,7 @@ var auth = require('./modules/passport');
 var app = express();
 var mongoURI = process.env.MONGOURI || "mongodb://localhost/test";
 mongoose.connect(mongoURI);
-var PORT = process.env.PORT || 4000;
+var PORT = process.env.PORT || 3000;
 
 app.set('views', __dirname + '/views');
 auth.configure();
