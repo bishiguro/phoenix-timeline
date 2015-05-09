@@ -42,6 +42,7 @@ function update () {
 
     // Determine the pixel width of an hour
     var slider_value = document.querySelector('#scale-slider').value;
+    console.log(slider_value)
 
     num_hours = Math.pow(slider_value, 2);
     this.hour_width = hour_tick_list.offsetWidth / num_hours;
@@ -54,7 +55,7 @@ function update () {
     document.querySelector('#current-time-bar').style.left = this.now_offset + "px";
 
     // hours being displayed
-    if (slider_value > 2.5 && slider_value < 6.94) {
+    if (slider_value >= 2 && slider_value < 6.94) {
 
         // Calculate the start point of the first hour
         var hours_to_left = this.now_offset / this.hour_width;
@@ -78,12 +79,16 @@ function update () {
     
     // minutes being displayed
 
-    } else if (slider_value <2.5) {
+    } else if (slider_value <= 2) {
         slider_value = 1;
         num_hours = Math.pow(slider_value, 2);
+        
 
         num_minutes = num_hours*60;
         this.minute_width = hour_tick_list.offsetWidth / num_minutes;
+
+        this.now_offset = .25 * hour_tick_list.offsetWidth + ((now - selectedDate) / MS_PER_HOUR ) * minute_width;
+        document.querySelector('#current-time-bar').style.left = this.now_offset + "px";
 
         // Calculate the start point of the first hour
         var hours_to_left = this.now_offset / this.hour_width;
@@ -118,7 +123,7 @@ function update () {
                     minute_now = Math.floor(now.getMinutes())
                     console.log(minute_now )
 
-                    if (minute_now > 15){
+                    if (minute_now >= 15){
                         // hour_tick = createHourTick(minute_tick.innerHTML);
                         hour_tick = createHourTick(hour_start + 2);
                     }else {
