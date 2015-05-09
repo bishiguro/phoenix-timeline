@@ -198,14 +198,15 @@ function xPos2Date(xpos) {
 }
 
 
-// In Progress, for a future feature
 function addDay(hour_node, value) {
+    var container = document.createElement("DIV")
+
+    var date = document.createTextNode(" ");
     // If the hour is the beginning of a day
-    if (value % 24 === 0) {
-        // Add a date node inside of it, beneath the hour tick
-        var container = document.createElement("P")
-        var date = document.createTextNode(hour2Date(value).format("ddd, mmm dS"));
-        container.appendChild(date);
-        hour_node.appendChild(container);
-    } else return hour_node;
+    if (value % 24 === 0)
+        date = document.createTextNode(hour2Date(value).format("ddd, mmm dS"));
+
+    container.appendChild(date);
+    hour_node.appendChild(container);
+    return hour_node;
 }
