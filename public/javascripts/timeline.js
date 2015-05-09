@@ -12,9 +12,13 @@
 
 // ----- CONSTANTS & CONFIG ----- //
 var MS_PER_HOUR = 3600000;              // Number of milliseconds per hour
+
 var MS_PER_MINUTE = 3600000/60;
 var MS_PER_DAY = 3600000*24;
-var DEFAULT_UPDATE_INTERVAL = 30000;    // Default update interval in ms
+// var DEFAULT_UPDATE_INTERVAL = 30000;    // Default update interval in ms
+
+var DEFAULT_UPDATE_INTERVAL = 250;    // Default update interval in ms
+// >>>>>>> 610bbee6a0bffebb330f278b13cc228449b7e96c
 var selectedDate = new Date();
 
 
@@ -49,19 +53,28 @@ function update () {
 
     var now = new Date();
 
-    // Determine the pixel offset of the current-time-bar from the left
-    this.now_offset = .25 * hour_tick_list.offsetWidth + ((now - selectedDate) / MS_PER_HOUR ) * hour_width;
-
-    document.querySelector('#current-time-bar').style.left = this.now_offset + "px";
+;
 
     // hours being displayed
-    if (slider_value >= 2 && slider_value < 6.94) {
+    if (slider_value >= 2.5 && slider_value < 6.94) {
 
-        // Calculate the start point of the first hour
-        var hours_to_left = this.now_offset / this.hour_width;
+            // Determine the pixel offset of the current-time-bar from the left
+            this.now_offset = .25 * hour_tick_list.offsetWidth + ((now - selectedDate) / MS_PER_HOUR ) * hour_width;
+            document.querySelector('#current-time-bar').style.left = this.now_offset + "px"
 
-        var hour_start = Math.floor(now.getHours() - hours_to_left);
-        var initial_offset = now_offset + ((hour2Date(hour_start) - now) / MS_PER_HOUR) * this.hour_width;
+            // Calculate the start point of the first hour
+            var hours_to_left = this.now_offset / this.hour_width;
+
+            var hour_start = Math.floor(now.getHours() - hours_to_left);
+            this.initial_offset = now_offset + ((hour2Date(hour_start) - now) / MS_PER_HOUR) * this.hour_width;
+
+
+        
+
+        // var hour_start = Math.floor(now.getHours() - hours_to_left);
+        console.log("hourstart")
+        console.log(hour_start)
+        // var initial_offset = now_offset + ((hour2Date(hour_start) - now) / MS_PER_HOUR) * this.hour_width;
         // console.log(initial_offset)
         // Create first hour tick and place it on timeline
         var hour_tick = createHourTick(hour_start);
@@ -79,41 +92,66 @@ function update () {
     
     // minutes being displayed
 
-    } else if (slider_value <= 2) {
+    } else if (slider_value <= 2.5) {
         slider_value = 1;
-        num_hours = Math.pow(slider_value, 2);
+        // num_hours = Math.pow(slider_value, 2);
         
+        // num_minutes = num_hours*60;
+        // this.minute_width = hour_tick_list.offsetWidth / num_minutes;
 
+        // this.now_offset = .25 * hour_tick_list.offsetWidth + ((now - selectedDate) / MS_PER_HOUR) * hour_width;
+        // document.querySelector('#current-time-bar').style.left = this.now_offset + "px";
+
+        // // Calculate the start point of the first hour
+        // var hours_to_left = this.now_offset / this.hour_width;
+        // var minutes_to_left = this.now_offset / this.minute_width;
+
+        // var now = new Date();
+        // hour_start = Math.floor(now.getHours() - hours_to_left);
+        // minute_start = Math.floor(now.getMinutes() + 2 - minutes_to_left);
+        // initial_offset = this.now_offset + ((minute2Date(minute_start) - now) / MS_PER_MINUTE) * this.minute_width;
+        
+        // // console.log(initial_offset)
+        // // Create first hour tick and place it on timeline
+        // var minute_tick = createMinuteTick(hour_start, minute_start+5);
+
+        // minute_tick.style.left = initial_offset + "px";
+        // // console.log ("initial_offset minute")
+        // // console.log (initial_offset)
+
+        // hour_tick_list.appendChild(minute_tick); 
+        // // console.log (hour_tick_list)
+
+        // for (var i = 1; i < num_minutes + 2; i++) {
+        //     var minute_tick = createMinuteTick(hour_start, i + minute_start);
+        //     // console.log("hour_start")
+        //     // console.log(hour_start)
+        //     minute_tick.style.left = initial_offset + "px";
+                num_hours = Math.pow(slider_value, 2);
         num_minutes = num_hours*60;
+        this.hour_width = hour_tick_list.offsetWidth / num_hours;
         this.minute_width = hour_tick_list.offsetWidth / num_minutes;
 
-        this.now_offset = .25 * hour_tick_list.offsetWidth + ((now - selectedDate) / MS_PER_HOUR ) * minute_width;
+        this.now_offset = .25 * hour_tick_list.offsetWidth + ((now - selectedDate) / MS_PER_HOUR) * hour_width;
         document.querySelector('#current-time-bar').style.left = this.now_offset + "px";
 
         // Calculate the start point of the first hour
         var hours_to_left = this.now_offset / this.hour_width;
         var minutes_to_left = this.now_offset / this.minute_width;
-
+ 
         var now = new Date();
         hour_start = Math.floor(now.getHours() - hours_to_left);
-        minute_start = Math.floor(now.getMinutes() + 2 - minutes_to_left);
-        initial_offset = this.now_offset + ((minute2Date(minute_start) - now) / MS_PER_MINUTE) * this.minute_width;
+        minute_start = Math.floor(now.getMinutes() + 1 - minutes_to_left);
+        initial_offset = this.now_offset + ((minute2Date(minute_start) - now) / MS_PER_HOUR) * this.minute_width;
         
-        // console.log(initial_offset)
         // Create first hour tick and place it on timeline
-        var minute_tick = createMinuteTick(hour_start, minute_start+5);
+        var minute_tick = createMinuteTick(hour_start, minute_start);
 
         minute_tick.style.left = initial_offset + "px";
-        // console.log ("initial_offset minute")
-        // console.log (initial_offset)
-
         hour_tick_list.appendChild(minute_tick); 
-        // console.log (hour_tick_list)
 
         for (var i = 1; i < num_minutes + 2; i++) {
             var minute_tick = createMinuteTick(hour_start, i + minute_start);
-            // console.log("hour_start")
-            // console.log(hour_start)
             minute_tick.style.left = initial_offset + "px";
             hour_tick_list.appendChild(minute_tick);
             // console.log(minute_tick)
@@ -121,7 +159,7 @@ function update () {
             if (minute_tick.innerHTML == "0"){
 
                     minute_now = Math.floor(now.getMinutes())
-                    console.log(minute_now )
+                    // console.log(minute_now )
 
                     if (minute_now >= 15){
                         // hour_tick = createHourTick(minute_tick.innerHTML);
@@ -129,6 +167,10 @@ function update () {
                     }else {
                         hour_tick = createHourTick(hour_start + 1);
                     }
+                        console.log("hourstart")
+                        console.log(hour_start)
+                        console.log("slidervalueinside")
+                        console.log(slider_value)
                         minute_tick.innerHTML = hour_tick.innerHTML
                         minute_tick.className = "hourmin-tick";
                         hour_tick_list.appendChild(minute_tick);
@@ -308,7 +350,7 @@ function createDateTick (value3, value4) {
 function updateElemOffset(query_selector) {
     var items = document.querySelectorAll(query_selector);
     for (var i=0; i < items.length; i++)
-        items[i].style.left = xPos2Date(items[i].getAttribute('data-start-date')) + 'px';
+        items[i].style.left = date2XPos(items[i].getAttribute('data-start-date')) + 'px';
 }
 
 
@@ -343,17 +385,14 @@ function updateEventDuration() {
     in rendering data with associated dates to the screen. See also the inverse
     function, xPos2Date.
 */
-function xPos2Date(xpos) {
-    // Calculate the time in hours relative to now
-    var rel_time = (xpos - this.now_offset) / this.hour_width;
-    var d = new Date();
-    d.setMilliseconds(MS_PER_HOUR * rel_time);
-    return d;
+function date2XPos(date) {
+    var date = new Date(date);
+    return this.now_offset + this.hour_width * ((date - new Date()) / MS_PER_HOUR);
 }
 
 
 /**
-    date2XPos
+    xPos2Date
     ----
 
     A utility to convert from an onscreen x-position (in pixels from the
@@ -361,9 +400,12 @@ function xPos2Date(xpos) {
     the timeline. This is especially useful in creating objects from
     click events. See also the inverse function, date2XPos.
 */
-function date2XPos(date) {
-    var date = new Date(date);
-    return this.now_offset + this.hour_width * ((date - new Date()) / MS_PER_HOUR);
+function xPos2Date(xpos) {
+    // Calculate the time in hours relative to now
+    var rel_time = (xpos - this.now_offset) / this.hour_width;
+    var d = new Date ();
+    d.setMilliseconds(MS_PER_HOUR * rel_time);
+    return d;
 }
 
 

@@ -18,7 +18,7 @@ var auth = require('./modules/passport');
 var app = express();
 var mongoURI = process.env.MONGOURI || "mongodb://localhost/test";
 mongoose.connect(mongoURI);
-var PORT = process.env.PORT || 3000;
+var PORT = process.env.PORT || 4000;
 
 app.set('views', __dirname + '/views');
 auth.configure();
@@ -59,6 +59,7 @@ app.use(function (req, res, next) {
 // ROUTING
 app.get('/', routes.home);
 app.get('/logout', routes.logout);
+app.get('/sync', routes.googleSync);
 
 // POST API (Create)
 app.post('/projects', routes.createProject);
@@ -72,6 +73,7 @@ app.get('/projects', routes.getProjects);
 app.get('/streams', routes.getStreams);
 app.get('/nodes', routes.getNodes);
 app.get('/events', routes.getEvents);
+
 // Single entries
 app.get('/user', routes.findUser);
 app.get('/projects/:projectName', routes.findProject);
@@ -81,13 +83,13 @@ app.get('/events/:id', routes.findEvent);
 
 // PUT API (Update)
 app.put('/user', routes.updateUser);
-app.put('/projects/:id', routes.updateProject);
+app.put('/projects/:projectName', routes.updateProject);
 app.put('/streams/:id', routes.updateStream);
 app.put('/nodes/:id', routes.updateNode);
 app.put('/events/:id', routes.updateEvent);
 
 // DELETE API (Delete)
-app.delete('/projects/:id', routes.deleteProject);
+app.delete('/projects/:projectName', routes.deleteProject);
 app.delete('/streams/:id', routes.deleteStream);
 app.delete('/nodes/:id', routes.deleteNode);
 app.delete('/events/:id', routes.deleteEvent);

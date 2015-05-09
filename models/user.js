@@ -3,8 +3,8 @@ var bcrypt = require("bcrypt-nodejs");
 var findOrCreate = require('mongoose-findorcreate');
 
 // Master stream object to embed in the User schema
-var masterStream = {
-    name: {type: String, default: 'Master', required: true},
+var personalStream = {
+    name: {type: String, default: 'Personal', required: true},
     events: [{type: mongoose.Schema.ObjectId, ref: 'Event'}],
     nodes: [{type: mongoose.Schema.ObjectId, ref: 'Node'}]
 };
@@ -12,10 +12,12 @@ var masterStream = {
 var schema = mongoose.Schema({
     username: {type: String, required: true},
     password: String,
-    stream: masterStream,
+    stream: personalStream,
     projects: [{type: mongoose.Schema.ObjectId, ref: 'Project'}],
     currentProject: {type: String},
-    googleId: String
+    googleId: String,
+    googleAccessToken: String,
+    googleRefreshToken: String
 });
 
 schema.plugin(findOrCreate);
