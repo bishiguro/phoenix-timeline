@@ -246,6 +246,8 @@ function StreamCtrl($scope, $http, $modal){
         });
     };
 
+    $scope.blur = function (event) { event.target.blur(); }
+
     // -- Save Edits -- //
     $scope.save = function () {
         $http.put('/streams/' + $scope.stream._id, $scope.stream)

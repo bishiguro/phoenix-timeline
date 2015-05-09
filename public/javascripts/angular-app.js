@@ -37,22 +37,35 @@ app.directive('datepickerPopup', function (){
 
 // Allows content-editable to bind with ng-model
 app.directive("contenteditable", function() {
-  return {
-    restrict: "A",
-    require: "ngModel",
-    link: function(scope, element, attrs, ngModel) {
+    return {
+        restrict: "A",
+        require: "ngModel",
+        link: function(scope, element, attrs, ngModel) {
 
-      function read() {
-        ngModel.$setViewValue(element.html());
-      }
+            function read() {
+                ngModel.$setViewValue(element.html());
+            }
 
-      ngModel.$render = function() {
-        element.html(ngModel.$viewValue || "");
-      };
+            ngModel.$render = function() {
+                element.html(ngModel.$viewValue || "");
+            };
 
-      element.bind("blur keyup change", function() {
-        scope.$apply(read);
-      });
-    }
-  };
+            element.bind("blur keyup change", function() {
+                scope.$apply(read);
+            });
+        }
+    };
 });
+
+app.directive('ngEnter', ['$timeout', function ($timeout) {
+    return function (scope, element, attrs) {
+        element.bind('keydown keypress', function (event) {
+            if(event.which === 13) {
+                scope.$apply($timeout(function () {
+                    scope.$eval(attrs.ngEnter, {$event: event});
+                }, 0));
+                event.preventDefault();
+            }
+        });
+    };
+}]);
