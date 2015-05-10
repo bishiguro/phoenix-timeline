@@ -308,7 +308,7 @@ routes.updateNode = function(req, res) {
 }
 
 routes.updateEvent = function(req, res) {
-    Event.findByIdAndUpdate(req.params.id, function(err, event){
+    Event.findByIdAndUpdate(req.params.id, req.body, function(err, event){
         if (err) databaseError(err, req, res);
         res.json(event);
     });
