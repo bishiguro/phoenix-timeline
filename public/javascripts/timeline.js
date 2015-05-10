@@ -118,35 +118,6 @@ function update () {
             minute_tick.style.left = initial_offset + "px";
             hour_tick_list.appendChild(minute_tick);
 
-    //         if (minute_start % 60 === 0){
-    // // if (minute_now >= 15){
-    // //     hour_tick = createHourTick(hour_start + 2);
-    // // }else {
-    // //     hour_tick = createHourTick(hour_start + 1);
-    // // }
-    //             hour = document.createTextNode(hour2Date(hour_start+1).format("hT"));
-    //             // console.log(hour)
-    //             container.appendChild(hour);
-    //             minute_tick.appendChild(container);
-    //             return minute_tick;
-
-            // showing hour for every 0th minute 
-            // if (minute_tick.innerHTML == "0"){
-            //         minute_now = Math.floor(now.getMinutes())
-            //         if (minute_now >= 15){
-            //             hour_tick = createHourTick(hour_start + 2);
-            //         }else {
-            //             hour_tick = createHourTick(hour_start + 1);
-            //         }
-            //             var container = document.createElement("DIV")
-            //             // minute_tick.innerHTML = hour_tick.innerHTML
-            //             // container.appendChild(minute_tick);
-            //             // minute_tick.className = "hour-tick";
-            //             hour_tick_list2.appendChild(container);
-
-            // }
-
-        // }
     }
 
 
@@ -208,6 +179,8 @@ function addDay(hour_node, value) {
 
 }
 
+
+// value 1 -- hour,  value --- minutes
 function addHour(minute_node, value1, value) {
     var container = document.createElement("DIV")
     var hour = document.createTextNode(" ");
