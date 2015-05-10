@@ -105,12 +105,18 @@
         </header>
 
         <!-- Vertical Current Time Bar -->
-        <div id="current-time-bar"></div>
+        <div id="current-time-bar">
+            <div id="current-time-cont">
+                <div><strong>Current Time</strong></div>
+                <div id="current-date"></div>
+                <div id="current-time"></div>
+            </div>
+        </div>
 
         <!-- TIMELINE -->
         <div id="timeline">
-            <div id="clock-bar" >
-               <div id="left-scroll-arrow" class="scroll-arrow glyphicon glyphicon-chevron-left" onmousedown="scroll(event, .1)" onmouseup="stopScroll()" onmouseout="stopScroll()"></div>
+            <div id="clock-bar">
+                <div id="left-scroll-arrow" class="scroll-arrow glyphicon glyphicon-chevron-left" onmousedown="scroll(event, .1)" onmouseup="stopScroll()" onmouseout="stopScroll()"></div>
                 <ul id="hour-tick-list">
                     <!-- Hour ticks are generated here -->
                 </ul>

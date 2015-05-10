@@ -69,6 +69,7 @@ function update () {
 
     updateElemOffset('.item');
     updateEventDuration();
+    updateDisplayedTime();
 }
 
 
@@ -182,6 +183,17 @@ function updateEventDuration() {
     }
 }
 
+/**
+    updateDisplayedTime
+    -----
+    Updates the time displayed next to the current-time-bar to show the
+    current time.
+*/
+function updateDisplayedTime() {
+    var now = new Date()
+    document.querySelector("#current-date").innerHTML = now.format("fullDate");
+    document.querySelector("#current-time").innerHTML = now.format("mediumTime");
+}
 
 // ----- POSITION/DATE CONVERSION FUNCTIONS ------ //
 
