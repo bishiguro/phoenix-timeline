@@ -149,14 +149,7 @@ input[type="range"]::-webkit-slider-thumb {
     flex-direction: column;
 }
 
-#current-time-bar {
-    height: 100%;
-    width: 0;
-    border-left: 1px solid firebrick;
-
-    position: absolute;
-    z-index: -50;
-}
+#current-time-bar { border-left: 1px solid firebrick; }
 
 #clock-bar {
     width: 100%;
@@ -440,10 +433,30 @@ input[type="range"]::-webkit-slider-thumb {
 #right-scroll-arrow { right: 0; }
 
 #current-time-cont {
-    left: 1rem;
-    position: absolute;
-    bottom: 1rem;
     color: firebrick;
+    margin-bottom: 3.75rem;
+}
+
+.time-bar {
+    height: 100%;
+    width: 0;
+    position: absolute;
+    z-index: -50;
+}
+
+#selected-time-bar {
+    border-left: 1px solid teal;
+}
+
+.clock-cont {
+    font-family: fabrica, sans-serif;
+    position: absolute;
+
+    left: 1rem;
+    bottom: 1rem;
+
     white-space: nowrap;
     font-size: .75rem;
 }
+
+#selected-time-cont { color: teal; }

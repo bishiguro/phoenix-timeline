@@ -47,8 +47,8 @@ function update () {
     var now = new Date();
 
     // Determine the pixel offset of the current-time-bar from the left
-    this.now_offset = .25 * hour_tick_list.offsetWidth + ((now - selectedDate) / MS_PER_HOUR ) * hour_width;
-    document.querySelector('#current-time-bar').style.left = this.now_offset + "px";
+    this.now_offset = .25 * hour_tick_list.offsetWidth + ((now - selectedDate) / MS_PER_HOUR ) * this.hour_width;
+
 
     // Calculate the start point of the first hour
     var hours_to_left = this.now_offset / this.hour_width;
@@ -67,9 +67,15 @@ function update () {
         hour_tick_list.appendChild(hour_tick);
     }
 
+    // Update Item (Nodes & Events) Displays
     updateElemOffset('.item');
     updateEventDuration();
-    updateDisplayedTime();
+
+    // Update Time-Bars
+    updateBar('current', this.now_offset);
+    updateBar('selected', .25 * hour_tick_list.offsetWidth);
+    updateClock('current', now);
+    updateClock('selected', selectedDate);
 }
 
 
@@ -184,16 +190,24 @@ function updateEventDuration() {
 }
 
 /**
-    updateDisplayedTime
-    -----
-    Updates the time displayed next to the current-time-bar to show the
-    current time.
+    updateBar
+    ----
+    Updates horizontal bar location.
 */
-function updateDisplayedTime() {
-    var now = new Date()
-    document.querySelector("#current-date").innerHTML = now.format("fullDate");
-    document.querySelector("#current-time").innerHTML = now.format("mediumTime");
+function updateBar(name, offset) {
+    document.querySelector('#' + name + '-time-bar').style.left = offset + "px";
 }
+
+/**
+    updateClock
+    -----
+    Updates the time displayed next the referenced time bar.
+*/
+function updateClock(name, date) {
+    document.querySelector("#" + name + "-date").innerHTML = date.format("fullDate");
+    document.querySelector("#" + name + "-time").innerHTML = date.format("mediumTime");
+}
+
 
 // ----- POSITION/DATE CONVERSION FUNCTIONS ------ //
 
