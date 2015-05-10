@@ -243,7 +243,7 @@ function scroll(event, speed) {
     A helper that executes one step of the scroll function.
 */
 function scrollStep (speed) {
-    selectedDate.setHours(selectedDate.getHours() - num_hours * speed);
+    selectedDate.setMinutes(selectedDate.getMinutes() - num_hours * 60 * speed);
     update();
 }
 
