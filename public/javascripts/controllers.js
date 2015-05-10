@@ -241,7 +241,7 @@ function StreamCtrl($scope, $http, $modal) {
         });
 
         modalInstance.result.then(function (args) {
-            if (args){
+            if (args) {
                 if (args.summary) node.summary = args.summary;
                 if (args.description) node.description = args.description;
                 $http.put('/nodes/'+node._id,node)
@@ -271,9 +271,9 @@ function StreamCtrl($scope, $http, $modal) {
             }
         });
 
-        modalInstance.result.then(function (title) {
-            event.title = title;
-            if (title){
+        modalInstance.result.then(function (args) {
+            if (args) {
+                if (args.title) event.title = args.title;
                 $http.put('/events/'+event._id,event)
                 .success(function(data,status,headers,config) {})
                 .error(console.error);
@@ -327,8 +327,9 @@ function NodeCreationCtrl ($scope, $modalInstance) {
 function NodeEditCtrl ($scope, $modalInstance, node) {
     $scope.node = node;
     $scope.save = function () { 
-        args = {summary: $scope.summary, description: $scope.description}
-        $modalInstance.close(args);
+        args = {summary: $scope.summary, description: $scope.description};
+        if (args) $modalInstance.close(args);
+        else $modalInstance.close({});
     };
     $scope.delete = function () { $modalInstance.close(); };
     $scope.cancel = function () { $modalInstance.dismiss('cancel'); };
@@ -337,7 +338,11 @@ function NodeEditCtrl ($scope, $modalInstance, node) {
 // Event Edit Modal Control
 function EventEditCtrl ($scope, $modalInstance, event) {
     $scope.event = event;
-    $scope.save = function () { $modalInstance.close($scope.title); };
+    $scope.save = function () { 
+        args = {title: $scope.title};
+        if (args) $modalInstance.close(args);
+        else $modalInstance.close({});
+    };
     $scope.delete = function () { $modalInstance.close(); };
     $scope.cancel = function () { $modalInstance.dismiss('cancel'); };
 };
