@@ -41,15 +41,6 @@ function update () {
 
     // Determine the pixel width of an hour
     var slider_value = document.querySelector('#scale-slider').value;
-// <<<<<<< HEAD
-//     console.log(slider_value)
-
-//     num_hours = Math.pow(slider_value, 2);
-//     this.hour_width = hour_tick_list.offsetWidth / num_hours;
-
-//     var now = new Date();
-
-// =======
     this.num_hours = Math.pow(slider_value, 2);
     this.hour_width = hour_tick_list.offsetWidth / this.num_hours;
 
@@ -57,8 +48,6 @@ function update () {
 
     // Determine the pixel offset of the current-time-bar from the left
     this.now_offset = .25 * hour_tick_list.offsetWidth + ((now - selectedDate) / MS_PER_HOUR ) * this.hour_width;
-
-// >>>>>>> 4bf8639d11e59fbafd890442db5fd02e1e19c5d7
 
 
     // hours being displayed
@@ -118,6 +107,8 @@ function update () {
         updateElemOffset('.item');
         updateEventDuration();
 
+        // display minutes and hours
+
     } else if (slider_value <=2 && slider_value >=1) {
 
            slider_value = 1;
@@ -154,20 +145,19 @@ function update () {
 
     }
 
-
-}
     // Update Item (Nodes & Events) Displays
     updateElemOffset('.item');
     updateEventDuration();
-
-    // Update Time-Bars
+}
+    // // Update Time-Bars
     updateBar('current', this.now_offset);
     updateBar('selected', .25 * hour_tick_list.offsetWidth);
     updateClock('current', now);
     updateClock('selected', selectedDate);
-// >>>>>>> 4bf8639d11e59fbafd890442db5fd02e1e19c5d7
-}
 
+
+}
+    
 
 /**
     startUpdates
