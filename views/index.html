@@ -43,7 +43,7 @@
 
                     <!-- NEW PROJECT BUTTON -->
                     <div class="col-md-4 ui-control">
-                        <button id="new-project" class="ui-button full-width" ng-click="open()">+</button>
+                        <button id="new-project" class="ui-button full-width" ng-click="open()"><span class="glyphicon glyphicon-plus"></span></button>
                         <label class="ui-label centered-text" for="new-project">New</label>
                     </div>
 
@@ -52,13 +52,13 @@
 
                     <!-- EDIT PROJECT BUTTON -->
                     <div class="col-md-4 ui-control">
-                        <button id="edit-project" class="ui-button full-width" ng-click="edit()">#</button>
+                        <button id="edit-project" class="ui-button full-width" ng-click="edit()"><span class="glyphicon glyphicon-pencil"></span></button>
                         <label class="ui-label centered-text" for="edit-project">Edit</label>
                     </div>
 
                     <!-- DELETE PROJECT BUTTON -->
                     <div class="col-md-4 ui-control">
-                        <button id="delete-button" class="ui-button full-width" ng-click="check()">x</button>
+                        <button class="ui-button full-width delete-button" ng-click="check()"><span class="glyphicon glyphicon-remove"></span></button>
                         <label class="ui-label centered-text" for="delete-button">Delete</label>
                     </div>
 
@@ -67,7 +67,6 @@
                         <button id="google-sync" class="ui-button full-width" ng-click="sync()"><i class="fa fa-google"></i></button>
                         <label class="ui-label centered-text">Sync</label>
                     </div>
-
                 </div>
             </div>
 
@@ -104,15 +103,31 @@
             </div>
         </header>
 
-        <!-- Vertical Current Time Bar -->
-        <div id="current-time-bar"></div>
+        <!-- TIME BARS & CLOCKS -->
+        <div id="current-time-bar" class="time-bar">
+            <div id="current-time-cont" class="clock-cont">
+                <div><strong>Current Time</strong></div>
+                <div id="current-date"></div>
+                <div id="current-time"></div>
+            </div>
+        </div>
+
+        <div id="selected-time-bar" class="time-bar">
+            <div id="selected-time-cont" class="clock-cont">
+                <div><strong>Displayed Time</strong></div>
+                <div id="selected-date"></div>
+                <div id="selected-time"></div>
+            </div>
+        </div>
 
         <!-- TIMELINE -->
         <div id="timeline">
-            <div id="clock-bar">
-                <ul id="hour-tick-list">
+            <div id="clock-bar" >
+                <div id="left-scroll-arrow" class="scroll-arrow glyphicon glyphicon-chevron-left" onmousedown="scroll(event, .1)" onmouseup="stopScroll(event)" onmouseout="stopScroll(event)"></div>
+                <ul id="hour-tick-list" onclick="snap(event)">
                     <!-- Hour ticks are generated here -->
                 </ul>
+                <div id="right-scroll-arrow" class="scroll-arrow glyphicon glyphicon-chevron-right" onmousedown="scroll(event, -.1)" onmouseup="stopScroll(event)" onmouseout="stopScroll(event)"></div>
             </div>
 
             <div id="streams-panel">
@@ -130,8 +145,8 @@
                     </div>
 
                     <!-- Personal Stream Nodes and Events -->
-                    <div class="item node" data-start-date="{{node.dueDate}}" ng-repeat="node in user.stream.nodes"></div>
-                    <div class="item event" data-start-date="{{event.startTime}}" data-end-date="{{event.endTime}}" ng-repeat="event in user.stream.events"></div>
+                    <div class="item node" data-start-date="{{node.dueDate}}" ng-repeat="node in user.stream.nodes track by $index" ng-click="editNodeDialog($index,node)"></div>
+                    <div class="item event" data-start-date="{{event.startTime}}" data-end-date="{{event.endTime}}" ng-repeat="event in user.stream.events track by $index" ng-click="editEventDialog($index,event)"></div>
                 </div>
 
                 <div ng-view></div>

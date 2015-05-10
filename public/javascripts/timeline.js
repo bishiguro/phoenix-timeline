@@ -19,24 +19,18 @@ var DEFAULT_UPDATE_INTERVAL = 250;    // Default update interval in ms
 
 
 var selectedDate = new Date();
+var scrollingInterval;
 
 
+// ----- UPDATE ----- //
 /**
     update
     ------
 
-    This function is responsible for creating or updating
+    Responsible for creating or updating
     all dynamic elements on the timeline. If elements have
     been created or modified, calling update will likely
     set them up correctly.
-
-    This function is divided into independent modules which
-    make use of the regularly updated, global variables made
-    available by update. These variables are:
-
-    - this.hour_width: The width of a displayed hour in pixels
-    - this.now_offset: The pixel x-coord of the line representing
-        the current time
 */
 function update () {
     //Clear tick list
@@ -47,13 +41,24 @@ function update () {
 
     // Determine the pixel width of an hour
     var slider_value = document.querySelector('#scale-slider').value;
-    console.log(slider_value)
+// <<<<<<< HEAD
+//     console.log(slider_value)
 
-    num_hours = Math.pow(slider_value, 2);
-    this.hour_width = hour_tick_list.offsetWidth / num_hours;
+//     num_hours = Math.pow(slider_value, 2);
+//     this.hour_width = hour_tick_list.offsetWidth / num_hours;
+
+//     var now = new Date();
+
+// =======
+    this.num_hours = Math.pow(slider_value, 2);
+    this.hour_width = hour_tick_list.offsetWidth / this.num_hours;
 
     var now = new Date();
 
+    // Determine the pixel offset of the current-time-bar from the left
+    this.now_offset = .25 * hour_tick_list.offsetWidth + ((now - selectedDate) / MS_PER_HOUR ) * this.hour_width;
+
+// >>>>>>> 4bf8639d11e59fbafd890442db5fd02e1e19c5d7
 
 
     // hours being displayed
@@ -146,10 +151,21 @@ function update () {
             minute_tick.style.left = initial_offset + "px";
             hour_tick_list.appendChild(minute_tick);
 
+
     }
 
 
 }
+    // Update Item (Nodes & Events) Displays
+    updateElemOffset('.item');
+    updateEventDuration();
+
+    // Update Time-Bars
+    updateBar('current', this.now_offset);
+    updateBar('selected', .25 * hour_tick_list.offsetWidth);
+    updateClock('current', now);
+    updateClock('selected', selectedDate);
+// >>>>>>> 4bf8639d11e59fbafd890442db5fd02e1e19c5d7
 }
 
 
@@ -191,6 +207,24 @@ function createHourTick (value) {
  
 }
 
+/**
+    addDay
+    -----
+    A helper for createHourTick that adds a day marker each 24 hour
+    period.
+*/
+function addDay(hour_node, value) {
+    var container = document.createElement("DIV")
+
+    var date = document.createTextNode(" ");
+    // If the hour is the beginning of a day
+    if (value % 24 === 0)
+        date = document.createTextNode(hour2Date(value).format("ddd, mmm dS"));
+
+    container.appendChild(date);
+    hour_node.appendChild(container);
+    return hour_node;
+}
 
 // hours and every fifteenth minutes being displayed 
 function createHourTick2 (value) {
@@ -381,6 +415,8 @@ function minute2Date(hour,minute) {
 }
 
 
+// ----- ITEM UPDATE FUNCTIONS ----- //
+
 /**
     updateElemOffset
     -----
@@ -418,6 +454,30 @@ function updateEventDuration() {
 }
 
 
+// ----- TIME BAR UPDATE FUNCTIONS ----- //
+
+/**
+    updateBar
+    ----
+    Updates horizontal bar location.
+*/
+function updateBar(name, offset) {
+    document.querySelector('#' + name + '-time-bar').style.left = offset + "px";
+}
+
+/**
+    updateClock
+    -----
+    Updates the time displayed next the referenced time bar.
+*/
+function updateClock(name, date) {
+    document.querySelector("#" + name + "-date").innerHTML = date.format("fullDate");
+    document.querySelector("#" + name + "-time").innerHTML = date.format("mediumTime");
+}
+
+
+// ----- POSITION/DATE CONVERSION FUNCTIONS ------ //
+
 /**
     date2XPos
     ----
@@ -453,3 +513,53 @@ function xPos2Date(xpos) {
 
 
 
+// ------------------------------------ //
+// --         EVENT CALLBACKS        -- //
+// ------------------------------------ //
+
+
+// ----- LEFT/RIGHT PAN ARROWS ------ //
+
+/**
+    scroll
+    -----
+    A function to be called on a mousedown that pans the timeline
+    left or right depending on the value of speed. Positive values pan left,
+    negative pans right.
+*/
+function scroll(event, speed) {
+    if(event.which === 1) {
+        stopScroll();       // Just in case.
+        scrollStep(speed);  // Give one initial move so user can click just once for fine control
+        this.scrollingInterval = setInterval(function() { scrollStep(speed) }, 200);
+    }
+}
+
+/**
+    scrollStep
+    -----
+    A helper that executes one step of the scroll function.
+*/
+function scrollStep (speed) {
+    selectedDate.setMinutes(selectedDate.getMinutes() - this.num_hours * 60 * speed);
+    update();
+}
+
+/**
+    stopScroll
+    -----
+    A mouseup function to stop scrolling left or right.
+*/
+function stopScroll () {
+    clearInterval(this.scrollingInterval);
+}
+
+
+// ----- CLICK TO SNAP ----- //
+function snap (event) {
+    selectedDate = xPos2Date(event.clientX);
+    selectedDate.setMinutes(0);
+    selectedDate.setSeconds(0);
+    selectedDate.setMilliseconds(0);
+    update();
+}
