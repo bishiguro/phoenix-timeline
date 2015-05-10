@@ -102,25 +102,23 @@ routes.logout = function(req, res) {
 // ----- MODEL CREATE API ----- //
 
 routes.createProject = function(req, res) {
-    User.findById(req.user._id, function (err, user) {
-        Project.create({
-            name: req.body.name,
-            user: req.user._id
-        }, function(err, project) {
+    Project.create({
+        name: req.body.name,
+        user: req.user._id
+    }, function(err, project) {
+        if (err) return databaseError(err, req, res);
+
+        var id = req.user._id;
+        var cmd = {
+            $set: {currentProject: project.name},
+            $push: {projects: project.id}
+        };
+
+        User.findByIdAndUpdate(id, cmd, function (err, user) {
             if (err) return databaseError(err, req, res);
-
-            var id = req.user._id;
-            var cmd = {
-                $set: {currentProject: project.name},
-                $push: {projects: project.id}
-            };
-
-            User.findByIdAndUpdate(id, cmd, function (err, user) {
-                if (err) return databaseError(err, req, res);
-                res.sendStatus(200);
-            });
+            res.sendStatus(200);
         });
-    })
+    });
 }
 
 routes.createStream = function(req, res) {
