@@ -252,7 +252,8 @@ function StreamCtrl($scope, $http, $modal) {
                 $http.delete('/nodes/'+node._id)
                 .success(function(data, status) {
                     if ($scope.stream) $scope.stream.nodes.splice(index, 1);
-                    else $scope.user.stream.nodes.splice(index,1); })                       
+                    else $scope.user.stream.nodes.splice(index, 1);
+                    update(); })                    
                 .error(console.error);
             }
         });
@@ -282,7 +283,8 @@ function StreamCtrl($scope, $http, $modal) {
                 $http.delete('/events/'+event._id)
                 .success(function(data, status) {
                     if ($scope.stream) $scope.stream.events.splice(index, 1);
-                    else $scope.user.stream.events.splice(index,1); })              
+                    else $scope.user.stream.events.splice(index, 1);
+                    update(); })              
                 .error(console.error);
             }
         });
