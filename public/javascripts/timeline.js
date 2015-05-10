@@ -243,6 +243,12 @@ function xPos2Date(xpos) {
 }
 
 
+
+// ------------------------------------ //
+// --         EVENT CALLBACKS        -- //
+// ------------------------------------ //
+
+
 // ----- LEFT/RIGHT PAN ARROWS ------ //
 
 /**
@@ -258,7 +264,6 @@ function scroll(event, speed) {
         scrollStep(speed);  // Give one initial move so user can click just once for fine control
         this.scrollingInterval = setInterval(function() { scrollStep(speed) }, 200);
     }
-
 }
 
 /**
@@ -276,4 +281,16 @@ function scrollStep (speed) {
     -----
     A mouseup function to stop scrolling left or right.
 */
-function stopScroll () { clearInterval(this.scrollingInterval); }
+function stopScroll () {
+    clearInterval(this.scrollingInterval);
+}
+
+
+// ----- CLICK TO SNAP ----- //
+function snap (event) {
+    selectedDate = xPos2Date(event.clientX);
+    selectedDate.setMinutes(0);
+    selectedDate.setSeconds(0);
+    selectedDate.setMilliseconds(0);
+    update();
+}
