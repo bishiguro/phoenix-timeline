@@ -43,7 +43,7 @@
 
                     <!-- NEW PROJECT BUTTON -->
                     <div class="col-md-4 ui-control">
-                        <button id="new-project" class="ui-button full-width" ng-click="open()">+</button>
+                        <button id="new-project" class="ui-button full-width" ng-click="open()"><span class="glyphicon glyphicon-plus"></span></button>
                         <label class="ui-label centered-text" for="new-project">New</label>
                     </div>
 
@@ -52,13 +52,13 @@
 
                     <!-- EDIT PROJECT BUTTON -->
                     <div class="col-md-4 ui-control">
-                        <button id="edit-project" class="ui-button full-width" ng-click="edit()">#</button>
+                        <button id="edit-project" class="ui-button full-width" ng-click="edit()"><span class="glyphicon glyphicon-pencil"></span></button>
                         <label class="ui-label centered-text" for="edit-project">Edit</label>
                     </div>
 
                     <!-- DELETE PROJECT BUTTON -->
                     <div class="col-md-4 ui-control">
-                        <button id="delete-button" class="ui-button full-width" ng-click="check()">x</button>
+                        <button class="ui-button full-width delete-button" ng-click="check()"><span class="glyphicon glyphicon-remove"></span></button>
                         <label class="ui-label centered-text" for="delete-button">Delete</label>
                     </div>
 
@@ -109,10 +109,12 @@
 
         <!-- TIMELINE -->
         <div id="timeline">
-            <div id="clock-bar">
+            <div id="clock-bar" >
+               <div id="left-scroll-arrow" class="scroll-arrow glyphicon glyphicon-chevron-left" onmousedown="scroll(event, .1)" onmouseup="stopScroll()" onmouseout="stopScroll()"></div>
                 <ul id="hour-tick-list">
                     <!-- Hour ticks are generated here -->
                 </ul>
+                <div id="right-scroll-arrow" class="scroll-arrow glyphicon glyphicon-chevron-right" onmousedown="scroll(event, -.1)" onmouseup="stopScroll()" onmouseout="stopScroll()"></div>
             </div>
 
             <div id="streams-panel">
@@ -130,8 +132,8 @@
                     </div>
 
                     <!-- Personal Stream Nodes and Events -->
-                    <div class="item node" data-start-date="{{node.dueDate}}" ng-repeat="node in user.stream.nodes"></div>
-                    <div class="item event" data-start-date="{{event.startTime}}" data-end-date="{{event.endTime}}" ng-repeat="event in user.stream.events"></div>
+                    <div class="item node" data-start-date="{{node.dueDate}}" ng-repeat="node in user.stream.nodes track by $index" ng-click="editNodeDialog($index,node)"></div>
+                    <div class="item event" data-start-date="{{event.startTime}}" data-end-date="{{event.endTime}}" ng-repeat="event in user.stream.events track by $index" ng-click="editEventDialog($index,event)"></div>
                 </div>
 
                 <div ng-view></div>
