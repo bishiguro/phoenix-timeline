@@ -160,8 +160,9 @@ input[type="range"]::-webkit-slider-thumb {
 
 #clock-bar {
     width: 100%;
-    height: 1.5rem;
+    height: 3rem;
     order: 1;
+    position: relative;
 }
 
 #hour-tick-list {
@@ -419,3 +420,21 @@ input[type="range"]::-webkit-slider-thumb {
     overflow-y: auto;
     overflow-x: hidden;
 }
+
+.scroll-arrow {
+    position: absolute;
+    font-size: 1.5rem;
+
+    z-index: 10;
+    top: 0;
+    bottom: 0;
+
+    margin: .5rem;
+}
+
+.scroll-arrow:hover {
+    color: #999;
+}
+
+#left-scroll-arrow { left: 0; }
+#right-scroll-arrow { right: 0; }
