@@ -50,7 +50,7 @@ auth.configure = function() {
 	passport.use(new GoogleStrategy({
 	    clientID:     process.env.GOOGLE_CLIENT_ID,
 	    clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-	    callbackURL: process.env.GOOGLE_CALLBACK
+	    callbackURL: process.env.GOOGLE_CALLBACK,
 	    scope: ['openid', 'email', 'https://www.googleapis.com/auth/calendar']
 	  },
 	  function(accessToken, refreshToken, profile, done){
