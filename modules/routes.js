@@ -127,9 +127,9 @@ routes.createStream = function(req, res) {
         user: req.user._id
     }, function(err, stream) {
         if (err) return databaseError(err, req, res);
-        // TODO: Do not allow projects with same name to collide between users
+
         Project.findOneAndUpdate(
-            {name: req.body.projectName},
+            {name: req.body.projectName, user: req.user._id},
             {$push: {streams: stream}},
             function (err, project) {
                 if (err) return databaseError(err, req, res);
