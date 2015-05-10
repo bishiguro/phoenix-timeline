@@ -240,13 +240,12 @@ function StreamCtrl($scope, $http, $modal) {
         });
 
         modalInstance.result.then(function (sum,desc) {
-            if ($scope.stream) var stream = $scope.stream._id;
+            node.summary = sum;
+            node.description = desc;
             if (sum) {
-                $http.put('/nodes/'+node._id, {
-                    summary: sum,
-                    description: desc
-                }).success(function(data,status,headers,config) {
-                }).error(console.error);
+                $http.put('/nodes/'+node._id,node)
+                .success(function(data,status,headers,config) {})
+                .error(console.error);
             }
             else {
                 $http.delete('/nodes/'+node._id)
@@ -269,13 +268,12 @@ function StreamCtrl($scope, $http, $modal) {
         });
 
         modalInstance.result.then(function (title) {
-            if ($scope.stream) var stream = $scope.stream._id;
+            event.title = title;
             if (title){
                 console.log('save');
-                $http.put('/events/'+event._id, {
-                    title: title
-                }).success(function(data,status,headers,config) {
-                }).error(console.error);
+                $http.put('/events/'+event._id,event)
+                .success(function(data,status,headers,config) {})
+                .error(console.error);
             }
             else {
                 console.log('delete');
