@@ -249,7 +249,7 @@ routes.findUser = function(req, res) {
 }
 
 routes.findProject = function(req, res) {
-    Project.findOne({name: req.params.projectName})
+    Project.findOne({name: req.params.projectName, user: req.user._id})
         .deepPopulate('streams streams.nodes streams.events')
         .exec( function (err, project) {
         if (err) databaseError(err, req, res);
@@ -258,21 +258,21 @@ routes.findProject = function(req, res) {
 }
 
 routes.findStream = function(req, res) {
-    Stream.findById(req.params.id, function(err, stream){
+    Stream.findOne({id: req.params.id, user: req.user._id}, function(err, stream){
         if (err) databaseError(err, req, res);
         else res.json({ stream: stream });
     });
 }
 
 routes.findNode = function(req, res) {
-    Node.findById(req.params.id, function(err, node){
+    Node.findOne({id: req.params.id, user: req.user._id}, function(err, node){
         if (err) databaseError(err, req, res);
         else res.json({ node: node });
     });
 }
 
 routes.findEvent = function(req, res) {
-    Event.findById(req.params.id, function(err,event){
+    Event.findById({id: req.params.id, user: req.user._id}, function(err,event){
         if (err) databaseError(err, req, res);
         else res.send({ event: event });
     });
