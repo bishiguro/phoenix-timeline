@@ -5,6 +5,8 @@
     <form>
         Title: <label ng-hide="edit">{{event.title}}</label>
         <input type="text" ng-model="title" placeholder="{{event.title}}" ng-show="edit" ng-enter="save()"></input>
+        <div ng-hide="edit">Start: <label>{{start}}</label></div>
+        <div ng-hide="edit">End: <label>{{end}}</label></div>
     </form>
 </div>
 <div class="modal-footer">

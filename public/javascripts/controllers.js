@@ -328,6 +328,7 @@ function NodeCreationCtrl ($scope, $modalInstance) {
 // Node Edit Modal Control
 function NodeEditCtrl ($scope, $modalInstance, node) {
     $scope.node = node;
+    $scope.due = dateFormat(node.dueDate,"mmmm dS, h:MM TT");
     $scope.save = function () { 
         args = {summary: $scope.summary, description: $scope.description};
         if (args) $modalInstance.close(args);
@@ -340,6 +341,8 @@ function NodeEditCtrl ($scope, $modalInstance, node) {
 // Event Edit Modal Control
 function EventEditCtrl ($scope, $modalInstance, event) {
     $scope.event = event;
+    $scope.start = dateFormat(event.startTime,"mmmm dS, h:MM TT");
+    $scope.end = dateFormat(event.endTime,"mmmm dS, h:MM TT");
     $scope.save = function () { 
         args = {title: $scope.title};
         if (args) $modalInstance.close(args);
