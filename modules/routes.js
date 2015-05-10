@@ -105,7 +105,7 @@ routes.createProject = function(req, res) {
     User.findById(req.user._id, function (err, user) {
         Project.create({
             name: req.body.name,
-            user: user
+            user: req.user._id
         }, function(err, project) {
             if (err) return databaseError(err, req, res);
 
@@ -124,85 +124,79 @@ routes.createProject = function(req, res) {
 }
 
 routes.createStream = function(req, res) {
-    User.findById(req.user._id, function (err, user) {
-        Stream.create( {
-            name: req.body.name,
-            user: user
-        }, function(err, stream) {
-            if (err) return databaseError(err, req, res);
-            // TODO: Do not allow projects with same name to collide between users
-            Project.findOneAndUpdate(
-                {name: req.body.projectName},
-                {$push: {streams: stream}},
-                function (err, project) {
-                    if (err) return databaseError(err, req, res);
-                    else res.json(stream);
-                });
-        });
-    })   
+    Stream.create( {
+        name: req.body.name,
+        user: req.user._id
+    }, function(err, stream) {
+        if (err) return databaseError(err, req, res);
+        // TODO: Do not allow projects with same name to collide between users
+        Project.findOneAndUpdate(
+            {name: req.body.projectName},
+            {$push: {streams: stream}},
+            function (err, project) {
+                if (err) return databaseError(err, req, res);
+                else res.json(stream);
+            });
+    });  
 }
 
 
 // TODO: Consider combining create Node and Event - code is near identical
 routes.createNode = function(req, res) {
-    User.findById(req.user._id, function (err, user) {
-        Node.create({
-            summary: req.body.summary,
-            description: req.body.description,
-            dueDate: req.body.due,
-            user: user
-        }, function (err, node) {
-            if (err) return databaseError(err, req, res);
-            else {
-                // If specified stream is undefined, publish node to master stream
-                if (req.body.stream == undefined) User.findByIdAndUpdate(req.user._id, {
-                    $push: {'stream.nodes': node}
-                }, function (err, user) {
-                    if (err) return databaseError(err, req, res);
-                    res.json(node);
-                });
+    Node.create({
+        summary: req.body.summary,
+        description: req.body.description,
+        dueDate: req.body.due,
+        user: req.user._id
+    }, function (err, node) {
+        if (err) return databaseError(err, req, res);
+        else {
+            // If specified stream is undefined, publish node to master stream
+            if (req.body.stream == undefined) User.findByIdAndUpdate(req.user._id, {
+                $push: {'stream.nodes': node}
+            }, function (err, user) {
+                if (err) return databaseError(err, req, res);
+                res.json(node);
+            });
 
-                // Otherwise, publish it to the specified stream
-                else Stream.findByIdAndUpdate (req.body.stream, {
-                    $push: {nodes: node}
-                }, function (err, stream) {
-                    if (err) return databaseError(err, req, res);
-                    res.json(node);
-                });
-            }
-        });
-    })
+            // Otherwise, publish it to the specified stream
+            else Stream.findByIdAndUpdate (req.body.stream, {
+                $push: {nodes: node}
+            }, function (err, stream) {
+                if (err) return databaseError(err, req, res);
+                res.json(node);
+            });
+        }
+    });
 }
 
 
 routes.createEvent = function(req, res) {
-    User.findById(req.user._id, function (err, user) {
-        Event.create({
-            title: req.body.title,
-            startTime: req.body.startTime,
-            endTime: req.body.endTime,
-            user: user
-        }, function(err, event) {
-            if (err) return databaseError(err, req, res);
-            else {
-                // If specified stream is undefined, publish event to master stream
-                if (req.body.stream == undefined) User.findByIdAndUpdate(req.user._id, {
-                    $push: {'stream.events': event}
-                }, function (err, user) {
-                    if (err) return databaseError(err, req, res);
-                    res.json(event);
-                });
+    Event.create({
+        title: req.body.title,
+        startTime: req.body.startTime,
+        endTime: req.body.endTime,
+        user: req.user._id
+    }, function(err, event) {
+        if (err) return databaseError(err, req, res);
+        else {
+            // If specified stream is undefined, publish event to master stream
+            if (req.body.stream == undefined) User.findByIdAndUpdate(req.user._id, {
+                $push: {'stream.events': event}
+            }, function (err, user) {
+                if (err) return databaseError(err, req, res);
+                res.json(event);
+            });
 
-                // Otherwise, publish it do the spceifed stream
-                else Stream.findByIdAndUpdate (req.body.stream, {
-                    $push: {events: event}
-                }, function (err, stream) {
-                    if (err) return databaseError(err, req, res);
-                    res.json(event);
-                });
-            }
-        });
-    })
+            // Otherwise, publish it do the spceifed stream
+            else Stream.findByIdAndUpdate (req.body.stream, {
+                $push: {events: event}
+            }, function (err, stream) {
+                if (err) return databaseError(err, req, res);
+                res.json(event);
+            });
+        }
+    });
 }
 
 

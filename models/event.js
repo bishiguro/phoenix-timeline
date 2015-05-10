@@ -5,7 +5,7 @@ var schema = mongoose.Schema({
 	startTime: {type: Date, required: true},
 	endTime: {type: Date, required: true},
 	users: [{type: mongoose.Schema.ObjectId, ref: 'User'}],
-	user: {type: mongoose.Schema.ObjectId, ref: 'User', required: true}
+	user: {type: String, required: true}
 });
 
 module.exports = mongoose.model('Event', schema);

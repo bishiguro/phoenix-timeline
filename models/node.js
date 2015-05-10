@@ -5,7 +5,7 @@ var schema = mongoose.Schema({
 	description: String,
 	dueDate: {type: Date, required: true},
 	users: [{type: mongoose.Schema.ObjectId, ref: 'User'}],
-	user: {type: mongoose.Schema.ObjectId, ref: 'User', required: true}
+	user: {type: String, required: true}
 	// TODO: todos
 });
 
