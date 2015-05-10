@@ -103,7 +103,8 @@ routes.logout = function(req, res) {
 
 routes.createProject = function(req, res) {
     Project.create({
-        name: req.body.name
+        name: req.body.name,
+        user: req.user._id
     }, function(err, project) {
         if (err) return databaseError(err, req, res);
 
@@ -123,18 +124,18 @@ routes.createProject = function(req, res) {
 routes.createStream = function(req, res) {
     Stream.create( {
         name: req.body.name,
+        user: req.user._id
     }, function(err, stream) {
         if (err) return databaseError(err, req, res);
 
-        // TODO: Do not allow projects with same name to collide between users
         Project.findOneAndUpdate(
-            {name: req.body.projectName},
+            {name: req.body.projectName, user: req.user._id},
             {$push: {streams: stream}},
             function (err, project) {
                 if (err) return databaseError(err, req, res);
                 else res.json(stream);
             });
-    });
+    });  
 }
 
 
@@ -143,7 +144,8 @@ routes.createNode = function(req, res) {
     Node.create({
         summary: req.body.summary,
         description: req.body.description,
-        dueDate: req.body.due
+        dueDate: req.body.due,
+        user: req.user._id
     }, function (err, node) {
         if (err) return databaseError(err, req, res);
         else {
@@ -155,7 +157,7 @@ routes.createNode = function(req, res) {
                 res.json(node);
             });
 
-            // Otherwise, publish it do the spceifed stream
+            // Otherwise, publish it to the specified stream
             else Stream.findByIdAndUpdate (req.body.stream, {
                 $push: {nodes: node}
             }, function (err, stream) {
@@ -171,7 +173,8 @@ routes.createEvent = function(req, res) {
     Event.create({
         title: req.body.title,
         startTime: req.body.startTime,
-        endTime: req.body.endTime
+        endTime: req.body.endTime,
+        user: req.user._id
     }, function(err, event) {
         if (err) return databaseError(err, req, res);
         else {
@@ -205,28 +208,28 @@ routes.getUsers = function(req, res) {
 }
 
 routes.getProjects = function(req, res) {
-    Project.find({}, function(err, projects){
+    Project.find({user: req.user._id}, function(err, projects){
         if(err) databaseError(err, req, res);
         else res.send(projects);
     });
 }
 
 routes.getStreams = function(req, res) {
-    Stream.find({}, function(err, streams){
+    Stream.find({user: req.user._id}, function(err, streams){
         if(err) databaseError(err, req, res);
         else res.send(streams);
     });
 }
 
 routes.getNodes = function(req, res) {
-    Node.find({}, function(err, nodes){
+    Node.find({user: req.user._id}, function(err, nodes){
         if(err) databaseError(err, req, res);
         else res.send(nodes);
     });
 }
 
 routes.getEvents = function(req, res) {
-    Event.find({}, function(err, events){
+    Event.find({user: req.user._id}, function(err, events){
         if(err) databaseError(err, req, res);
         else res.send(events);
     });
@@ -244,7 +247,7 @@ routes.findUser = function(req, res) {
 }
 
 routes.findProject = function(req, res) {
-    Project.findOne({name: req.params.projectName})
+    Project.findOne({name: req.params.projectName, user: req.user._id})
         .deepPopulate('streams streams.nodes streams.events')
         .exec( function (err, project) {
         if (err) databaseError(err, req, res);
@@ -253,21 +256,21 @@ routes.findProject = function(req, res) {
 }
 
 routes.findStream = function(req, res) {
-    Stream.findById(req.params.id, function(err, stream){
+    Stream.findOne({id: req.params.id, user: req.user._id}, function(err, stream){
         if (err) databaseError(err, req, res);
         else res.json({ stream: stream });
     });
 }
 
 routes.findNode = function(req, res) {
-    Node.findById(req.params.id, function(err, node){
+    Node.findOne({id: req.params.id, user: req.user._id}, function(err, node){
         if (err) databaseError(err, req, res);
         else res.json({ node: node });
     });
 }
 
 routes.findEvent = function(req, res) {
-    Event.findById(req.params.id, function(err,event){
+    Event.findById({id: req.params.id, user: req.user._id}, function(err,event){
         if (err) databaseError(err, req, res);
         else res.send({ event: event });
     });
@@ -287,28 +290,28 @@ routes.updateUser = function(req, res) {
 }
 
 routes.updateProject = function(req, res) {
-    Project.findOneAndUpdate({'name':req.params.projectName}, req.body, function(err, project){
+    Project.findOneAndUpdate({name: req.params.projectName, user: req.user._id}, req.body, function(err, project){
         if (err) databaseError(err, req, res);
         res.json(project);
     });
 }
 
 routes.updateStream = function(req, res) {
-    Stream.findByIdAndUpdate(req.params.id, req.body, function (err, stream) {
+    Stream.findOneAndUpdate({_id: req.params.id, user: req.user._id}, req.body, function (err, stream) {
         if (err) return databaseError(err, req, res);
         res.json(stream);
     });
 }
 
 routes.updateNode = function(req, res) {
-    Node.findByIdAndUpdate(req.params.id, req.body, function(err, node){
+    Node.findOneAndUpdate({_id: req.params.id, user: req.user._id}, req.body, function(err, node){
         if (err) databaseError(err, req, res);
         res.json(node);
     });
 }
 
 routes.updateEvent = function(req, res) {
-    Event.findByIdAndUpdate(req.params.id, req.body, function(err, event){
+    Event.findOneAndUpdate({_id: req.params.id, user: req.user._id}, req.body, function(err, event){
         if (err) databaseError(err, req, res);
         res.json(event);
     });
@@ -318,28 +321,28 @@ routes.updateEvent = function(req, res) {
 // ----- MODEL DELETE API ----- //
 
 routes.deleteProject = function(req, res) {
-    Project.findOneAndRemove({'name' : req.params.projectName}, function (err, project){
+    Project.findOneAndRemove({name : req.params.projectName, user: req.user._id}, function (err, project){
         if (err) databaseError(err, req, res);
         else res.sendStatus(200);
     });
 }
 
 routes.deleteStream = function(req, res) {
-    Stream.findByIdAndRemove(req.params.id, function (err, stream){
+    Stream.findOneAndRemove({_id: req.params.id, user: req.user._id}, function (err, stream){
         if (err) databaseError(err, req, res);
         else res.sendStatus(200);
     });
 }
 
 routes.deleteNode = function(req, res) {
-    Node.findByIdAndRemove(req.params.id, function (err, node){
+    Node.findOneAndRemove({_id: req.params.id, user: req.user._id}, function (err, node){
         if (err) databaseError(err, req, res);
         else res.sendStatus(200);
     });
 }
 
 routes.deleteEvent = function(req, res) {
-    Event.findByIdAndRemove(req.params.id, function (err, event){
+    Event.findOneAndRemove({_id: req.params.id, user: req.user._id}, function (err, event){
         if (err) databaseError(err, req, res);
         else res.sendStatus(200);
     });

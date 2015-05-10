@@ -253,7 +253,7 @@ function StreamCtrl($scope, $http, $modal) {
                 .success(function(data, status) {
                     if ($scope.stream) $scope.stream.nodes.splice(index, 1);
                     else $scope.user.stream.nodes.splice(index, 1);
-                    update(); })                    
+                    update(); })
                 .error(console.error);
             }
         });
@@ -284,7 +284,7 @@ function StreamCtrl($scope, $http, $modal) {
                 .success(function(data, status) {
                     if ($scope.stream) $scope.stream.events.splice(index, 1);
                     else $scope.user.stream.events.splice(index, 1);
-                    update(); })              
+                    update(); })
                 .error(console.error);
             }
         });
@@ -329,7 +329,7 @@ function NodeCreationCtrl ($scope, $modalInstance) {
 function NodeEditCtrl ($scope, $modalInstance, node) {
     $scope.node = node;
     $scope.due = dateFormat(node.dueDate,"mmmm dS, h:MM TT");
-    $scope.save = function () { 
+    $scope.save = function () {
         args = {summary: $scope.summary, description: $scope.description};
         if (args) $modalInstance.close(args);
         else $modalInstance.close({});
@@ -343,7 +343,7 @@ function EventEditCtrl ($scope, $modalInstance, event) {
     $scope.event = event;
     $scope.start = dateFormat(event.startTime,"mmmm dS, h:MM TT");
     $scope.end = dateFormat(event.endTime,"mmmm dS, h:MM TT");
-    $scope.save = function () { 
+    $scope.save = function () {
         args = {title: $scope.title};
         if (args) $modalInstance.close(args);
         else $modalInstance.close({});
