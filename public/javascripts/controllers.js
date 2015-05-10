@@ -227,6 +227,7 @@ function StreamCtrl($scope, $http, $modal) {
         });
     };
 
+    // -- Generate a modal for node editing -- //
     $scope.editNodeDialog = function(index,node) {
         var modalInstance = $modal.open({
             templateUrl: 'partials/node-edit.html',
@@ -255,6 +256,7 @@ function StreamCtrl($scope, $http, $modal) {
         });
     };
 
+    // -- Generate a modal for event editing -- //
     $scope.editEventDialog = function(index,event) {
         var modalInstance = $modal.open({
             templateUrl: 'partials/event-edit.html',
