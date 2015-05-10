@@ -95,6 +95,7 @@ a:link, a:hover, a:active, a:visited { text-decoration: none }
     box-shadow: 0 5px 5px -5px #888;
     background-color: white;
     padding: .75rem;
+    z-index: 1000;
 }
 
 #header-title {
@@ -227,9 +228,7 @@ input[type="range"]::-webkit-slider-thumb {
     text-align: center;
 }
 
-.inline {
-    display: inline;
-}
+.inline { display: inline; }
 
 #button-container {
     border-bottom-left-radius: 2px;
@@ -326,6 +325,9 @@ input[type="range"]::-webkit-slider-thumb {
     top: 50%;
 }
 
+.item:hover { background-color: #EEE; }
+.item:active{ background-color: #222; }
+
 .node {
     width: 25px;
     height: 25px;
@@ -338,18 +340,15 @@ input[type="range"]::-webkit-slider-thumb {
     z-index: 10;
 }
 
-.node:hover{ background-color: #AAA; }
-.node:active{ background-color: #222; }
 
 .event {
     transform: translate(0, -50%);
-    height: 100%;
-    background-color: cornflowerblue;
+    height: 75%;
+    border-left: 2px solid #222;
+    border-right: 2px solid #222;
+    background-color: white;
     z-index: 0;
 }
-
-.event:hover{ background-color: #5077BE; }
-.event:active{ background-color: #A2BFF4; }
 
 .capitalize {
     text-transform: capitalize;
@@ -446,7 +445,7 @@ input[type="range"]::-webkit-slider-thumb {
     height: 100%;
     width: 0;
     position: absolute;
-    z-index: -50;
+    z-index: 40;
 }
 
 #selected-time-bar {
