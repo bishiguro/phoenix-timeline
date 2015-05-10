@@ -287,17 +287,12 @@ routes.updateUser = function(req, res) {
 }
 
 routes.updateProject = function(req, res) {
-    Project.findOne({'name':req.params.projectName}, function(err, project){
+    Project.findOneAndUpdate({'name':req.params.projectName}, req.body, function(err, project){
         if (err) databaseError(err, req, res);
-        else {
-            project.name = req.body.name;
-            project.save();
-            res.send({ project: project });
-        };
+        res.json(project);
     });
 }
 
-// TODO: All put API put methods should be as simple as this.
 routes.updateStream = function(req, res) {
     Stream.findByIdAndUpdate(req.params.id, req.body, function (err, stream) {
         if (err) return databaseError(err, req, res);
@@ -306,28 +301,16 @@ routes.updateStream = function(req, res) {
 }
 
 routes.updateNode = function(req, res) {
-    Node.findById(req.params.id, function(err, node){
+    Node.findByIdAndUpdate(req.params.id, req.body, function(err, node){
         if (err) databaseError(err, req, res);
-        else {
-            node.summary = req.body.summary;
-            node.description = req.body.description;
-            node.dueDate = req.body.dueDate;
-            node.save();
-            res.json({node: node});
-        };
+        res.json(node);
     });
 }
 
 routes.updateEvent = function(req, res) {
-    Event.findById(req.params.id, function(err, event){
+    Event.findByIdAndUpdate(req.params.id, function(err, event){
         if (err) databaseError(err, req, res);
-        else {
-            event.title = req.body.title;
-            event.startTime = req.body.startTime;
-            event.endTime = req.body.endTime;
-            event.save();
-            res.json({event: event});
-        };
+        res.json(event);
     });
 }
 
