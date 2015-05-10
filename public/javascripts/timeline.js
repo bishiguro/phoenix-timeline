@@ -14,6 +14,7 @@
 var MS_PER_HOUR = 3600000;              // Number of milliseconds per hour
 var DEFAULT_UPDATE_INTERVAL = 250;    // Default update interval in ms
 var selectedDate = new Date();
+var scrollingInterval;
 
 
 /**
@@ -40,8 +41,8 @@ function update () {
 
     // Determine the pixel width of an hour
     var slider_value = document.querySelector('#scale-slider').value;
-    num_hours = Math.pow(slider_value, 2);
-    this.hour_width = hour_tick_list.offsetWidth / num_hours;
+    this.num_hours = Math.pow(slider_value, 2);
+    this.hour_width = hour_tick_list.offsetWidth / this.num_hours;
 
     var now = new Date();
 
@@ -60,7 +61,7 @@ function update () {
     hour_tick.style.left = initial_offset + "px";
     hour_tick_list.appendChild(hour_tick);
 
-    for (var i = 1; i < num_hours + 2; i++) {
+    for (var i = 1; i < this.num_hours + 2; i++) {
         var hour_tick = createHourTick(i + hour_start);
         hour_tick.style.left = initial_offset + "px";
         hour_tick_list.appendChild(hour_tick);
@@ -108,6 +109,24 @@ function createHourTick (value) {
     return hour_tick
 }
 
+/**
+    addDay
+    -----
+    A helper for createHourTick that adds a day marker each 24 hour
+    period.
+*/
+function addDay(hour_node, value) {
+    var container = document.createElement("DIV")
+
+    var date = document.createTextNode(" ");
+    // If the hour is the beginning of a day
+    if (value % 24 === 0)
+        date = document.createTextNode(hour2Date(value).format("ddd, mmm dS"));
+
+    container.appendChild(date);
+    hour_node.appendChild(container);
+    return hour_node;
+}
 
 /**
     hour2Date
@@ -164,6 +183,8 @@ function updateEventDuration() {
 }
 
 
+// ----- POSITION/DATE CONVERSION FUNCTIONS ------ //
+
 /**
     date2XPos
     ----
@@ -198,15 +219,37 @@ function xPos2Date(xpos) {
 }
 
 
-function addDay(hour_node, value) {
-    var container = document.createElement("DIV")
+// ----- LEFT/RIGHT PAN ARROWS ------ //
 
-    var date = document.createTextNode(" ");
-    // If the hour is the beginning of a day
-    if (value % 24 === 0)
-        date = document.createTextNode(hour2Date(value).format("ddd, mmm dS"));
+/**
+    scroll
+    -----
+    A function to be called on a mousedown that pans the timeline
+    left or right depending on the value of speed. Positive values pan left,
+    negative pans right.
+*/
+function scroll(event, speed) {
+    if(event.which === 1) {
+        stopScroll();       // Just in case.
+        scrollStep(speed);  // Give one initial move so user can click just once for fine control
+        this.scrollingInterval = setInterval(function() { scrollStep(speed) }, 200);
+    }
 
-    container.appendChild(date);
-    hour_node.appendChild(container);
-    return hour_node;
 }
+
+/**
+    scrollStep
+    -----
+    A helper that executes one step of the scroll function.
+*/
+function scrollStep (speed) {
+    selectedDate.setMinutes(selectedDate.getMinutes() - this.num_hours * 60 * speed);
+    update();
+}
+
+/**
+    stopScroll
+    -----
+    A mouseup function to stop scrolling left or right.
+*/
+function stopScroll () { clearInterval(this.scrollingInterval); }
