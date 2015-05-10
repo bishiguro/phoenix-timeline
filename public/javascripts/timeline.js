@@ -17,22 +17,15 @@ var selectedDate = new Date();
 var scrollingInterval;
 
 
+// ----- UPDATE ----- //
 /**
     update
     ------
 
-    This function is responsible for creating or updating
+    Responsible for creating or updating
     all dynamic elements on the timeline. If elements have
     been created or modified, calling update will likely
     set them up correctly.
-
-    This function is divided into independent modules which
-    make use of the regularly updated, global variables made
-    available by update. These variables are:
-
-    - this.hour_width: The width of a displayed hour in pixels
-    - this.now_offset: The pixel x-coord of the line representing
-        the current time
 */
 function update () {
     //Clear tick list
@@ -153,6 +146,8 @@ function hour2Date(hour) {
 }
 
 
+// ----- ITEM UPDATE FUNCTIONS ----- //
+
 /**
     updateElemOffset
     -----
@@ -188,6 +183,9 @@ function updateEventDuration() {
         events[i].style.width = this.hour_width * (endDate-startDate) / MS_PER_HOUR + 'px';
     }
 }
+
+
+// ----- TIME BAR UPDATE FUNCTIONS ----- //
 
 /**
     updateBar
