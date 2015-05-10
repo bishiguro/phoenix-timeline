@@ -41,8 +41,8 @@ function update () {
 
     // Determine the pixel width of an hour
     var slider_value = document.querySelector('#scale-slider').value;
-    num_hours = Math.pow(slider_value, 2);
-    this.hour_width = hour_tick_list.offsetWidth / num_hours;
+    this.num_hours = Math.pow(slider_value, 2);
+    this.hour_width = hour_tick_list.offsetWidth / this.num_hours;
 
     var now = new Date();
 
@@ -61,7 +61,7 @@ function update () {
     hour_tick.style.left = initial_offset + "px";
     hour_tick_list.appendChild(hour_tick);
 
-    for (var i = 1; i < num_hours + 2; i++) {
+    for (var i = 1; i < this.num_hours + 2; i++) {
         var hour_tick = createHourTick(i + hour_start);
         hour_tick.style.left = initial_offset + "px";
         hour_tick_list.appendChild(hour_tick);
@@ -243,7 +243,7 @@ function scroll(event, speed) {
     A helper that executes one step of the scroll function.
 */
 function scrollStep (speed) {
-    selectedDate.setMinutes(selectedDate.getMinutes() - num_hours * 60 * speed);
+    selectedDate.setMinutes(selectedDate.getMinutes() - this.num_hours * 60 * speed);
     update();
 }
 
