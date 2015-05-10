@@ -42,6 +42,8 @@ function update () {
     //Clear tick list
     hour_tick_list = document.querySelector("#hour-tick-list");
     hour_tick_list.innerHTML = "";
+    hour_tick_list2 = document.querySelector("#hour-tick-list");
+    hour_tick_list2.innerHTML = "";
 
     // Determine the pixel width of an hour
     var slider_value = document.querySelector('#scale-slider').value;
@@ -52,10 +54,10 @@ function update () {
 
     var now = new Date();
 
-;
+
 
     // hours being displayed
-    if (slider_value >= 3.3 && slider_value <= 8) {
+    if (slider_value >= 3 && slider_value <= 8) {
 
             // Determine the pixel offset of the current-time-bar from the left
             this.now_offset = .25 * hour_tick_list.offsetWidth + ((now - selectedDate) / MS_PER_HOUR ) * hour_width;
@@ -67,6 +69,7 @@ function update () {
             var hour_start = Math.floor(now.getHours() - hours_to_left);
             this.initial_offset = now_offset + ((hour2Date(hour_start) - now) / MS_PER_HOUR) * this.hour_width;
             var hour_tick = createHourTick(hour_start);
+     
             hour_tick.style.left = initial_offset + "px";
             hour_tick_list.appendChild(hour_tick);
 
@@ -75,6 +78,8 @@ function update () {
             hour_tick.style.left = initial_offset + "px";
             hour_tick_list.appendChild(hour_tick);
         }
+
+        // console.log(hour_tick_list)
 
         updateElemOffset('.item');
         updateEventDuration();
@@ -113,22 +118,37 @@ function update () {
             minute_tick.style.left = initial_offset + "px";
             hour_tick_list.appendChild(minute_tick);
 
+    //         if (minute_start % 60 === 0){
+    // // if (minute_now >= 15){
+    // //     hour_tick = createHourTick(hour_start + 2);
+    // // }else {
+    // //     hour_tick = createHourTick(hour_start + 1);
+    // // }
+    //             hour = document.createTextNode(hour2Date(hour_start+1).format("hT"));
+    //             // console.log(hour)
+    //             container.appendChild(hour);
+    //             minute_tick.appendChild(container);
+    //             return minute_tick;
+
             // showing hour for every 0th minute 
-            if (minute_tick.innerHTML == "0"){
+            // if (minute_tick.innerHTML == "0"){
+            //         minute_now = Math.floor(now.getMinutes())
+            //         if (minute_now >= 15){
+            //             hour_tick = createHourTick(hour_start + 2);
+            //         }else {
+            //             hour_tick = createHourTick(hour_start + 1);
+            //         }
+            //             var container = document.createElement("DIV")
+            //             // minute_tick.innerHTML = hour_tick.innerHTML
+            //             // container.appendChild(minute_tick);
+            //             // minute_tick.className = "hour-tick";
+            //             hour_tick_list2.appendChild(container);
 
-                    minute_now = Math.floor(now.getMinutes())
-                    if (minute_now >= 15){
-                        hour_tick = createHourTick(hour_start + 2);
-                    }else {
-                        hour_tick = createHourTick(hour_start + 1);
-                    }
-                        minute_tick.innerHTML = hour_tick.innerHTML
-                        minute_tick.className = "hourmin-tick";
-                        hour_tick_list.appendChild(minute_tick);
+            // }
 
-            }
+        // }
+    }
 
-        }
 
         updateElemOffset('.item');
         updateEventDuration();
@@ -172,14 +192,48 @@ function createHourTick (value) {
     hour_tick.className = "hour-tick";
     hour_tick.style.width = this.hour_width + "px";
     return hour_tick
+ 
+}
+
+function addDay(hour_node, value) {
+    var container = document.createElement("DIV")
+
+    var date = document.createTextNode(" ");
+    // If the hour is the beginning of a day
+    if (value % 24 === 0)
+    date = document.createTextNode(hour2Date(value).format("ddd, mmm dS"));
+    container.appendChild(date);
+    hour_node.appendChild(container);
+    return hour_node;
+
+}
+
+function addHour(minute_node, value1, value) {
+    var container = document.createElement("DIV")
+    var hour = document.createTextNode(" ");
+    var now = new Date();
+    minute_now = Math.floor(now.getMinutes())
+    if (value % 60 === 0)
+        if (minute_now >= 15){
+             hour = document.createTextNode(hour2Date(value1+2).format("hT"));
+        }else {
+             hour = document.createTextNode(hour2Date(value1+1).format("hT"));
+        }
+   
+    // console.log(hour)
+    container.appendChild(hour);
+    minute_node.appendChild(container);
+    return minute_node;
+
 }
 
 // value 1 -- hour , value 2 -- minute
 function createMinuteTick (value1, value2) {
     var minute_tick = document.createElement("LI");
+    addHour(minute_tick, value1, value2)
     var text = document.createTextNode(minute2Date(value1,value2).format("M"));
     minute_tick.appendChild(text);
-    minute_tick.className = "minute-tick";
+    minute_tick.className = "hour-tick";
     minute_tick.style.width = this.minute_width + "px";
     return minute_tick
 }
@@ -281,15 +335,4 @@ function xPos2Date(xpos) {
 }
 
 
-function addDay(hour_node, value) {
-    var container = document.createElement("DIV")
 
-    var date = document.createTextNode(" ");
-    // If the hour is the beginning of a day
-    if (value % 24 === 0)
-        date = document.createTextNode(hour2Date(value).format("ddd, mmm dS"));
-
-    container.appendChild(date);
-    hour_node.appendChild(container);
-    return hour_node;
-}

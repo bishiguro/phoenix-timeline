@@ -186,6 +186,8 @@ input[type="range"]::-webkit-slider-thumb {
     text-align: left;
 }
 
+
+
 .minute-tick {
     position: relative;
     list-style-type: none;
