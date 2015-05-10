@@ -227,7 +227,7 @@ function StreamCtrl($scope, $http, $modal) {
         });
     };
 
-    $scope.editNodeDialog = function(node) {
+    $scope.editNodeDialog = function(index,node) {
         var modalInstance = $modal.open({
             templateUrl: 'partials/node-edit.html',
             controller: 'NodeEditCtrl',
@@ -249,13 +249,13 @@ function StreamCtrl($scope, $http, $modal) {
             }
             else {
                 $http.delete('/nodes/'+node._id)
-                    .success(function(data, status) {                                        
-                }).error(console.error);
+                    .success(function(data, status) {$scope.stream.nodes.splice(index, 1);})                              
+                    .error(console.error);
             }
         });
     };
 
-    $scope.editEventDialog = function(event) {
+    $scope.editEventDialog = function(index,event) {
         var modalInstance = $modal.open({
             templateUrl: 'partials/event-edit.html',
             controller: 'EventEditCtrl',
@@ -270,16 +270,14 @@ function StreamCtrl($scope, $http, $modal) {
         modalInstance.result.then(function (title) {
             event.title = title;
             if (title){
-                console.log('save');
                 $http.put('/events/'+event._id,event)
                 .success(function(data,status,headers,config) {})
                 .error(console.error);
             }
             else {
-                console.log('delete');
                 $http.delete('/events/'+event._id)
-                    .success(function(data, status) {                
-                }).error(console.error);
+                    .success(function(data, status) {$scope.stream.events.splice(index, 1);})                 
+                    .error(console.error);
             }
         });
     };

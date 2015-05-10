@@ -58,7 +58,7 @@
 
                     <!-- DELETE PROJECT BUTTON -->
                     <div class="col-md-4 ui-control">
-                        <button id="delete-button" class="ui-button full-width" ng-click="check()">x</button>
+                        <button class="ui-button full-width delete-button" ng-click="check()">x</button>
                         <label class="ui-label centered-text" for="delete-button">Delete</label>
                     </div>
 
@@ -130,8 +130,8 @@
                     </div>
 
                     <!-- Personal Stream Nodes and Events -->
-                    <div class="item node" data-start-date="{{node.dueDate}}" ng-repeat="node in user.stream.nodes" ng-click="editNodeDialog(node)"></div>
-                    <div class="item event" data-start-date="{{event.startTime}}" data-end-date="{{event.endTime}}" ng-repeat="event in user.stream.events" ng-click="editEventDialog(event)"></div>
+                    <div class="item node" data-start-date="{{node.dueDate}}" ng-repeat="node in user.stream.nodes track by $index" ng-click="editNodeDialog($index,node)"></div>
+                    <div class="item event" data-start-date="{{event.startTime}}" data-end-date="{{event.endTime}}" ng-repeat="event in user.stream.events track by $index" ng-click="editEventDialog($index,event)"></div>
                 </div>
 
                 <div ng-view></div>

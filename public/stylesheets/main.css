@@ -372,7 +372,7 @@ input[type="range"]::-webkit-slider-thumb {
     left: 21%;
 }
 
-#delete-button {
+.delete-button {
     background-color: darkred;
     color: white;
 }
