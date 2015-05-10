@@ -188,11 +188,11 @@ function StreamCtrl($scope, $http, $modal) {
             size:'sm',
         });
 
-        modalInstance.result.then(function (summary, description) {
+        modalInstance.result.then(function (args) {
             if ($scope.stream) var stream = $scope.stream._id;
             $http.post('/nodes', {
-                summary: summary,
-                description: description,
+                summary: args.summary,
+                description: args.description,
                 due: due,
                 stream: stream
             }).success(function(data, status, headers, config) {
@@ -240,20 +240,20 @@ function StreamCtrl($scope, $http, $modal) {
             }
         });
 
-        modalInstance.result.then(function (sum,desc) {
-            node.summary = sum;
-            node.description = desc;
-            if (sum) {
+        modalInstance.result.then(function (args) {
+            if (args){
+                if (args.summary) node.summary = args.summary;
+                if (args.description) node.description = args.description;
                 $http.put('/nodes/'+node._id,node)
                 .success(function(data,status,headers,config) {})
                 .error(console.error);
             }
             else {
                 $http.delete('/nodes/'+node._id)
-                    .success(function(data, status) {
-                        if ($scope.stream) $scope.stream.nodes.splice(index, 1);
-                        else $scope.user.stream.nodes.splice(index,1); })                       
-                    .error(console.error);
+                .success(function(data, status) {
+                    if ($scope.stream) $scope.stream.nodes.splice(index, 1);
+                    else $scope.user.stream.nodes.splice(index,1); })                       
+                .error(console.error);
             }
         });
     };
@@ -316,14 +316,20 @@ function ModalCtrl ($scope, $modalInstance) {
 
 // Node Creation Modal Control
 function NodeCreationCtrl ($scope, $modalInstance) {
-    $scope.ok = function () { $modalInstance.close($scope.summary, $scope.description); };
+    $scope.ok = function () {
+        args = {summary: $scope.summary, description: $scope.description}
+        $modalInstance.close(args);
+    };
     $scope.cancel = function () { $modalInstance.dismiss('cancel'); };
 };
 
 // Node Edit Modal Control
 function NodeEditCtrl ($scope, $modalInstance, node) {
     $scope.node = node;
-    $scope.save = function () { $modalInstance.close($scope.summary, $scope.description); };
+    $scope.save = function () { 
+        args = {summary: $scope.summary, description: $scope.description}
+        $modalInstance.close(args);
+    };
     $scope.delete = function () { $modalInstance.close(); };
     $scope.cancel = function () { $modalInstance.dismiss('cancel'); };
 };
