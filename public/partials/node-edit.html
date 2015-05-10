@@ -3,11 +3,11 @@
 </div>
 <div class="modal-body">
     <form>
-    	Summary: <label ng-hide="edit">{{node.summary}}</label><br>
-    	<input type="text" ng-model="summary" placeholder="{{node.summary}}" ng-show="edit" ng-enter="save()"></input>
-    	Description: <label ng-hide="edit">{{node.description}}</label>
+        Summary: <label ng-hide="edit">{{node.summary}}</label><br>
+        <input type="text" ng-model="summary" placeholder="{{node.summary}}" ng-show="edit" ng-enter="save()"></input>
+    	Description: <label ng-hide="edit">{{node.description}}</label><br>
         <input type="text" ng-model="description" placeholder="{{node.description}}" ng-show="edit" ng-enter="save()"></input>
-
+        <div ng-hide="edit">Due: <label>{{node.dueDate}}</label></div>
     </form>
 </div>
 <div class="modal-footer">
