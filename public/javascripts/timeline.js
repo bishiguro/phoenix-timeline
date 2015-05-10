@@ -17,22 +17,15 @@ var selectedDate = new Date();
 var scrollingInterval;
 
 
+// ----- UPDATE ----- //
 /**
     update
     ------
 
-    This function is responsible for creating or updating
+    Responsible for creating or updating
     all dynamic elements on the timeline. If elements have
     been created or modified, calling update will likely
     set them up correctly.
-
-    This function is divided into independent modules which
-    make use of the regularly updated, global variables made
-    available by update. These variables are:
-
-    - this.hour_width: The width of a displayed hour in pixels
-    - this.now_offset: The pixel x-coord of the line representing
-        the current time
 */
 function update () {
     //Clear tick list
@@ -47,8 +40,8 @@ function update () {
     var now = new Date();
 
     // Determine the pixel offset of the current-time-bar from the left
-    this.now_offset = .25 * hour_tick_list.offsetWidth + ((now - selectedDate) / MS_PER_HOUR ) * hour_width;
-    document.querySelector('#current-time-bar').style.left = this.now_offset + "px";
+    this.now_offset = .25 * hour_tick_list.offsetWidth + ((now - selectedDate) / MS_PER_HOUR ) * this.hour_width;
+
 
     // Calculate the start point of the first hour
     var hours_to_left = this.now_offset / this.hour_width;
@@ -67,8 +60,15 @@ function update () {
         hour_tick_list.appendChild(hour_tick);
     }
 
+    // Update Item (Nodes & Events) Displays
     updateElemOffset('.item');
     updateEventDuration();
+
+    // Update Time-Bars
+    updateBar('current', this.now_offset);
+    updateBar('selected', .25 * hour_tick_list.offsetWidth);
+    updateClock('current', now);
+    updateClock('selected', selectedDate);
 }
 
 
@@ -146,6 +146,8 @@ function hour2Date(hour) {
 }
 
 
+// ----- ITEM UPDATE FUNCTIONS ----- //
+
 /**
     updateElemOffset
     -----
@@ -180,6 +182,28 @@ function updateEventDuration() {
         endDate = new Date(events[i].getAttribute('data-end-date'));
         events[i].style.width = this.hour_width * (endDate-startDate) / MS_PER_HOUR + 'px';
     }
+}
+
+
+// ----- TIME BAR UPDATE FUNCTIONS ----- //
+
+/**
+    updateBar
+    ----
+    Updates horizontal bar location.
+*/
+function updateBar(name, offset) {
+    document.querySelector('#' + name + '-time-bar').style.left = offset + "px";
+}
+
+/**
+    updateClock
+    -----
+    Updates the time displayed next the referenced time bar.
+*/
+function updateClock(name, date) {
+    document.querySelector("#" + name + "-date").innerHTML = date.format("fullDate");
+    document.querySelector("#" + name + "-time").innerHTML = date.format("mediumTime");
 }
 
 
