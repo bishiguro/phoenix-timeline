@@ -1,0 +1,34 @@
+<!-- PROJECT STREAMS -->
+
+<div class="stream-container" ng-repeat="stream in project.streams track by $index" ng-controller='StreamCtrl'>
+    <div id="left-stream-bar" class="stream" ng-mousedown='mousedownDetect($event)' ng-mouseup='mouseupDetect($event)'>
+        <div class="stream-line"></div>
+    </div>
+
+    <!-- Stream Name -->
+    <div class="stream-toolbox">
+        <span class="delete-control" ng-click="delete($index)"><span class="glyphicon glyphicon-remove"></span></span>
+        <span class="stream-label disguised-input" contenteditable ng-model="stream.name" ng-enter="blur($event)" ng-blur="save()"></span>
+    </div>
+
+
+    <div class="stream" ng-mousedown='mousedownDetect($event)' ng-mouseup='mouseupDetect($event)'>
+        <div class="stream-line"></div>
+    </div>
+
+   <!-- Stream Nodes and Events -->
+    <div class="item node" data-start-date="{{node.dueDate}}" ng-repeat="node in stream.nodes track by $index" ng-click="editNodeDialog($index,node)"></div>
+    <div class="item event" data-start-date="{{event.startTime}}" data-end-date="{{event.endTime}}" ng-repeat="event in stream.events track by $index" ng-click="editEventDialog($index,event)"></div>
+</div>
+
+
+<!-- NEW STREAM BUTTON -->
+<div class="stream-container">
+    <div id="new-stream-cont">
+        <button id="new-stream-button" class="ui-button" ng-click="open()">+</button>
+    </div>
+</div>
+
+
+
+

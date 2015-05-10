@@ -7,46 +7,21 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 var session = require('express-session');
-
 var passport = require('passport');
-var LocalStrategy = require('passport-local').Strategy;
-
-var GoogleStrategy = require('passport-google-oauth2').Strategy;
 var gcal = require('google-calendar');
-var User = require('./models/userModel');
-var index = require('./routes/index');
 
-// Mongoose, Express
+var routes = require('./modules/routes');
+var auth = require('./modules/passport');
+
+// Mongoose, Express, Passport
 
 var app = express();
 var mongoURI = process.env.MONGOURI || "mongodb://localhost/test";
 mongoose.connect(mongoURI);
-
 var PORT = process.env.PORT || 3000;
 
-passport.serializeUser(function(user, done) {
-  done(null, user);
-});
-
-passport.deserializeUser(function(obj, done) {
-  done(null, obj);
-});
-
-passport.use(new GoogleStrategy({
-    clientID:     process.env.GOOGLE_CLIENT_ID,
-    clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    callbackURL: "http://localhost:3000/auth/google/callback", // TODO: replace with deployed url
-    scope: ['openid', 'email', 'https://www.googleapis.com/auth/calendar']
-  },
-
-  function(accessToken, refreshToken, profile, done){
-    User.findOrCreate({name: profile.displayName, googleId: profile.id}, function(err, user) {
-      done(err, user);
-    })
-  }
-));
-
-app.set('views', __dirname + '/');
+app.set('views', __dirname + '/views');
+auth.configure();
 
 // Middleware
 
@@ -61,38 +36,63 @@ app.use(session({
   resave: false,
   saveUnitialized: true
 }));
+
 app.use(passport.initialize());
 app.use(passport.session());
 
-// Routing
 
-app.get('/', index.home);
-app.get('/login', index.login);
-app.get('/logout', index.logout);
-app.get('/register', index.register);
+// -- Public Routes
+app.post('/login', auth.localLogin());
+app.post('/user', auth.localSignup());
 
-app.post('/login', 
-  passport.authenticate('local', {
-    successRedirect: '/',
-    failureRedirect: '/login' 
-}));
+app.get('/auth/google', auth.googleAuth());
+app.get('/auth/google/callback', auth.googleCallback());
 
-app.get('/auth/google',
-  passport.authenticate('google', { 
-    scope: ['profile', 'https://www.googleapis.com/auth/calendar'] 
-  }));
-app.get('/auth/google/callback',
-    passport.authenticate( 'google', {
-        successRedirect: '/',
-        failureRedirect: '/login'
-}));
-
-app.post('/stream/add',index.makeStream);
-app.get('/node/find', index.findNode);
-app.post('/node/add', index.addNode);
-
-app.post('/event', index.addEvent);
+// -- Authentication Middleware
+app.use(function (req, res, next) {
+    if (req.isAuthenticated()) next();
+    else res.redirect('/login.html');
+});
 
 
+// -- Private Routes
+// ROUTING
+app.get('/', routes.home);
+app.get('/logout', routes.logout);
+app.get('/sync', routes.googleSync);
+
+// POST API (Create)
+app.post('/projects', routes.createProject);
+app.post('/streams',routes.createStream);
+app.post('/nodes', routes.createNode);
+app.post('/events', routes.createEvent);
+
+// GET API (Read)
+// All entries
+app.get('/projects', routes.getProjects);
+app.get('/streams', routes.getStreams);
+app.get('/nodes', routes.getNodes);
+app.get('/events', routes.getEvents);
+
+// Single entries
+app.get('/user', routes.findUser);
+app.get('/projects/:projectName', routes.findProject);
+app.get('/streams/:id', routes.findStream);
+app.get('/nodes/:id', routes.findNode);
+app.get('/events/:id', routes.findEvent);
+
+// PUT API (Update)
+app.put('/user', routes.updateUser);
+app.put('/projects/:projectName', routes.updateProject);
+app.put('/streams/:id', routes.updateStream);
+app.put('/nodes/:id', routes.updateNode);
+app.put('/events/:id', routes.updateEvent);
+
+// DELETE API (Delete)
+app.delete('/projects/:projectName', routes.deleteProject);
+app.delete('/streams/:id', routes.deleteStream);
+app.delete('/nodes/:id', routes.deleteNode);
+app.delete('/events/:id', routes.deleteEvent);
+
+// -- Listen
 app.listen(PORT);
-
