@@ -323,28 +323,28 @@ routes.updateEvent = function(req, res) {
 // ----- MODEL DELETE API ----- //
 
 routes.deleteProject = function(req, res) {
-    Project.findOneAndRemove({'name' : req.params.projectName}, function (err, project){
+    Project.findOneAndRemove({name : req.params.projectName, user: req.user._id}, function (err, project){
         if (err) databaseError(err, req, res);
         else res.sendStatus(200);
     });
 }
 
 routes.deleteStream = function(req, res) {
-    Stream.findByIdAndRemove(req.params.id, function (err, stream){
+    Stream.findOneAndRemove({_id: req.params.id, user: req.user._id}, function (err, stream){
         if (err) databaseError(err, req, res);
         else res.sendStatus(200);
     });
 }
 
 routes.deleteNode = function(req, res) {
-    Node.findByIdAndRemove(req.params.id, function (err, node){
+    Node.findOneAndRemove({_id: req.params.id, user: req.user._id}, function (err, node){
         if (err) databaseError(err, req, res);
         else res.sendStatus(200);
     });
 }
 
 routes.deleteEvent = function(req, res) {
-    Event.findByIdAndRemove(req.params.id, function (err, event){
+    Event.findOneAndRemove({_id: req.params.id, user: req.user._id}, function (err, event){
         if (err) databaseError(err, req, res);
         else res.sendStatus(200);
     });
