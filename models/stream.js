@@ -7,6 +7,7 @@ var schema = mongoose.Schema({
 	events: [{type: mongoose.Schema.ObjectId, ref: 'Event'}],
 	nodes: [{type: mongoose.Schema.ObjectId, ref: 'Node'}],
 	users: [{type: mongoose.Schema.ObjectId, ref: 'User'}],
+	user: {type: mongoose.Schema.ObjectId, ref: 'User', required: true}
 });
 
 module.exports = mongoose.model('Stream', schema);
