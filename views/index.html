@@ -115,12 +115,12 @@
 
         <!-- TIMELINE -->
         <div id="timeline">
-            <div id="clock-bar">
-                <div id="left-scroll-arrow" class="scroll-arrow glyphicon glyphicon-chevron-left" onmousedown="scroll(event, .1)" onmouseup="stopScroll()" onmouseout="stopScroll()"></div>
-                <ul id="hour-tick-list">
+            <div id="clock-bar" >
+                <div id="left-scroll-arrow" class="scroll-arrow glyphicon glyphicon-chevron-left" onmousedown="scroll(event, .1)" onmouseup="stopScroll(event)" onmouseout="stopScroll(event)"></div>
+                <ul id="hour-tick-list" onclick="snap(event)">
                     <!-- Hour ticks are generated here -->
                 </ul>
-                <div id="right-scroll-arrow" class="scroll-arrow glyphicon glyphicon-chevron-right" onmousedown="scroll(event, -.1)" onmouseup="stopScroll()" onmouseout="stopScroll()"></div>
+                <div id="right-scroll-arrow" class="scroll-arrow glyphicon glyphicon-chevron-right" onmousedown="scroll(event, -.1)" onmouseup="stopScroll(event)" onmouseout="stopScroll(event)"></div>
             </div>
 
             <div id="streams-panel">
