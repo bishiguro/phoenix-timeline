@@ -378,6 +378,11 @@ input[type="range"]::-webkit-slider-thumb {
     color: white;
 }
 
+.save-button {
+    background-color: green;
+    color: white;
+}
+
 #node-dialog{
     background-color:red;
     position:fixed;
