@@ -210,28 +210,28 @@ routes.getUsers = function(req, res) {
 }
 
 routes.getProjects = function(req, res) {
-    Project.find({}, function(err, projects){
+    Project.find({user: req.user._id}, function(err, projects){
         if(err) databaseError(err, req, res);
         else res.send(projects);
     });
 }
 
 routes.getStreams = function(req, res) {
-    Stream.find({}, function(err, streams){
+    Stream.find({user: req.user._id}, function(err, streams){
         if(err) databaseError(err, req, res);
         else res.send(streams);
     });
 }
 
 routes.getNodes = function(req, res) {
-    Node.find({}, function(err, nodes){
+    Node.find({user: req.user._id}, function(err, nodes){
         if(err) databaseError(err, req, res);
         else res.send(nodes);
     });
 }
 
 routes.getEvents = function(req, res) {
-    Event.find({}, function(err, events){
+    Event.find({user: req.user._id}, function(err, events){
         if(err) databaseError(err, req, res);
         else res.send(events);
     });
