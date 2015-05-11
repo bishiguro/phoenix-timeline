@@ -47,22 +47,23 @@
 .ui-button {
     font-family: source-sans-pro;
     font-weight: 700;
-    font-size: 1rem;
+    font-size: .75rem;
     color: #444;
 
-    border: 1px solid #444;
-    border-radius: 3px;
+    border: 1px solid transparent;
+    outline: none;
 
-    padding: 5px 10px;
 
     background-color: transparent;
     margin: 10px;
-
-    outline: none;
+    padding: 5px 10px;
+    box-sizing: border-box;
+    transition: border 0.25s ease;
 }
 
 .ui-button:hover {
-    box-shadow: 0 5px 10px -5px #888;
+    border-left: 1px solid #222;
+    border-right: 1px solid #222;
 }
 
 .ui-control {
