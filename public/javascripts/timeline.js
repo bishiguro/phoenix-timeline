@@ -96,7 +96,7 @@ function update () {
             hour_tick.style.left = initial_offset + "px";
             hour_tick_list.appendChild(hour_tick);
 
-        for (var i = 1; i < num_hours + 2; i++) {
+        for (var i = 1; i < num_hours + 1; i++) {
             var hour_tick = createHourTick2(i + hour_start);
             hour_tick.style.left = initial_offset + "px";
             hour_tick_list.appendChild(hour_tick);
