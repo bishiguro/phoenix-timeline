@@ -42,7 +42,8 @@ function eventToStream (googleEvent, callback) {
                 Event.create({
                     title: title,
                     startTime: startTime,
-                    endTime: endTime
+                    endTime: endTime,
+                    user: req.user._id
                 }, function(err, event) {
                     if (err) callback('Database Error.');
                     // Push each new Event into the User's Personal Stream
