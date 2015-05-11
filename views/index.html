@@ -31,12 +31,12 @@
         <header id="header" class="flex-vcenter row">
 
             <!-- LEFT HEADER TOOLBAR -->
-            <div class="col-md-4 row">
+            <div class="col-md-4 flex-parent flex-vcenter row">
                 <div class="col-md-6 row">
 
                     <!-- PROJECT SELECTION MENU -->
                     <div class="col-md-8 ui-control">
-                        <select id="project-selection" ng-model="user.currentProject" ng-options="project.name as project.name for project in user.projects" class="capitalize ui-button full-width">
+                        <select id="project-selection" class="capitalize input-field ui-button full-width" ng-model="user.currentProject" ng-options="project.name as project.name for project in user.projects">
                         </select>
                         <label class="ui-label centered-text" for="project-selection">Project Control</label>
                     </div>
@@ -75,20 +75,20 @@
             <h1 id="header-title" class="col-md-4 lane centered-text">Phoenix Timeline</h1>
 
             <!-- RIGHT HEADER TOOLBAR -->
-            <div class="col-md-4 row">
+            <div class="col-md-4 flex-parent flex-vcenter row">
 
                 <!-- SLIDER -->
-                <div class="ui-control col-md-4">
+                <div class="ui-control flex-parent flex-vcenter col-md-4">
                     <input type="range" id="scale-slider" min=1 max=13 value=5 step=.1 oninput="update()">
                     <label id="scale-label" class="ui-label" for="scale-slider">Scale</label>
                 </div>
 
                 <!-- DATE PICKER -->
                 <div ng-controller="DateCtrl" id="date-selector" class="col-md-4 ui-control">
-                    <p class="input-group full-width">
-                        <input type="text" class="form-control" datepicker-popup="shortDate" ng-model="dt" is-open="opened" ng-required="true" close-text="Close"/>
+                    <p class="input-group">
+                        <input type="text" class="ui-button input-field" datepicker-popup="shortDate" ng-model="dt" is-open="opened" ng-required="true" close-text="Close"/>
                         <span class="input-group-btn">
-                            <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+                            <button type="button" class="ui-button" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
                         </span>
                     </p>
                     <label class="ui-label" for="date-selector">Date Shown</label>

@@ -35,8 +35,8 @@
 
 .ui-label {
     font-family: source-sans-pro;
-    color: #999;
-    font-size: 0.7rem;
+    color: #777;
+    font-size: 0.75rem;
     text-transform: uppercase;
 
     background-color: transparent;
@@ -52,7 +52,6 @@
 
     border: 1px solid transparent;
     outline: none;
-
 
     background-color: transparent;
     margin: 10px;
@@ -90,7 +89,34 @@ html, body {
 a:link, a:hover, a:active, a:visited { text-decoration: none }
 
 
-/* ----- Element/Class Level CSS ----- */
+/* ----- LOGIN PAGE ----- */
+
+.field { padding: 5px; }
+.last-field { border-top: 1px solid #BDBDBD; }
+
+#login-form, #register-form {
+    margin: 10px;
+    box-shadow: inset 3px 4px 10px -6px #AAA;
+    border: 1px solid #BDBDBD;
+    border-radius: 3px;
+    background-color: white;
+}
+
+#login-header, #register-header {
+    padding: 10px;
+    font-size: 24px;
+    text-align: center;
+}
+
+#login-button, #register-button { flex-grow: 1; }
+
+#glogin:hover{
+    color: #999;
+}
+
+
+/* ----- MAIN PAGE ----- */
+
 #header {
     position: relative;
     display: flex;
@@ -115,6 +141,13 @@ a:link, a:hover, a:active, a:visited { text-decoration: none }
     display: flex;
     align-items: center;
 }
+
+.input-group { margin-bottom: 0; }
+
+
+/* ----- SCALE SLIDER ----- */
+
+#scale-slider { margin: calc(.5rem + 15px) 0; }
 
 input[type="range"] {
     -webkit-appearance: none !important; /*Needed to reset default slider styles */
@@ -142,6 +175,14 @@ input[type="range"]::-webkit-slider-thumb {
     border-radius: 8px;
     box-shadow: 0 5px 10px -5px #444;
 }
+
+#scale-label {
+    flex-grow: 1;
+    text-align: center;
+}
+
+
+/* ----- TIMELINE ----- */
 
 #timeline {
     order: 2;
@@ -199,37 +240,7 @@ input[type="range"]::-webkit-slider-thumb {
     margin-right: 20px;
 }
 
-.field {
-    padding: 5px;
-}
-
-.last-field {
-    border-top: 1px solid #BDBDBD;
-}
-
-#login-form, #register-form {
-    margin: 10px;
-    box-shadow: inset 3px 4px 10px -6px #AAA;
-    border: 1px solid #BDBDBD;
-    border-radius: 3px;
-    background-color: white;
-}
-
-#login-header, #register-header {
-    padding: 10px;
-    font-size: 24px;
-    text-align: center;
-}
-
-#glogin:hover{
-    color: #999;
-}
-
-#scale-label {
-    padding-top: 8px;
-    flex-grow: 1;
-    text-align: center;
-}
+.input-field { border-bottom: 1px solid #222; }
 
 #button-container {
     border-bottom-left-radius: 2px;
@@ -242,9 +253,6 @@ input[type="range"]::-webkit-slider-thumb {
     border-right: 1px solid #333;
 }
 
-#login-button, #register-button {
-    flex-grow: 1;
-}
 
 .important-btn {
     background-color: #222;
@@ -360,7 +368,6 @@ input[type="range"]::-webkit-slider-thumb {
 
 .stream-line {
     border-top: 1px solid #222;
-    border-bottom: 1px solid #999;
     width: 100%;
 }
 
@@ -386,11 +393,13 @@ input[type="range"]::-webkit-slider-thumb {
 
 #new-stream-button {
     border-radius: 50px;
+    font-weight: 700;
+    font-size: 1.75rem;
 }
 
 #new-stream-cont {
     position: relative;
-    left: 21%;
+    left: 20%;
 }
 
 
@@ -408,7 +417,7 @@ input[type="range"]::-webkit-slider-thumb {
     width: 20px;
     height: 20px;
 
-    border: 2px solid #222;
+    border: 1px solid #222;
     border-radius: 20px;
 
     background-color: white;
@@ -439,8 +448,8 @@ input[type="range"]::-webkit-slider-thumb {
 .event {
     transform: translate(0, -50%);
     height: 50%;
-    border-left: 2px solid #222;
-    border-right: 2px solid #222;
+    border-left: 1px solid #222;
+    border-right: 1px solid #222;
     background-color: white;
     z-index: 0;
 
