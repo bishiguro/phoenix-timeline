@@ -50,3 +50,6 @@ Phoenix-Timeline is a project managment app. We designed it with the Olin studen
 
 ## Roadmap
 So, so many things to be done. See the issues board for a (very) small sample of currently planned features and bugfixes.
+
+## Compatability
+Sadly, we currently only support use of timeline in Google Chrome. It may well work in other browsers, but has not been throughly tested, and probably looks like crap.
