@@ -15,6 +15,7 @@ var schema = mongoose.Schema({
     stream: personalStream,
     projects: [{type: mongoose.Schema.ObjectId, ref: 'Project'}],
     currentProject: {type: String},
+    // Google IDs and API Tokens
     googleId: String,
     googleAccessToken: String,
     googleRefreshToken: String
@@ -22,10 +23,12 @@ var schema = mongoose.Schema({
 
 schema.plugin(findOrCreate);
 
+// Hashes provided password before storage
 schema.methods.generateHash = function(password) {
     return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
 };
 
+// Validate login by comparing entered password with stored password
 schema.methods.validPassword = function(password) {
     return bcrypt.compareSync(password, this.password);
 }
