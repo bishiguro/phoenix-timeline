@@ -54,7 +54,7 @@
     outline: none;
 
     background-color: transparent;
-    margin: 10px;
+    margin: 7px;
     padding: 5px 10px;
     box-sizing: border-box;
     transition: border 0.25s ease;
@@ -295,7 +295,8 @@ input[type="range"]::-webkit-slider-thumb {
 .ui-link {
     font-family: source-sans-pro;
     font-weight: 700;
-    font-size: 1rem;
+    font-size: .9rem;
+    margin: 10px 0;
     color: #444;
 }
 
@@ -511,3 +512,12 @@ input[type="range"]::-webkit-slider-thumb {
 
 #left-scroll-arrow { left: 0; }
 #right-scroll-arrow { right: 0; }
+
+
+
+#logout-button {
+    font-size: .9rem;
+    margin: 7px 0;
+}
+
+#logout-button:hover { color: #222; }
