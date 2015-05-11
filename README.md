@@ -1,5 +1,5 @@
 # Phoenix-Timeline
-Olin.js Final Project, Spring 2015
+#####Olin.js Final Project, Spring 2015
 
 Phoenix-Timeline is a project managment app. We designed it with the Olin student in mind: juggling four teams with their own subteams, deliverables, and meetings to coordinate. While not all of the desired features are implemented (see Roadmap, below), Phoenix-Timeline currently operates as a calendar for independent users.
 
