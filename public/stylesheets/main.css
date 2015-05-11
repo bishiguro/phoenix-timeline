@@ -184,6 +184,16 @@ input[type="range"]::-webkit-slider-thumb {
 }
 
 
+/* ----- LOGOUT BUTTON ----- */
+
+#logout-button {
+    font-size: .9rem;
+    margin: 7px 0;
+}
+
+#logout-button:hover { color: #222; }
+
+
 /* ----- TIMELINE ----- */
 
 #timeline {
@@ -514,12 +524,3 @@ input[type="range"]::-webkit-slider-thumb {
 
 #left-scroll-arrow { left: 0; }
 #right-scroll-arrow { right: 0; }
-
-
-
-#logout-button {
-    font-size: .9rem;
-    margin: 7px 0;
-}
-
-#logout-button:hover { color: #222; }
