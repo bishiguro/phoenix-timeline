@@ -17,7 +17,9 @@
     </div>
 
     <!-- Stream Nodes and Events -->
-    <div class="item node" data-start-date="{{node.dueDate}}" ng-repeat="node in stream.nodes track by $index" ng-click="editNodeDialog($index,node)"></div>
+    <div class="item node" data-start-date="{{node.dueDate}}" ng-repeat="node in stream.nodes track by $index" ng-click="editNodeDialog($index,node)">
+        <div class="node-label">{{node.summary}}</div>
+    </div>
     <div class="item event" data-start-date="{{event.startTime}}" data-end-date="{{event.endTime}}" ng-repeat="event in stream.events track by $index" ng-click="editEventDialog($index,event)">
         <div class="event-label">{{event.title}}</div>
     </div>
