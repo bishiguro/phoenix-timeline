@@ -26,7 +26,7 @@ auth.configure = function() {
 	            // Checks for users with a conflicting username
 	            if (user) return done(null, false);
 	            else {
-	            	// Creates a new username and hashed password
+	            	// Creates a username and a hashed password
 	                var user = new User();
 	                user.username = username;
 	                user.password = user.generateHash(password);
@@ -63,7 +63,7 @@ auth.configure = function() {
 	  },
 	  function(accessToken, refreshToken, profile, done){
 	  	// Checks if the Google account has been previously registered
-	  	// If not, register the new Google user
+	  	// Registers new Google users
 	    User.findOrCreate({username: profile.displayName, googleId: profile.id}, {googleAccessToken: accessToken, googleRefreshToken: refreshToken}, function(err, user) {
 	        done(err, user);
 	    });
