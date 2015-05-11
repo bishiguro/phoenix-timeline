@@ -186,9 +186,9 @@ input[type="range"]::-webkit-slider-thumb {
 
 /* ----- LOGOUT BUTTON ----- */
 
-#logout-button {
-    font-size: .9rem;
-    margin: 7px 0;
+.ui-button-large-font {
+    font-size: .9rem !important;
+    margin: 7px 0 4px 0 !important;
 }
 
 #logout-button:hover { color: #222; }

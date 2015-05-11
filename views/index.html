@@ -36,7 +36,7 @@
 
                     <!-- PROJECT SELECTION MENU -->
                     <div class="col-md-8 ui-control">
-                        <select id="project-selection" class="capitalize input-field ui-button full-width" ng-model="user.currentProject" ng-options="project.name as project.name for project in user.projects">
+                        <select id="project-selection" class="capitalize input-field ui-button ui-button-large-font full-width" ng-model="user.currentProject" ng-options="project.name as project.name for project in user.projects">
                         </select>
                         <label class="ui-label centered-text" for="project-selection">Project Control</label>
                     </div>
@@ -96,7 +96,7 @@
 
                 <!-- LOGOUT BUTTON -->
                 <div class="ui-control col-md-4">
-                    <a id="logout-button" class="ui-button" href='/logout'>{{user.username}}</a>
+                    <a class="ui-button ui-button-large-font" href='/logout'>{{user.username}}</a>
                     <label class="ui-label" for="logout-button">Logout</label>
                 </div>
             </div>
