@@ -412,6 +412,7 @@ input[type="range"]::-webkit-slider-thumb {
 
 #new-stream-cont {
     position: relative;
+    text-align: center;
     left: 20%;
 }
 
