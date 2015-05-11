@@ -15,7 +15,7 @@ Phoenix-Timeline is a project managment app. We designed it with the Olin studen
  
 
 ## The Exhaustive Usage Guide
-Navigating Timeline:
+####Navigating Timeline:
 - Left is the past, right is the future.
 - The vertical red 'time-bar' shows the current time. The vertical blue 'time-bar' shows the selected time; the time at which you are currently centered.
 - The scale slider in the toolbar allows you to zoom in or out around the selected time. Right zooms out, left zooms in.
@@ -23,28 +23,28 @@ Navigating Timeline:
 - To snap to a particular hour, click that hour in the clock bar.
 - To snap to a particular day, use the "Date Shown" tool in the toolbar. You can either enter the date, or click the calendar icon to bring up an interactive calendar widget.
 
-Projects:
+####Projects:
 - To start off, you will have no projects.
 - To create a new project, click the button labelled "New" on the left side of the toolbar.
 - To switch projects, use the dropdown menu labelled "Project Control": the leftmost icon on the toolbar.
 - To change the name of a project, switch to that project and then click the "Edit" button on the left side of the toolbar.
 - To delete a project, click the red "Delete" button on the left side of the toolbar.
 
-Streams:
+####Streams:
 - In each project you create, you will have access to your personal stream. Nodes and events created here will be persistant across all projects. The personal stream cannot be deleted, and its name cannot be edited.
 - To create a new stream, tied to the current project, look for the plus icon labelled "New Stream", located to the left of the blue selected time-bar and below all current streams.
 - To update a stream's name, simply click the name of the stream and edit the name. Clicking off or pressing "enter" will save the name.
 - To delete a stream, simply click the 'X' icon to the left of the name.
 
-Nodes & Events:
+####Nodes & Events:
 - To create a node click and release on the stream on which you wish to create it. It will be created at the time marked on the clock bar above your mouse click.
 - To create an event, click and drag horizontally from the start-time to the end-time on the stream on which you wish to create it.
 - To edit or delete either a node or an event, simply click the node or event. This will bring up a menu from which either option is available.
 
-Google Sync:
+####Google Sync:
 - If you logged in with Google, you may sync events from your Google calendar to Phoenix Timeline. To do this click the "Sync" button on the left side of the toolbar. This is an experimental feature, and may not work if you have many Google events on your Google calendar.
 
-Logout
+####Logout
 - Click the "Logout" button on the far right of the toolbar.
 
 
